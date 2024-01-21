@@ -171,6 +171,7 @@ GLOBAL_PROTECT(log_end)
 /proc/log_runtime_summary(text)
 	WRITE_LOG(GLOB.runtime_summary_log, "[text][GLOB.log_end]")
 
+// #TODO KILL ALL WIRTE LOGS
 /proc/log_tgui(text)
 	WRITE_LOG(GLOB.tgui_log, "[text][GLOB.log_end]")
 

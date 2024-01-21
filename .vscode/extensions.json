@@ -4,7 +4,10 @@
 		"platymuus.dm-langclient",
 		"EditorConfig.EditorConfig",
 		"dbaeumer.vscode-eslint",
+		"eamodio.gitlens",
+		"usernamehw.errorlens",
 		"anturk.dmi-editor",
-		"eamodio.gitlens"
+		"esbenp.prettier-vscode",
+		"arcanis.vscode-zipfs"
     ]
 }

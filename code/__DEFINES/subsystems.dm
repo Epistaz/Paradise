@@ -82,7 +82,7 @@
 #define INIT_ORDER_NANOMOB -25
 #define INIT_ORDER_GAME_EVENTS -26
 #define INIT_ORDER_PATH -50
-#define INIT_ORDER_PERSISTENCE -95
+#define INIT_ORDER_CHAT -100 // Should be last to ensure chat remains smooth during init.
 
 // Subsystem fire priority, from lowest to highest priority
 // If the subsystem isn't listed here it's either DEFAULT or PROCESS (if it's a processing subsystem child)
