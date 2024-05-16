@@ -13,4 +13,4 @@ GLOBAL_DATUM_INIT(human_adjacent_state, /datum/ui_state/human_adjacent_state, ne
 	var/dist = get_dist(src_object, user)
 	if((dist > 1) || (!ishuman(user)))
 		// Can't be used unless adjacent and human, even with TK
-		. = min(., STATUS_UPDATE)
+		. = min(., UI_UPDATE)
