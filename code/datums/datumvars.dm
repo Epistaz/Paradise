@@ -1,5 +1,5 @@
 // reference: /client/proc/modify_variables(var/atom/O, var/param_var_name = null, var/autodetect_class = 0)
-
+// #TODO C:\Games\SS\Paradise\code\datums\datumvars.dm
 /**
   * Proc to check if a datum allows proc calls on it
   *

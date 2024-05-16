@@ -1,3 +1,4 @@
+// #TODO C:\Games\SS\Paradise\code\datums\datacore.dm
 /datum/datacore
 	var/list/medical = list()
 	var/list/general = list()

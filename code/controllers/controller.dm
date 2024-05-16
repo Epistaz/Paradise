@@ -1,3 +1,4 @@
+// #TODO WHOLE FUCKING SYBSISTEMS
 /datum/controller
 	var/name
 	// The object used for the clickable stat() button.
@@ -23,5 +24,8 @@
  */
 /datum/controller/proc/log_startup_progress(message)
 	Master.last_init_info = "([name]): [message]"
-	to_chat(world, "<span class='danger'><small>\[[name]]</small> [message]</span>")
+	to_chat(world,
+		type = MESSAGE_TYPE_DEBUG,
+		html = "<span class='danger'><small>\[[name]]</small> [message]</span>",
+		confidential = TRUE)
 	log_world("\[[name]] [message]")

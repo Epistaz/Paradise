@@ -31,6 +31,7 @@
 
 	return text
 
+// #TODO look at iconprocs.dm
 /client/proc/browse_files(root="data/logs/", max_iterations=10, list/valid_extensions=list(".txt",".log",".htm"))
 	if(IsAdminAdvancedProcCall())
 		to_chat(usr, "<span class='boldannounce'>Shelleo blocked: Advanced ProcCall detected.</span>")

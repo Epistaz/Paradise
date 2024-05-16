@@ -1,3 +1,5 @@
+//# TODO: name_helpers.dm
+
 GLOBAL_VAR(church_name)
 /proc/church_name()
 	if(GLOB.church_name)

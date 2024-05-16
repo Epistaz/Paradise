@@ -1,3 +1,5 @@
+// #TODO C:\Games\SS\Paradise\code\datums\log_viewer.dm
+
 #define UPDATE_CKEY_MOB(__ckey) var/mob/result = selected_ckeys_mobs[__ckey];\
 if(!result || result.ckey != __ckey){\
 	result = get_mob_by_ckey(__ckey);\

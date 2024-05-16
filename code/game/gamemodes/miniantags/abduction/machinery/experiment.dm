@@ -1,3 +1,5 @@
+// #TODO C:\Games\SS\Paradise\code\game\gamemodes\miniantags\abduction\machinery\experiment.dm
+
 /obj/machinery/abductor/experiment
 	name = "experimentation machine"
 	desc = "A large man-sized tube sporting a complex array of surgical apparatus."
@@ -9,7 +11,7 @@
 	var/credits = 0
 	var/list/history = list()
 	var/list/abductee_minds = list()
-	var/flash = " - || - "
+	var/flash = "Idle."
 	var/obj/machinery/abductor/console/console
 	var/mob/living/carbon/human/occupant
 
@@ -42,6 +44,7 @@
 
 	target.forceMove(src)
 	occupant = target
+	flash = "Machine ready."
 	update_icon(UPDATE_ICON_STATE)
 	add_fingerprint(user)
 	return TRUE

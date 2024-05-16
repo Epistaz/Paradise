@@ -1,3 +1,5 @@
+// #TODO SSchangelog.dm
+
 GLOBAL_DATUM(changelog_tgui, /datum/ui_module/changelog)
 GLOBAL_VAR_INIT(changelog_hash, "")
 
