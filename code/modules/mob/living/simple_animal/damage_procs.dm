@@ -6,9 +6,9 @@
 	bruteloss = clamp(bruteloss + amount, 0, maxHealth)
 	if(oldbruteloss == bruteloss)
 		updating_health = FALSE
-		. = STATUS_UPDATE_NONE
+		. = UI_UPDATE_NONE
 	else
-		. = STATUS_UPDATE_HEALTH
+		. = UI_UPDATE_HEALTH
 	if(updating_health)
 		updatehealth()
 	if(!ckey && !stat && AIStatus == AI_IDLE)//Not unconscious

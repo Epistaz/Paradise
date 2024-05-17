@@ -691,8 +691,8 @@ GLOBAL_LIST_INIT(default_medbay_channels, list(
 
 /obj/item/radio/borg/syndicate/ui_status(mob/user, datum/ui_state/state)
 	. = ..()
-	if(. == STATUS_UPDATE && istype(user, /mob/living/silicon/robot/syndicate))
-		. = STATUS_INTERACTIVE
+	if(. == UI_UPDATE && istype(user, /mob/living/silicon/robot/syndicate))
+		. = UI_INTERACTIVE
 
 /obj/item/radio/borg/Destroy()
 	myborg = null

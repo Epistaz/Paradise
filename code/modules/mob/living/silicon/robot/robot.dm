@@ -1553,7 +1553,7 @@ GLOBAL_LIST_INIT(robot_verbs_default, list(
 	if(suiciding)
 		return ..()
 	else
-		return STATUS_UPDATE_NONE
+		return UI_UPDATE_NONE
 
 /mob/living/silicon/robot/regenerate_icons()
 	. = ..()

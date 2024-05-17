@@ -17,7 +17,7 @@ SUBSYSTEM_DEF(assets)
 
 /datum/controller/subsystem/assets/proc/apply_configuration(initialize_transport = TRUE)
 	var/newtransporttype = /datum/asset_transport
-	switch(GLOB.configuration.asset_cache.asset_transport)
+	switch(CONFIG_GET(string/asset_transport))
 		if("webroot")
 			newtransporttype = /datum/asset_transport/webroot
 

@@ -54,14 +54,12 @@
 	to_chat(world, "[src]'s Topic: [href] destined for [hsrc].")
 	#endif
 
+	// asset_cache
+	var/asset_cache_job
 	if(href_list["asset_cache_confirm_arrival"])
-//		to_chat(src, "ASSET JOB [href_list["asset_cache_confirm_arrival"]] ARRIVED.")
-		var/job = text2num(href_list["asset_cache_confirm_arrival"])
-		completed_asset_jobs += job
-		return
-
-	if(href_list["_src_"] == "chat")
-		return chatOutput.Topic(href, href_list)
+		asset_cache_job = asset_cache_confirm_arrival(href_list["asset_cache_confirm_arrival"])
+		if(!asset_cache_job)
+			return
 
 	// Rate limiting
 	var/mtl = 100 // 100 topics per minute
@@ -198,16 +196,20 @@
 		link_forum_account()
 		return // prevents a recursive loop where the ..() 5 lines after this makes the proc endlessly re-call itself
 
-	if(href_list["__keydown"])
-		var/keycode = href_list["__keydown"]
-		if(keycode)
-			KeyDown(keycode)
+	// Tgui Topic middleware
+	if(tgui_Topic(href_list))
+		return
+	if(href_list["reload_tguipanel"])
+		nuke_chat()
+
+	//byond bug ID:2256651
+	if(asset_cache_job && (asset_cache_job in completed_asset_jobs))
+		to_chat(src, "<span class='danger'> An error has been detected in how your client is receiving resources. Attempting to correct.... (If you keep seeing these messages you might want to close byond and reconnect)</span>")
+		src << browse("...", "window=asset_cache_browser")
 		return
 
-	if(href_list["__keyup"])
-		var/keycode = href_list["__keyup"]
-		if(keycode)
-			KeyUp(keycode)
+	if(href_list["asset_cache_preload_data"])
+		asset_cache_preload_data(href_list["asset_cache_preload_data"])
 		return
 
 	switch(href_list["action"])
@@ -277,7 +279,7 @@
 	///////////
 /client/New(TopicData)
 	var/tdata = TopicData //save this for later use
-	chatOutput = new /datum/chatOutput(src) // Right off the bat.
+	tgui_panel = new(src)
 	TopicData = null							//Prevent calls to client.Topic from connect
 
 	if(connection != "seeker")					//Invalid connection type.
@@ -337,15 +339,13 @@
 	// YOU WILL BREAK STUFF. SERIOUSLY. -aa07
 	GLOB.clients += src
 
-	spawn() // Goonchat does some non-instant checks in start()
-		chatOutput.start()
+	connection_time = world.time
 
 	if( (world.address == address || !address) && !GLOB.host )
 		GLOB.host = key
 		world.update_status()
 
 	if(holder)
-		on_holder_add()
 		add_admin_verbs()
 		// Must be async because any sleeps (happen in sql queries) will break connectings clients
 		INVOKE_ASYNC(src, PROC_REF(admin_memo_output), "Show", FALSE, TRUE)
@@ -376,12 +376,12 @@
 	if(SSinput.initialized)
 		set_macros()
 
+	// Initialize tgui panel
+	tgui_panel.initialize()
+
 	donator_check()
 	check_ip_intel()
 	send_resources()
-
-	if(prefs.toggles & PREFTOGGLE_UI_DARKMODE) // activates dark mode if its flagged. -AA07
-		activate_darkmode()
 
 	if(GLOB.changelog_hash && prefs.lastchangelog != GLOB.changelog_hash) //bolds the changelog button on the interface so we know there are updates.
 		to_chat(src, span_info("You have unread updates in the changelog."))
@@ -464,7 +464,9 @@
 		UNSETEMPTY(movingmob.client_mobs_in_contents)
 	SSambience.ambience_listening_clients -= src
 	SSinput.processing -= src
-	SSping.currentrun -= src
+
+	//SSping.currentrun -= src
+	//#TODO EPI
 	Master.UpdateTickRate()
 	..() //Even though we're going to be hard deleted there are still some things that want to know the destroy is happening
 	return QDEL_HINT_HARDDEL_NOW
@@ -947,14 +949,14 @@
 		preload_rsc = pick(CONFIG_GET(str_list/resource_urls))
 	else
 		preload_rsc = 1 // If CONFIG_GET(str_list/resource_urls) is not set, preload like normal.
-	// Most assets are now handled through global_cache.dm
-	getFiles(
-		'html/search.js', // Used in various non-TGUI HTML windows for search functionality
-		'html/panels.css' // Used for styling certain panels, such as in the new player panel
-	)
 	spawn (10) //removing this spawn causes all clients to not get verbs.
+
+		//load info on what assets the client has
+		src << browse('code/modules/asset_cache/validate_assets.html', "window=asset_cache_browser")
+
 		//Precache the client with all other assets slowly, so as to not block other browse() calls
-		getFilesSlow(src, SSassets.preload, register_asset = FALSE)
+		if(CONFIG_GET(flag/asset_simple_preload))
+			addtimer(CALLBACK(SSassets.transport, TYPE_PROC_REF(/datum/asset_transport, send_assets_slow), src, SSassets.transport.preload), 5 SECONDS)
 
 //For debugging purposes
 /client/proc/list_all_languages()
@@ -970,90 +972,6 @@
 
 /client/proc/on_varedit()
 	var_edited = TRUE
-
-/////////////////
-// DARKMODE UI //
-/////////////////
-// IF YOU CHANGE ANYTHING IN ACTIVATE, MAKE SURE IT HAS A DEACTIVATE METHOD, -AA07
-/client/proc/activate_darkmode()
-	///// BUTTONS /////
-	/* Rpane */
-	winset(src, "rpane.fullscreenb", "background-color=#494949;text-color=#a4bad6")
-	winset(src, "rpane.textb", "background-color=#494949;text-color=#a4bad6")
-	winset(src, "rpane.infob", "background-color=#494949;text-color=#a4bad6")
-	winset(src, "rpane.wikib", "background-color=#494949;text-color=#a4bad6")
-	winset(src, "rpane.rulesb", "background-color=#494949;text-color=#a4bad6")
-	winset(src, "rpane.githubb", "background-color=#494949;text-color=#a4bad6")
-	winset(src, "rpane.webmap", "background-color=#494949;text-color=#a4bad6")
-	/* Outputwindow */
-	winset(src, "outputwindow.saybutton", "background-color=#494949;text-color=#a4bad6")
-	winset(src, "outputwindow.mebutton", "background-color=#494949;text-color=#a4bad6")
-
-	///// UI ELEMENTS /////
-	/* Mainwindow */
-	winset(src, "mainwindow", "background-color=#171717")
-	winset(src, "mainwindow.mainvsplit", "background-color=#202020")
-	winset(src, "mainwindow.tooltip", "background-color=#171717")
-	/* Outputwindow */
-	winset(src, "outputwindow", "background-color=#202020")
-	winset(src, "outputwindow.input", "text-color=#a4bad6;background-color=#202020")
-	winset(src, "outputwindow.browseroutput", "background-color=#202020")
-	/* Rpane */
-	winset(src, "rpane", "background-color=#202020")
-	winset(src, "rpane.rpanewindow", "background-color=#202020")
-	/* Browserwindow */
-
-	//winset(src, "browserwindow", "background-color=#272727")
-	//winset(src, "browserwindow.browser", "background-color=#272727")
-	/* Infowindow */
-	winset(src, "infowindow", "background-color=#202020;text-color=#a4bad6")
-	winset(src, "infowindow.info", "background-color=#171717;text-color=#a4bad6;highlight-color=#009900;tab-text-color=#a4bad6;tab-background-color=#202020")
-	//Macros
-	winset(src, "default-Tab", "parent=default;name=Tab;command=\".winset \\\"mainwindow.macro=legacy input.focus=true input.background-color=[COLOR_DARK_INPUT_ENABLED]\\\"\"")
-	winset(src, "legacy-Tab", "parent=legacy;name=Tab;command=\".winset \\\"mainwindow.macro=default map.focus=true input.background-color=[COLOR_DARK_INPUT_DISABLED]\\\"\"")
-
-	// NOTIFY USER
-	to_chat(src, "<span class='notice'>Darkmode Enabled</span>")
-
-/client/proc/deactivate_darkmode()
-	///// BUTTONS /////
-	/* Rpane */
-	winset(src, "rpane.fullscreenb", "background-color=none;text-color=#000000")
-	winset(src, "rpane.textb", "background-color=none;text-color=#000000")
-	winset(src, "rpane.infob", "background-color=none;text-color=#000000")
-	winset(src, "rpane.wikib", "background-color=none;text-color=#000000")
-	//winset(src, "rpane.forumb", "background-color=none;text-color=#000000")
-	winset(src, "rpane.rulesb", "background-color=none;text-color=#000000")
-	winset(src, "rpane.githubb", "background-color=none;text-color=#000000")
-	winset(src, "rpane.webmap", "background-color=none;text-color=#000000")
-	/* Outputwindow */
-	winset(src, "outputwindow.saybutton", "background-color=none;text-color=#000000")
-	winset(src, "outputwindow.mebutton", "background-color=none;text-color=#000000")
-
-	///// UI ELEMENTS /////
-	/* Mainwindow */
-	winset(src, "mainwindow", "background-color=none")
-	winset(src, "mainwindow.mainvsplit", "background-color=none")
-	winset(src, "mainwindow.tooltip", "background-color=none")
-	/* Outputwindow */
-	winset(src, "outputwindow", "background-color=none")
-	winset(src, "outputwindow.input", "text-color=none; background-color=#F0F0F0")
-	winset(src, "outputwindow.browseroutput", "background-color=none")
-	/* Rpane */
-	winset(src, "rpane", "background-color=none")
-	winset(src, "rpane.rpanewindow", "background-color=none")
-	/* Browserwindow */
-	//winset(src, "browserwindow", "background-color=none")
-	//winset(src, "browserwindow.browser", "background-color=none")
-	/* Infowindow */
-	winset(src, "infowindow", "background-color=none;text-color=#000000")
-	winset(src, "infowindow.info", "background-color=none;text-color=#000000;highlight-color=#007700;tab-text-color=#000000;tab-background-color=none")
-	//Macros
-	winset(src, "default-Tab", "parent=default;name=Tab;command=\".winset \\\"mainwindow.macro=legacy input.focus=true input.background-color=[COLOR_INPUT_ENABLED]\\\"\"")
-	winset(src, "legacy-Tab", "parent=legacy;name=Tab;command=\".winset \\\"mainwindow.macro=default map.focus=true input.background-color=[COLOR_INPUT_DISABLED]\\\"\"")
-
-	///// NOTIFY USER /////
-	to_chat(src, "<span class='notice'>Darkmode Disabled</span>") // what a sick fuck
 
 /client/proc/generate_clickcatcher()
 	if(!void)
@@ -1212,18 +1130,9 @@
 		// Close their open UIs
 		SStgui.close_user_uis(usr)
 
-		// Resend the resources
-
-		var/datum/asset/tgui_assets = get_asset_datum(/datum/asset/simple/tgui)
-		tgui_assets.register()
-
-		var/datum/asset/nanomaps = get_asset_datum(/datum/asset/simple/nanomaps)
-		nanomaps.register()
-
 		// Clear the user's cache so they get resent.
 		// This is not fully clearing their BYOND cache, just their assets sent from the server this round
-		cache = list()
-
+		sent_assets = list()
 		to_chat(usr, "<span class='notice'>UI resource files resent successfully. If you are still having issues, please try manually clearing your BYOND cache. <b>This can be achieved by opening your BYOND launcher, pressing the cog in the top right, selecting preferences, going to the Games tab, and pressing 'Clear Cache'.</b></span>")
 
 /client/proc/check_say_flood(rate = 5)

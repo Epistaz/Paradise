@@ -1,3 +1,5 @@
+// #TODO EPI NUKE THIS SHIT
+
 var/list/chatResources = list(
 	"goon/browserassets/js/jquery.min.js",
 	"goon/browserassets/js/json2.min.js",

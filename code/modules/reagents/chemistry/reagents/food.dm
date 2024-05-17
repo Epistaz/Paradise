@@ -27,7 +27,7 @@
 	var/burn_heal = 0
 
 /datum/reagent/consumable/nutriment/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(!isvampire(M))
 		update_flags |= M.adjustBruteLoss(-brute_heal, FALSE)
 		update_flags |= M.adjustFireLoss(-burn_heal, FALSE)
@@ -103,7 +103,7 @@
 	taste_mult = 1.5
 
 /datum/reagent/consumable/sugar/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustDrowsy(-10 SECONDS)
 	if(current_cycle >= 90)
 		M.AdjustJitter(4 SECONDS)
@@ -121,7 +121,7 @@
 	..()
 
 /datum/reagent/consumable/sugar/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.Paralyse(6 SECONDS * severity)
 	M.Weaken(8 SECONDS * severity)
 	if(prob(8))
@@ -395,7 +395,7 @@
 	taste_description = "salt"
 
 /datum/reagent/consumable/sodiumchloride/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(70))
 		update_flags |= M.adjustBrainLoss(1, FALSE)
 	return ..() | update_flags
@@ -456,7 +456,7 @@
 	metabolization_rate = 0.15 * REAGENTS_METABOLISM
 
 /datum/reagent/consumable/garlic/on_mob_life(mob/living/carbon/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		var/datum/antagonist/goon_vampire/g_vamp = H.mind?.has_antag_datum(/datum/antagonist/goon_vampire)
@@ -481,7 +481,7 @@
 	taste_description = "crunchy sweetness"
 
 /datum/reagent/consumable/sprinkles/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(ishuman(M) && (M.job in list(JOB_TITLE_OFFICER, JOB_TITLE_PILOT, JOB_TITLE_DETECTIVE, JOB_TITLE_WARDEN, JOB_TITLE_HOS, JOB_TITLE_BRIGDOC, JOB_TITLE_LAWYER, JOB_TITLE_JUDGE)))
 		update_flags |= M.adjustBruteLoss(-1, FALSE)
 		update_flags |= M.adjustFireLoss(-1, FALSE)
@@ -662,7 +662,7 @@
 	taste_description = "sweetness"
 
 /datum/reagent/consumable/honey/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.reagents.add_reagent("sugar", 3)
 	if(prob(20))
 		update_flags |= M.adjustBruteLoss(-3, FALSE)
@@ -717,7 +717,7 @@
 	taste_description = "tea"
 
 /datum/reagent/consumable/mugwort/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(ishuman(M) && M.mind)
 		if(M.mind.special_role == SPECIAL_ROLE_WIZARD || M.mind.special_role == SPECIAL_ROLE_WIZARD_APPRENTICE)
 			update_flags |= M.adjustToxLoss(-0.5, FALSE)
@@ -743,7 +743,7 @@
 	if(prob(8))
 		M.reagents.add_reagent("radium", 15)
 		M.reagents.add_reagent("cyanide", 10)
-	return list(0, STATUS_UPDATE_NONE)
+	return list(0, UI_UPDATE_NONE)
 
 /datum/reagent/consumable/chicken_soup
 	name = "Chicken soup"
@@ -783,7 +783,7 @@
 	taste_description = "cheese?"
 
 /datum/reagent/consumable/fake_cheese/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(8))
 		to_chat(M, "<span class='warning'>You feel something squirming in your stomach. Your thoughts turn to cheese and you begin to sweat.</span>")
 		update_flags |= M.adjustToxLoss(rand(1,2), FALSE)
@@ -860,7 +860,7 @@
 	return ..()
 
 /datum/reagent/consumable/hydrogenated_soybeanoil/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(33))
 		to_chat(M, "<span class='warning'>You feel horribly weak.</span>")
 	if(prob(10))
@@ -940,7 +940,7 @@
 	taste_mult = 4
 
 /datum/reagent/msg/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(istype(M.mind?.martial_art, /datum/martial_art/mr_chang))
 		update_flags |= M.adjustBruteLoss(-0.75)
 		update_flags |= M.adjustFireLoss(-0.75)
@@ -962,7 +962,7 @@
 	taste_description = "heart attack"
 
 /datum/reagent/cholesterol/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(volume >= 25 && prob(volume*0.15))
 		to_chat(M, "<span class='warning'>Your chest feels [pick("weird","uncomfortable","nasty","gross","odd","unusual","warm")]!</span>")
 		update_flags |= M.adjustToxLoss(rand(1,2), FALSE)
@@ -1062,7 +1062,7 @@
 	taste_description = "bitter mushroom"
 
 /datum/reagent/consumable/entpoly/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(current_cycle >= 10)
 		M.Paralyse(4 SECONDS)
 	if(prob(20))
@@ -1116,7 +1116,7 @@
 	taste_description = "fruity mushroom"
 
 /datum/reagent/consumable/vitfro/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(80))
 		update_flags |= M.adjustBruteLoss(-0.5, FALSE)
 		update_flags |= M.adjustFireLoss(-0.5, FALSE)
@@ -1131,7 +1131,7 @@
 	taste_description = "animal feed"
 
 /datum/reagent/consumable/animal_feed/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(isvulpkanin(M) || istajaran(M))
 		update_flags |= M.adjustBruteLoss(-0.25, FALSE)
 		update_flags |= M.adjustFireLoss(-0.25, FALSE)

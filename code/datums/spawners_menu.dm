@@ -1,4 +1,4 @@
-# TODO look at perm spavner WTF? C:\Games\SS\Paradise\code\datums\spawners_menu.dm
+//# TODO look at perm spavner WTF? C:\Games\SS\Paradise\code\datums\spawners_menu.dm
 
 /datum/spawners_menu
 	var/mob/dead/observer/owner

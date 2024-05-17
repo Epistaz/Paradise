@@ -119,7 +119,7 @@
 	return ..()
 
 /datum/reagent/consumable/ethanol/absinthe/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(1, FALSE)
 	return list(0, update_flags)
 
@@ -137,7 +137,7 @@
 
 /datum/reagent/consumable/ethanol/hooch/on_mob_life(mob/living/carbon/M)
 	if(M.mind && M.mind.assigned_role == JOB_TITLE_CIVILIAN)
-		var/update_flags = STATUS_UPDATE_NONE
+		var/update_flags = UI_UPDATE_NONE
 		update_flags |= M.adjustBruteLoss(-1, FALSE)
 		update_flags |= M.adjustFireLoss(-1, FALSE)
 		return ..() | update_flags
@@ -156,7 +156,7 @@
 	taste_description = "rum"
 
 /datum/reagent/consumable/ethanol/rum/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(1, FALSE)
 	return ..() | update_flags
 
@@ -462,7 +462,7 @@
 	taste_description = "tomatoes with booze"
 
 /datum/reagent/consumable/ethanol/bloody_mary/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(current_cycle % 20 == 0)
 		update_flags |= M.adjustToxLoss(-1, FALSE) //heals 1 tox damage every 20 cycles or (metabolization_rate * 20) units of reagent
 	return ..() | update_flags
@@ -948,7 +948,7 @@
 	taste_description = "brain damageeeEEeee"
 
 /datum/reagent/consumable/ethanol/neurotoxin/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(current_cycle >= 13)
 		M.Weaken(6 SECONDS)
 	if(current_cycle >= 55)
@@ -970,7 +970,7 @@
 	taste_description = "colors"
 
 /datum/reagent/consumable/ethanol/hippies_delight/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.Druggy(100 SECONDS)
 	switch(current_cycle)
 		if(1 to 5)
@@ -1092,7 +1092,7 @@
 	taste_description = "SPEED"
 
 /datum/reagent/ginsonic/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustDrowsy(-10 SECONDS)
 	if(prob(25))
 		M.AdjustParalysis(-2 SECONDS)
@@ -1168,7 +1168,7 @@
 			M.adjust_fire_stacks(6)
 
 /datum/reagent/consumable/ethanol/dragons_breath/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(M.reagents.has_reagent("milk"))
 		to_chat(M, "<span class='notice'>The milk stops the burning. Ahhh.</span>")
 		M.reagents.del_reagent("milk")
@@ -1426,7 +1426,7 @@
 	var/remove_nutrition = 2
 
 /datum/reagent/consumable/ethanol/fernet/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(!M.nutrition)
 		switch(rand(1, 3))
 			if(1)
@@ -1467,7 +1467,7 @@
 	taste_description = "rainbow"
 
 /datum/reagent/consumable/ethanol/rainbow_sky/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustBruteLoss(-1, FALSE)
 	update_flags |= M.adjustFireLoss(-1, FALSE)
 	M.Druggy(30 SECONDS)
@@ -1710,7 +1710,7 @@
 	taste_description = "funny medicine"
 
 /datum/reagent/consumable/ethanol/alcomender/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustFireLoss(-0.7, FALSE)
 	return ..() | update_flags
 
@@ -1719,7 +1719,7 @@
 		if(method == REAGENT_TOUCH)
 			M.adjustFireLoss(-volume * 0.7)
 			to_chat(M, "<span class='notice'>The diluted silver sulfadiazine soothes your burns.</span>")
-	return STATUS_UPDATE_NONE
+	return UI_UPDATE_NONE
 
 /datum/reagent/consumable/ethanol/amnesia
 	name = "Star Amnesia"
@@ -2339,7 +2339,7 @@
 	taste_description = "blood red pain in your stomach! But it feels so go-o-o-o-od.."
 
 /datum/reagent/consumable/ethanol/red_moondrin/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.Druggy(30 SECONDS)
 	switch(current_cycle)
 		if(1 to 20)
@@ -2417,7 +2417,7 @@
 	taste_description = "system reset"
 
 /datum/reagent/consumable/ethanol/synthanol/restart/on_mob_life(mob/living/carbon/human/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	switch(current_cycle)
 		if(5 to 13)
 			M.Jitter(40 SECONDS)

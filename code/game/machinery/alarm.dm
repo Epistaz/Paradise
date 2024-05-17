@@ -807,7 +807,8 @@
 /obj/machinery/alarm/proc/is_authenticated(mob/user, datum/tgui/ui=null)
 	// Return true if they are connecting with a remote console
 	// DO NOT CHANGE THIS TO USE ISTYPE, IT WILL NOT WORK
-	if(ui?.master_ui?.src_object.type == /datum/ui_module/atmos_control)
+	// #TODO EPI CHECK IF THIS SHIT WORKS C:\Games\SS\Paradise\code\game\machinery\alarm.dm
+	if(ui  && ui.src_object.type == /datum/ui_module/atmos_control)
 		return TRUE
 	if(user.can_admin_interact())
 		return TRUE
@@ -818,13 +819,13 @@
 
 /obj/machinery/alarm/ui_status(mob/user, datum/ui_state/state)
 	if(buildstage != AIR_ALARM_READY)
-		return STATUS_CLOSE
+		return UI_CLOSE
 
 	if(aidisabled && (isAI(user) || isrobot(user)))
 		to_chat(user, span_warning("AI control for \the [src] interface has been disabled."))
-		return STATUS_CLOSE
+		return UI_CLOSE
 
-	. = shorted ? STATUS_DISABLED : STATUS_INTERACTIVE
+	. = shorted ? UI_DISABLED : UI_INTERACTIVE
 
 	return min(..(), .)
 

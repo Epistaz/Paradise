@@ -382,7 +382,7 @@
 
 
 /mob/living/silicon/adjustToxLoss(amount, updating_health)
-	return STATUS_UPDATE_NONE
+	return UI_UPDATE_NONE
 
 /mob/living/silicon/get_access()
 	return IGNORE_ACCESS //silicons always have access

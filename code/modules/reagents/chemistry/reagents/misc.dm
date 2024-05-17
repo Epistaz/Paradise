@@ -285,7 +285,7 @@
 	taste_description = "nail polish remover"
 
 /datum/reagent/acetone/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(1.5, FALSE)
 	return ..() | update_flags
 
@@ -469,7 +469,7 @@
 /datum/reagent/jestosterone/on_mob_life(mob/living/carbon/M)
 	if(!istype(M))
 		return ..()
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(10))
 		M.emote("giggle")
 	if(M?.mind.assigned_role == JOB_TITLE_CLOWN || M?.mind.assigned_role == SPECIAL_ROLE_HONKSQUAD)
@@ -589,7 +589,7 @@
 	taste_description = "puke"
 
 /datum/reagent/plantnutriment/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(tox_prob))
 		update_flags |= M.adjustToxLoss(0.5, FALSE)
 	return ..() | update_flags
@@ -697,7 +697,7 @@
 	if(prob(10))
 		M.say(pick("Shit was SO cash.", "You are everything bad in the world.", "What sports do you play, other than 'jack off to naked drawn Japanese people?'", "Don’t be a stranger. Just hit me with your best shot.", "My name is John and I hate every single one of you."))
 
-	return list(0, STATUS_UPDATE_NONE)
+	return list(0, UI_UPDATE_NONE)
 
 /datum/reagent/spraytan/proc/set_skin_color(mob/living/carbon/human/H)
 	if(H.dna.species.bodyflags & HAS_SKIN_TONE)

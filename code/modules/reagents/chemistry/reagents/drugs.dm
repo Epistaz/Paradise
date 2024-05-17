@@ -23,7 +23,7 @@
 	taste_description = "a magical journey"
 
 /datum/reagent/lsd/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.Druggy(30 SECONDS)
 	M.AdjustHallucinate(10 SECONDS)
 	M.last_hallucinator_log = "LSD"
@@ -42,7 +42,7 @@
 	taste_description = "a synthetic high"
 
 /datum/reagent/space_drugs/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.Druggy(30 SECONDS)
 	if(isturf(M.loc) && !isspaceturf(M.loc))
 		if(M.canmove && !HAS_TRAIT(M, TRAIT_RESTRAINED))
@@ -59,7 +59,7 @@
 	taste_description = "visions"
 
 /datum/reagent/psilocybin/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.Druggy(60 SECONDS)
 	switch(current_cycle)
 		if(1 to 5)
@@ -97,7 +97,7 @@
 	taste_description = "calm"
 
 /datum/reagent/nicotine/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	var/smoke_message = pick("You feel relaxed.", "You feel calmed.", "You feel less stressed.", "You feel more placid.", "You feel more undivided.")
 	M.AdjustParalysis(-2 SECONDS)
 	M.AdjustStunned(-2 SECONDS)
@@ -167,7 +167,7 @@
 	taste_description = "a delightful numbing and mint"
 
 /datum/reagent/moonlin/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	var/smoke_message = pick("You feel numbed.", "You feel calmed.")
 	if(prob(5))
 		to_chat(M, "<span class='notice'>[smoke_message]</span>")
@@ -235,7 +235,7 @@
 	taste_description = "bitterness"
 
 /datum/reagent/crank/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustParalysis(-4 SECONDS)
 	M.AdjustStunned(-4 SECONDS)
 	M.AdjustWeakened(-4 SECONDS)
@@ -310,7 +310,7 @@
 
 
 /datum/reagent/krokodil/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustJitter(-80 SECONDS)
 	if(prob(25))
 		update_flags |= M.adjustBrainLoss(1, FALSE)
@@ -391,7 +391,7 @@
 
 
 /datum/reagent/methamphetamine/on_mob_life(mob/living/user)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(5))
 		user.emote(pick("twitch_s","blink_r","shiver"))
 	if(current_cycle >= 25)
@@ -456,7 +456,7 @@
 
 /datum/reagent/bath_salts/on_mob_life(mob/living/M)
 	var/check = rand(0,100)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		var/obj/item/organ/external/head/head_organ = H.get_organ(BODY_ZONE_HEAD)
@@ -556,7 +556,7 @@
 	taste_description = "the inside of a toilet... or worse"
 
 /datum/reagent/jenkem/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.Dizzy(10 SECONDS)
 	if(prob(10))
 		M.emote(pick("twitch_s","drool","moan"))
@@ -572,7 +572,7 @@
 	taste_description = "bitterness"
 
 /datum/reagent/aranesp/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustStaminaLoss(-9, FALSE)
 	if(prob(90))
 		update_flags |= M.adjustToxLoss(1, FALSE)
@@ -618,7 +618,7 @@
 	taste_description = "relaxation"
 
 /datum/reagent/cbd/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(5))
 		M.emote(pick("hsigh", "yawn"))
 	if(prob(5))
@@ -650,7 +650,7 @@
 	taste_description = "flips"
 
 /datum/reagent/fliptonium/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(current_cycle == 5)
 		M.SpinAnimation(speed = 11, loops = -1)
 	if(current_cycle == 10)
@@ -761,7 +761,7 @@
 	harmless = TRUE
 
 /datum/reagent/consumable/laughter/on_mob_life(mob/living/carbon/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	var/chance = rand(1,200)
 	switch(volume)
 		if(0 to 9)
@@ -839,10 +839,10 @@
 		if(421 to 470)
 			to_chat(M, "<span class='warning'>You REALLY crave some [name]!</span>")
 			M.emote(pick("twitch", "sigh", "cry", "sniff"))
-	return STATUS_UPDATE_NONE
+	return UI_UPDATE_NONE
 
 /datum/reagent/consumable/laughter/addiction_act_stage5(mob/living/carbon/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	var/chance = rand(1,1600)
 	switch(chance)
 		if(1 to 50)
@@ -900,7 +900,7 @@
 
 
 /datum/reagent/lube/ultra/on_mob_life(mob/living/user)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	var/high_message = pick("You feel your servos whir!", "You feel like you need to go faster.", "You feel like you were just overclocked!")
 	if(prob(1) && prob(1))
 		high_message = "0100011101001111010101000101010001000001010001110100111101000110010000010101001101010100!"
@@ -956,7 +956,7 @@
 
 
 /datum/reagent/surge/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.Druggy(30 SECONDS)
 	var/high_message = pick("You feel calm.", "You feel collected.", "You feel like you need to relax.")
 	if(prob(1))
@@ -967,7 +967,7 @@
 	return ..() | update_flags
 
 /datum/reagent/surge/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	//Hit them with the same effects as an electrode!
 	M.Weaken(10 SECONDS)
 	M.Jitter(40 SECONDS)
@@ -1002,7 +1002,7 @@
 	taste_description = "silicon"
 
 /datum/reagent/surge_plus/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustParalysis(-8 SECONDS)
 	M.AdjustStunned(-8 SECONDS)
 	M.AdjustWeakened(-8 SECONDS)
@@ -1016,7 +1016,7 @@
 	return ..() | update_flags
 
 /datum/reagent/surge_plus/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	var/recent_consumption = holder.addiction_threshold_accumulated[type]
 	M.Jitter(40 SECONDS)
 	M.Stuttering(10 SECONDS)
@@ -1102,7 +1102,7 @@
 	metabolization_rate = 0.6 * REAGENTS_METABOLISM
 
 /datum/reagent/crack/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustStaminaLoss(-3, FALSE)
 	if(prob(15))
 		M.emote(pick("twitch", "twitch_s", "grumble", "laugh"))
@@ -1115,7 +1115,7 @@
 	return ..() | update_flags
 
 /datum/reagent/crack/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustStaminaLoss(-0.4, FALSE)
 	update_flags |= M.adjustHeartLoss(1, FALSE)
 	return list(0, update_flags)
@@ -1141,7 +1141,7 @@
 	metabolization_rate = 0.4 * REAGENTS_METABOLISM
 
 /datum/reagent/cocaine/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(5))
 		M.emote(pick("twitch_s","blink_r","shiver"))
 	if(current_cycle >= 25)
@@ -1155,7 +1155,7 @@
 	return ..() | update_flags
 
 /datum/reagent/cocaine/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(50))
 		update_flags |= M.adjustHeartLoss(1, FALSE)
 	M.AdjustConfused(2 SECONDS)
@@ -1190,7 +1190,7 @@
 	drink_desc = "A tea made of cocaine. Especially intresting drink."
 
 /datum/reagent/matedecoca/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(10))
 		M.AdjustJitter(5 SECONDS)
 	M.AdjustDrowsy(-20 SECONDS)
@@ -1201,7 +1201,7 @@
 	return ..() | update_flags
 
 /datum/reagent/matedecoca/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(25))
 		M.fakevomit()
 		M.emote("tremble")

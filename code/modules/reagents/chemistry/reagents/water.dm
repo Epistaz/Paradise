@@ -280,7 +280,7 @@ GLOBAL_LIST_INIT(diseases_carrier_reagents, list(
 	taste_description = "water"
 
 /datum/reagent/holywater/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustJitter(-10 SECONDS)
 	if(current_cycle >= 30)		// 12 units, 60 seconds @ metabolism 0.4 units & tick rate 2.0 sec
 		M.AdjustStuttering(8 SECONDS, bound_lower = 0, bound_upper = 40 SECONDS)
@@ -484,7 +484,7 @@ GLOBAL_LIST_INIT(diseases_carrier_reagents, list(
 	taste_description = "sulfur"
 
 /datum/reagent/fuel/unholywater/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(iscultist(M))
 		M.AdjustDrowsy(-10 SECONDS)
 		M.AdjustParalysis(-2 SECONDS)
@@ -513,7 +513,7 @@ GLOBAL_LIST_INIT(diseases_carrier_reagents, list(
 	taste_description = "burning"
 
 /datum/reagent/hellwater/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.fire_stacks = min(5, M.fire_stacks + 3)
 	M.IgniteMob()			//Only problem with igniting people is currently the commonly availible fire suits make you immune to being on fire
 	update_flags |= M.adjustToxLoss(1, FALSE)

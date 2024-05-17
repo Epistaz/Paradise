@@ -41,7 +41,7 @@
 
 /mob/living/carbon/human/adjustBrainLoss(amount, updating_health = TRUE, use_brain_mod = TRUE)
 	if(status_flags & GODMODE)
-		return STATUS_UPDATE_NONE	//godmode
+		return UI_UPDATE_NONE	//godmode
 
 	if(dna.species && dna.species.has_organ[INTERNAL_ORGAN_BRAIN])
 		var/obj/item/organ/internal/brain/sponge = get_int_organ(/obj/item/organ/internal/brain)
@@ -55,11 +55,11 @@
 				death()
 	if(updating_health)
 		update_stat("adjustBrainLoss")
-	return STATUS_UPDATE_STAT
+	return UI_UPDATE_STAT
 
 /mob/living/carbon/human/setBrainLoss(amount, updating_health = TRUE, use_brain_mod = TRUE)
 	if(status_flags & GODMODE)
-		return STATUS_UPDATE_NONE	//godmode
+		return UI_UPDATE_NONE	//godmode
 
 	if(dna.species && dna.species.has_organ[INTERNAL_ORGAN_BRAIN])
 		var/obj/item/organ/internal/brain/sponge = get_int_organ(/obj/item/organ/internal/brain)
@@ -73,7 +73,7 @@
 				death()
 	if(updating_health)
 		update_stat("setBrainLoss")
-	return STATUS_UPDATE_STAT
+	return UI_UPDATE_STAT
 
 /mob/living/carbon/human/getBrainLoss()
 	if(status_flags & GODMODE)
@@ -95,7 +95,7 @@
 
 /mob/living/carbon/human/adjustHeartLoss(amount, updating_health = TRUE)
 	if(status_flags & GODMODE)
-		return STATUS_UPDATE_NONE	//godmode
+		return UI_UPDATE_NONE	//godmode
 
 	if(dna.species && dna.species.has_organ[INTERNAL_ORGAN_HEART])
 		var/obj/item/organ/internal/heart/hearty = get_int_organ(/obj/item/organ/internal/heart)
@@ -103,11 +103,11 @@
 			hearty.damage = clamp(hearty.damage + amount, 0, 60)
 	if(updating_health)
 		update_stat("adjustHeartLoss")
-	return STATUS_UPDATE_STAT
+	return UI_UPDATE_STAT
 
 /mob/living/carbon/human/setHeartLoss(amount, updating_health = TRUE)
 	if(status_flags & GODMODE)
-		return STATUS_UPDATE_NONE	//godmode
+		return UI_UPDATE_NONE	//godmode
 
 	if(dna.species && dna.species.has_organ[INTERNAL_ORGAN_HEART])
 		var/obj/item/organ/internal/heart/hearty = get_int_organ(/obj/item/organ/internal/heart)
@@ -115,7 +115,7 @@
 			hearty.damage = clamp(amount, 0, 60)
 	if(updating_health)
 		update_stat("setHeartLoss")
-	return STATUS_UPDATE_STAT
+	return UI_UPDATE_STAT
 
 /mob/living/carbon/human/getHeartLoss()
 	if(status_flags & GODMODE)
@@ -165,7 +165,7 @@
 	else
 		heal_overall_damage(-amount, 0, updating_health, FALSE, robotic)
 	// brainless default for now
-	return STATUS_UPDATE_HEALTH
+	return UI_UPDATE_HEALTH
 
 /mob/living/carbon/human/adjustFireLoss(amount, updating_health = TRUE, damage_source = null, robotic = FALSE)
 	if(amount > 0)
@@ -175,7 +175,7 @@
 	else
 		heal_overall_damage(0, -amount, updating_health, FALSE, robotic)
 	// brainless default for now
-	return STATUS_UPDATE_HEALTH
+	return UI_UPDATE_HEALTH
 
 /mob/living/carbon/human/proc/adjustBruteLossByPart(amount, organ_name, obj/damage_source = null, updating_health = TRUE)
 	if(dna.species && amount > 0)
@@ -188,7 +188,7 @@
 		else
 			//if you don't want to heal robot organs, they you will have to check that yourself before using this proc.
 			O.heal_damage(-amount, 0, internal = FALSE, robo_repair = O.is_robotic(), updating_health = updating_health)
-	return STATUS_UPDATE_HEALTH
+	return UI_UPDATE_HEALTH
 
 /mob/living/carbon/human/proc/adjustFireLossByPart(amount, organ_name, obj/damage_source = null, updating_health = TRUE)
 	if(dna.species && amount > 0)
@@ -202,7 +202,7 @@
 		else
 			//if you don't want to heal robot organs, they you will have to check that yourself before using this proc.
 			O.heal_damage(0, -amount, internal = FALSE, robo_repair = O.is_robotic(), updating_health = updating_health)
-	return STATUS_UPDATE_HEALTH
+	return UI_UPDATE_HEALTH
 
 /mob/living/carbon/human/setCloneLoss(amount, updating_health)
 	. = ..()

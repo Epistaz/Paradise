@@ -13,7 +13,7 @@
 	var/adj_temp_cool = 0
 
 /datum/reagent/consumable/drink/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(adj_dizzy)
 		M.AdjustDizzy(adj_dizzy)
 	if(adj_drowsy)

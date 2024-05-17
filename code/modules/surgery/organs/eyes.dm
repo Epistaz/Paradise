@@ -91,7 +91,7 @@
 	drop_sound = 'sound/items/handling/component_drop.ogg'
 
 /obj/item/organ/internal/eyes/on_life()
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(owner.glasses)
 		var/obj/item/clothing/glasses/G = owner.glasses
 		if(G.heal_bodypart == INTERNAL_ORGAN_EYES && iscarbon(owner))

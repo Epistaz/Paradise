@@ -81,8 +81,7 @@
 	var/datum/browser/popup = new(src, "playersetup", "<div align='center'>New Player Options</div>", 240, 330)
 	popup.set_window_options("can_close=0")
 	popup.set_content(output.Join(""))
-	popup.open(0)
-	return
+	popup.open(FALSE)
 
 /mob/new_player/Stat()
 	statpanel("Status")
@@ -131,8 +130,6 @@
 		qdel(query)
 		src << browse(null, "window=privacy_consent")
 		client.tos_consent = TRUE
-		// Now they have accepted TOS, we can log data
-		client.chatOutput.sendClientData()
 		new_player_panel_proc()
 	if(href_list["consent_rejected"])
 		client.tos_consent = FALSE
@@ -685,7 +682,7 @@
 		client.prefs.language = LANGUAGE_NONE
 
 /mob/new_player/proc/ViewManifest()
-	GLOB.generic_crew_manifest.ui_interact(usr, state = GLOB.always_state)
+	GLOB.generic_crew_manifest.ui_interact(usr)
 
 /mob/new_player/Move()
 	return 0

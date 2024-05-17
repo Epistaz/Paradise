@@ -234,7 +234,7 @@
 			addiction_threshold_accumulated -= thing
 
 	// a bitfield filled in by each reagent's `on_mob_life` to find out which states to update
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	for(var/A in reagent_list)
 		var/datum/reagent/R = A
 		if(!R.holder)
@@ -315,17 +315,17 @@
 				addiction_list.Remove(R)
 				qdel(R)
 
-	if(update_flags & STATUS_UPDATE_HEALTH)
+	if(update_flags & UI_UPDATE_HEALTH)
 		M.updatehealth("reagent metabolism")
-	else if(update_flags & STATUS_UPDATE_STAT)
+	else if(update_flags & UI_UPDATE_STAT)
 		// update_stat is called in updatehealth
 		M.update_stat("reagent metabolism")
-	if(update_flags & STATUS_UPDATE_STAMINA)
+	if(update_flags & UI_UPDATE_STAMINA)
 		M.update_stamina()
 		M.update_stamina_hud()
-	if(update_flags & STATUS_UPDATE_BLIND)
+	if(update_flags & UI_UPDATE_BLIND)
 		M.update_blind_effects()
-	if(update_flags & STATUS_UPDATE_NEARSIGHTED)
+	if(update_flags & UI_UPDATE_NEARSIGHTED)
 		M.update_nearsighted_effects()
 	update_total()
 

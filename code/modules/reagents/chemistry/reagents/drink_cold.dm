@@ -78,7 +78,7 @@
 	addict_supertype = /datum/reagent/consumable/drink/cold/energy
 
 /datum/reagent/consumable/drink/cold/energy/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustStaminaLoss(-1, FALSE)
 	if(M.reagents.get_reagent_amount("coffee") > 0)
 		if(prob(0.5))
@@ -97,7 +97,7 @@
 /datum/reagent/consumable/drink/cold/energy/overdose_process(mob/living/M, severity)
 	if(volume > 45)
 		M.Jitter(10 SECONDS)
-	return list(0, STATUS_UPDATE_NONE)
+	return list(0, UI_UPDATE_NONE)
 
 /datum/reagent/consumable/drink/cold/energy/trop
 	name = "Tropickal Energy"
@@ -129,7 +129,7 @@
 
 
 /datum/reagent/consumable/drink/cold/nuka_cola/on_mob_life(mob/living/user)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	user.Jitter(40 SECONDS)
 	user.Druggy(60 SECONDS)
 	user.AdjustDizzy(10 SECONDS)
@@ -263,7 +263,7 @@
 
 
 /datum/reagent/consumable/drink/cold/zaza/on_mob_life(mob/living/user)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(ishuman(user) && prob(40))
 		update_flags |= user.adjustBruteLoss(-healamount, FALSE)
 		update_flags |= user.adjustFireLoss(-healamount, FALSE)

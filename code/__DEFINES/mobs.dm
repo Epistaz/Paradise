@@ -182,14 +182,14 @@
 #define TINT_BLIND 3			//Threshold of tint level to obscure vision fully
 #define EYE_SHINE_THRESHOLD 6	//dark_view threshold past which a humanoid's eyes will 'shine' in the dark.
 
-#define STATUS_UPDATE_HEALTH (1<<0)
-#define STATUS_UPDATE_STAT (1<<1)
-#define STATUS_UPDATE_STAMINA (1<<2)
-#define STATUS_UPDATE_BLIND (1<<3)
-#define STATUS_UPDATE_NEARSIGHTED (1<<4)
+#define UI_UPDATE_HEALTH (1<<0)
+#define UI_UPDATE_STAT (1<<1)
+#define UI_UPDATE_STAMINA (1<<2)
+#define UI_UPDATE_BLIND (1<<3)
+#define UI_UPDATE_NEARSIGHTED (1<<4)
 
-#define STATUS_UPDATE_NONE 0
-#define STATUS_UPDATE_ALL (~0)
+#define UI_UPDATE_NONE 0
+#define UI_UPDATE_ALL (~0)
 
 // Incorporeal movement
 #define INCORPOREAL_NONE 0

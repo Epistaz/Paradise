@@ -749,7 +749,7 @@
 
 /mob/living/proc/BecomeBlind(updating = TRUE)
 	var/val_change = !(BLINDNESS in mutations)
-	. = val_change ? STATUS_UPDATE_BLIND : STATUS_UPDATE_NONE
+	. = val_change ? UI_UPDATE_BLIND : UI_UPDATE_NONE
 	mutations |= BLINDNESS
 	EyeBlind(2 SECONDS)
 	if(val_change && updating)
@@ -757,7 +757,7 @@
 
 /mob/living/proc/CureBlind(updating = TRUE)
 	var/val_change = !!(BLINDNESS in mutations)
-	. = val_change ? STATUS_UPDATE_BLIND : STATUS_UPDATE_NONE
+	. = val_change ? UI_UPDATE_BLIND : UI_UPDATE_NONE
 	mutations -= BLINDNESS
 	if(val_change && updating)
 		CureIfHasDisability(GLOB.blindblock)
@@ -794,14 +794,14 @@
 
 /mob/living/proc/BecomeNearsighted(updating = TRUE)
 	var/val_change = !(NEARSIGHTED in mutations)
-	. = val_change ? STATUS_UPDATE_NEARSIGHTED : STATUS_UPDATE_NONE
+	. = val_change ? UI_UPDATE_NEARSIGHTED : UI_UPDATE_NONE
 	mutations |= NEARSIGHTED
 	if(val_change && updating)
 		update_nearsighted_effects()
 
 /mob/living/proc/CureNearsighted(updating = TRUE)
 	var/val_change = !!(NEARSIGHTED in mutations)
-	. = val_change ? STATUS_UPDATE_NEARSIGHTED : STATUS_UPDATE_NONE
+	. = val_change ? UI_UPDATE_NEARSIGHTED : UI_UPDATE_NONE
 	mutations -= NEARSIGHTED
 	if(val_change && updating)
 		CureIfHasDisability(GLOB.glassesblock)

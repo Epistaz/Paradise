@@ -27,14 +27,14 @@
 		take_overall_damage(amount, 0, updating_health)
 	else
 		heal_overall_damage(-amount, 0, updating_health)
-	return STATUS_UPDATE_HEALTH
+	return UI_UPDATE_HEALTH
 
 /mob/living/silicon/robot/adjustFireLoss(amount, updating_health = TRUE)
 	if(amount > 0)
 		take_overall_damage(0, amount, updating_health)
 	else
 		heal_overall_damage(0, -amount, updating_health)
-	return STATUS_UPDATE_HEALTH
+	return UI_UPDATE_HEALTH
 
 /mob/living/silicon/robot/proc/get_damaged_components(get_brute, get_burn, get_borked = FALSE, get_missing = FALSE)
 	var/list/datum/robot_component/parts = list()

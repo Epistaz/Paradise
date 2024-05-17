@@ -108,7 +108,7 @@
 
 
 /mob/living/carbon/alien/adjustToxLoss(amount, updating_health)
-	return STATUS_UPDATE_NONE
+	return UI_UPDATE_NONE
 
 /mob/living/carbon/alien/adjustFireLoss(amount, updating_health) // Weak to Fire
 	if(amount > 0)

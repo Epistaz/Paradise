@@ -55,7 +55,7 @@
 			continue
 		D.cure(need_immunity = FALSE)
 	..()
-	return STATUS_UPDATE_ALL
+	return UI_UPDATE_ALL
 
 /datum/reagent/medicine/adminordrazine/nanites
 	name = "Nanites"

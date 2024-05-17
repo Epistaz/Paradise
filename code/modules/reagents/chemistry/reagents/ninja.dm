@@ -26,7 +26,7 @@
 	var/obj/effect/temp_visual/ninja_rend/rend = null//Unharmfull trap for playing with time
 
 /datum/reagent/medicine/chiyurizine/on_mob_life(mob/living/our_mob)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(volume >= overdose_threshold-5)
 		can_work = TRUE
 	if(!can_work)
@@ -120,7 +120,7 @@
 	return ..() | update_flags
 
 /datum/reagent/medicine/chiyurizine/overdose_process(mob/living/our_mob, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(ishuman(our_mob))
 		var/mob/living/carbon/human/mob_human = our_mob
 		if(mob_human.age >= 100)//Critical age. You either die, or get a last chance to live.

@@ -513,7 +513,7 @@
 
 
 /datum/reagent/shadowling_blindness_smoke/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(!is_shadow_or_thrall(M))
 		to_chat(M, "<span class='warning'><b>You breathe in the black smoke, and your eyes burn horribly!</b></span>")
 		M.EyeBlind(10 SECONDS)

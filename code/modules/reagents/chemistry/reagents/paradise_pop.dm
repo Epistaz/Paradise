@@ -43,7 +43,7 @@
 	taste_description = "пермабана"
 
 /datum/reagent/consumable/drink/berry_banned/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(10))
 		var/heal_type = rand(0, 5)		//still prefer the string version
 		switch(heal_type)
@@ -72,7 +72,7 @@
 	taste_description = "пермабана"
 
 /datum/reagent/consumable/drink/berry_banned2/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(50))
 		update_flags |= M.adjustToxLoss(1, FALSE)		//double strength of poison berry juice alone, because it's concentrated (this is equal to the damage of normal toxin, less often)
 	if(prob(10))
@@ -159,7 +159,7 @@
 	alcohol_perc = 0.5
 
 /datum/reagent/consumable/ethanol/moonlight_skuma/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.Druggy(60 SECONDS)
 	M.Dizzy(10 SECONDS)
 	if(prob(15))

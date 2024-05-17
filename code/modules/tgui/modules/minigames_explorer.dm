@@ -12,7 +12,8 @@
 /datum/minigames_explorer/ui_interact(mob/user, datum/tgui/ui = null)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "MiniGamesMenu", name)
+		// #TODO EPI C:\Games\SS\Paradise\code\modules\tgui\modules\minigames_explorer.dm
+		ui = new(user, src, "MiniGamesMenu", "Mini Games")
 		ui.open()
 
 /datum/minigames_explorer/ui_data(mob/user)

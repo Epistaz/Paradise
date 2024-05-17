@@ -153,9 +153,9 @@
 	bruteloss = max(bruteloss + amount, 0)
 	if(old_bruteloss == bruteloss)
 		updating_health = FALSE
-		. = STATUS_UPDATE_NONE
+		. = UI_UPDATE_NONE
 	else
-		. = STATUS_UPDATE_HEALTH
+		. = UI_UPDATE_HEALTH
 	if(updating_health)
 		updatehealth("adjustBruteLoss")
 
@@ -176,9 +176,9 @@
 	oxyloss = max(oxyloss + amount, 0)
 	if(old_oxyloss == oxyloss)
 		updating_health = FALSE
-		. = STATUS_UPDATE_NONE
+		. = UI_UPDATE_NONE
 	else
-		. = STATUS_UPDATE_HEALTH
+		. = UI_UPDATE_HEALTH
 	if(updating_health)
 		updatehealth("adjustOxyLoss")
 
@@ -195,9 +195,9 @@
 	oxyloss = amount
 	if(old_oxyloss == oxyloss)
 		updating_health = FALSE
-		. = STATUS_UPDATE_NONE
+		. = UI_UPDATE_NONE
 	else
-		. = STATUS_UPDATE_HEALTH
+		. = UI_UPDATE_HEALTH
 	if(updating_health)
 		updatehealth("setOxyLoss")
 
@@ -215,9 +215,9 @@
 	toxloss = max(toxloss + amount, 0)
 	if(old_toxloss == toxloss)
 		updating_health = FALSE
-		. = STATUS_UPDATE_NONE
+		. = UI_UPDATE_NONE
 	else
-		. = STATUS_UPDATE_HEALTH
+		. = UI_UPDATE_HEALTH
 	if(updating_health)
 		updatehealth("adjustToxLoss")
 
@@ -231,9 +231,9 @@
 	toxloss = amount
 	if(old_toxloss == toxloss)
 		updating_health = FALSE
-		. = STATUS_UPDATE_NONE
+		. = UI_UPDATE_NONE
 	else
-		. = STATUS_UPDATE_HEALTH
+		. = UI_UPDATE_HEALTH
 	if(updating_health)
 		updatehealth("setToxLoss")
 
@@ -251,9 +251,9 @@
 	fireloss = max(fireloss + amount, 0)
 	if(old_fireloss == fireloss)
 		updating_health = FALSE
-		. = STATUS_UPDATE_NONE
+		. = UI_UPDATE_NONE
 	else
-		. = STATUS_UPDATE_HEALTH
+		. = UI_UPDATE_HEALTH
 	if(updating_health)
 		updatehealth("adjustFireLoss")
 
@@ -271,9 +271,9 @@
 	cloneloss = max(cloneloss + amount, 0)
 	if(old_cloneloss == cloneloss)
 		updating_health = FALSE
-		. = STATUS_UPDATE_NONE
+		. = UI_UPDATE_NONE
 	else
-		. = STATUS_UPDATE_HEALTH
+		. = UI_UPDATE_HEALTH
 	if(updating_health)
 		updatehealth("adjustCloneLoss")
 
@@ -287,9 +287,9 @@
 	cloneloss = amount
 	if(old_cloneloss == cloneloss)
 		updating_health = FALSE
-		. = STATUS_UPDATE_NONE
+		. = UI_UPDATE_NONE
 	else
-		. = STATUS_UPDATE_HEALTH
+		. = UI_UPDATE_HEALTH
 	if(updating_health)
 		updatehealth("setCloneLoss")
 
@@ -299,11 +299,11 @@
 
 
 /mob/living/proc/adjustBrainLoss(amount, updating_health = TRUE)
-	return STATUS_UPDATE_NONE
+	return UI_UPDATE_NONE
 
 
 /mob/living/proc/setBrainLoss(amount, updating_health = TRUE)
-	return STATUS_UPDATE_NONE
+	return UI_UPDATE_NONE
 
 
 /mob/living/proc/getHeartLoss()
@@ -311,11 +311,11 @@
 
 
 /mob/living/proc/adjustHeartLoss(amount, updating_health = TRUE)
-	return STATUS_UPDATE_NONE
+	return UI_UPDATE_NONE
 
 
 /mob/living/proc/setHeartLoss(amount, updating_health = TRUE)
-	return STATUS_UPDATE_NONE
+	return UI_UPDATE_NONE
 
 
 /mob/living/proc/getStaminaLoss()
@@ -332,9 +332,9 @@
 	staminaloss = min(max(staminaloss + amount, 0), 120)
 	if(old_stamloss == staminaloss)
 		updating_health = FALSE
-		. = STATUS_UPDATE_NONE
+		. = UI_UPDATE_NONE
 	else
-		. = STATUS_UPDATE_STAMINA
+		. = UI_UPDATE_STAMINA
 	if(amount > 0)
 		stam_regen_start_time = world.time + (STAMINA_REGEN_BLOCK_TIME * stam_regen_start_modifier)
 	if(updating_health)
@@ -352,9 +352,9 @@
 	staminaloss = min(max(amount, 0), 120)
 	if(old_stamloss == staminaloss)
 		updating_health = FALSE
-		. = STATUS_UPDATE_NONE
+		. = UI_UPDATE_NONE
 	else
-		. = STATUS_UPDATE_STAMINA
+		. = UI_UPDATE_STAMINA
 	if(amount > 0)
 		stam_regen_start_time = world.time + STAMINA_REGEN_BLOCK_TIME
 	if(updating_health)

@@ -204,7 +204,7 @@
 				busy = FALSE
 
 /obj/machinery/autolathe/ui_status(mob/user, datum/ui_state/state)
-	. = disabled ? STATUS_DISABLED : STATUS_INTERACTIVE
+	. = disabled ? UI_DISABLED : UI_INTERACTIVE
 
 	return min(..(), .)
 

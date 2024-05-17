@@ -8,7 +8,7 @@
 	taste_description = "bitterness"
 
 /datum/reagent/toxin/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(2, FALSE)
 	return ..() | update_flags
 
@@ -21,7 +21,7 @@
 	taste_description = "bitterness"
 
 /datum/reagent/spider_venom/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(1.5, FALSE)
 	return ..() | update_flags
 
@@ -34,7 +34,7 @@
 	taste_description = "pain"
 
 /datum/reagent/bee_venom/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(1.5, FALSE)
 	return ..() | update_flags
 
@@ -49,7 +49,7 @@
 	overdose_threshold = 30
 
 /datum/reagent/bee_venom_beesease/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(0.1, FALSE)
 	return ..() | update_flags
 
@@ -104,7 +104,7 @@
 	taste_mult = 1.3
 
 /datum/reagent/slimejelly/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(!isslimeperson(M) && prob(10))
 		to_chat(M, "<span class='danger'>Your insides are burning!</span>")
 		update_flags |= M.adjustToxLoss(rand(2,6) / 2, FALSE) // avg 0.2 toxin per cycle
@@ -188,7 +188,7 @@
 	taste_mult = 0 // elemental mercury is tasteless
 
 /datum/reagent/mercury/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(70))
 		M.adjustBrainLoss(1)
 	return ..() | update_flags
@@ -204,7 +204,7 @@
 	taste_description = "fire"
 
 /datum/reagent/chlorine/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustFireLoss(1, FALSE)
 	return ..() | update_flags
 
@@ -219,7 +219,7 @@
 	taste_description = "acid"
 
 /datum/reagent/fluorine/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustFireLoss(1, FALSE)
 	update_flags |= M.adjustToxLoss(0.5, FALSE)
 	return ..() | update_flags
@@ -337,7 +337,7 @@
 	taste_description = "sweetness"
 
 /datum/reagent/lexorin/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(1, FALSE)
 	return ..() | update_flags
 
@@ -353,7 +353,7 @@
 	var/acidpwr = 10 //the amount of protection removed from the armour
 
 /datum/reagent/acid/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustFireLoss(1, FALSE)
 	return ..() | update_flags
 
@@ -406,7 +406,7 @@
 	acidpwr = 42
 
 /datum/reagent/acid/facid/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(0.5, FALSE)
 	return ..() | update_flags
 
@@ -480,7 +480,7 @@
 	taste_description = "fish"
 
 /datum/reagent/carpotoxin/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(1, FALSE)
 	return ..() | update_flags
 
@@ -494,7 +494,7 @@
 	taste_description = "bitterness"
 
 /datum/reagent/staminatoxin/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustStaminaLoss(0.5 * data, FALSE)
 	data = max(data - 1, 3)
 	return ..() | update_flags
@@ -508,7 +508,7 @@
 	taste_description = "bitterness"
 
 /datum/reagent/spore/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(1, FALSE)
 	M.damageoverlaytemp = 60
 	M.EyeBlurry(6 SECONDS)
@@ -527,7 +527,7 @@
 	taste_description = "piss water"
 
 /datum/reagent/beer2/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	switch(current_cycle)
 		if(1 to 50)
 			M.Sleeping(4 SECONDS)
@@ -570,7 +570,7 @@
 			M.emote("drool")
 
 /datum/reagent/histamine/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(20))
 		M.emote(pick("twitch", "grumble", "sneeze", "cough"))
 	if(prob(10))
@@ -639,7 +639,7 @@
 	taste_description = "bitterness"
 
 /datum/reagent/formaldehyde/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(0.5, FALSE)
 	if(prob(10))
 		M.reagents.add_reagent("histamine",rand(5,15))
@@ -655,7 +655,7 @@
 	taste_description = "apples"
 
 /datum/reagent/acetaldehyde/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustFireLoss(0.5, FALSE)
 	return ..() | update_flags
 
@@ -671,7 +671,7 @@
 	taste_mult = 0
 
 /datum/reagent/venom/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(25))
 		M.reagents.add_reagent("histamine",rand(5,10))
 	if(volume < 20)
@@ -697,7 +697,7 @@
 	taste_mult = 0
 
 /datum/reagent/neurotoxin2/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	switch(current_cycle)
 		if(1 to 4)
 			current_cycle++
@@ -737,7 +737,7 @@
 	taste_description = "almonds"
 
 /datum/reagent/cyanide/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(0.75, FALSE)
 	if(prob(5))
 		M.emote("drool")
@@ -762,7 +762,7 @@
 	taste_description = "prickliness"
 
 /datum/reagent/itching_powder/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_STAT
+	var/update_flags = UI_UPDATE_STAT
 	if(prob(25))
 		M.emote(pick("twitch", "laugh", "sneeze", "cry"))
 	if(prob(20))
@@ -797,7 +797,7 @@
 	taste_mult = 0
 
 /datum/reagent/initropidril/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(33))
 		update_flags |= M.adjustToxLoss(rand(5,25), FALSE)
 	if(prob(33))
@@ -828,7 +828,7 @@
 	taste_mult = 0
 
 /datum/reagent/pancuronium/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	switch(current_cycle)
 		if(1 to 5)
 			if(prob(10))
@@ -862,7 +862,7 @@
 	taste_mult = 0
 
 /datum/reagent/sodium_thiopental/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	switch(current_cycle)
 		if(1)
 			M.emote("drool")
@@ -892,7 +892,7 @@
 	taste_mult = 0
 
 /datum/reagent/ketamine/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	switch(current_cycle)
 		if(1 to 5)
 			if(prob(25))
@@ -918,7 +918,7 @@
 	taste_mult = 0
 
 /datum/reagent/sulfonal/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustJitter(-60 SECONDS)
 	switch(current_cycle)
 		if(1 to 10)
@@ -958,7 +958,7 @@
 	taste_description = "battery acid"
 
 /datum/reagent/lipolicide/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(!M.nutrition)
 		switch(rand(1,3))
 			if(1)
@@ -986,7 +986,7 @@
 	taste_mult = 0
 
 /datum/reagent/coniine/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(2, FALSE)
 	M.AdjustLoseBreath(10 SECONDS)
 	return ..() | update_flags
@@ -1003,7 +1003,7 @@
 	taste_mult = 0
 
 /datum/reagent/curare/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(1, FALSE)
 	update_flags |= M.adjustOxyLoss(1, FALSE)
 	switch(current_cycle)
@@ -1039,7 +1039,7 @@
 	taste_mult = 0
 
 /datum/reagent/sarin/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	switch(current_cycle)
 		if(1 to 15)
 			M.AdjustJitter(40 SECONDS)
@@ -1095,7 +1095,7 @@
 	taste_description = "bitterness"
 
 /datum/reagent/glyphosate/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(lethality, FALSE)
 	return ..() | update_flags
 
@@ -1148,7 +1148,7 @@
 	taste_description = "bitterness"
 
 /datum/reagent/pestkiller/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(1, FALSE)
 	return ..() | update_flags
 
@@ -1177,7 +1177,7 @@
 	taste_description = "sweetness"
 
 /datum/reagent/capulettium/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	switch(current_cycle)
 		if(1 to 5)
 			M.AdjustEyeBlurry(20 SECONDS)
@@ -1229,7 +1229,7 @@
 	taste_description = "slime"
 
 /datum/reagent/toxic_slurry/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(10))
 		update_flags |= M.adjustToxLoss(rand(2.4), FALSE)
 	if(prob(7))
@@ -1281,7 +1281,7 @@
 	taste_description = "<span class='warning'>ANTS OH GOD</span>"
 
 /datum/reagent/ants/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustBruteLoss(2, FALSE)
 	return ..() | update_flags
 
@@ -1334,7 +1334,7 @@
 	taste_description = "tannin"
 
 /datum/reagent/bungotoxin/on_mob_life(mob/living/carbon/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(current_cycle >= 20)
 		if(prob(25))
 			M.Dizzy(20 SECONDS)
@@ -1368,7 +1368,7 @@
 	taste_description = "herbal bitterness"
 
 /datum/reagent/coca_extract/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(2, FALSE)
 	if(current_cycle >= 5)
 		if(prob(25))

@@ -11,7 +11,7 @@
 	handle_addiction(M, total_depletion_rate)
 	sate_addiction(M)
 	holder.remove_reagent(id, total_depletion_rate) //medicine reagents stay longer if you have a better metabolism
-	return STATUS_UPDATE_NONE
+	return UI_UPDATE_NONE
 
 /datum/reagent/medicine/hydrocodone
 	name = "Hydrocodone"
@@ -24,7 +24,7 @@
 	taste_description = "numbness"
 
 /datum/reagent/medicine/hydrocodone/on_mob_life(mob/living/M) //Needed so the hud updates when injested / removed from system
-	var/update_flags = STATUS_UPDATE_HEALTH
+	var/update_flags = UI_UPDATE_HEALTH
 	return ..() | update_flags
 
 /datum/reagent/medicine/sterilizine
@@ -57,7 +57,7 @@
 	taste_description = "stimulant"
 
 /datum/reagent/medicine/synaptizine/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustDrowsy(-10 SECONDS)
 	M.AdjustParalysis(-2 SECONDS)
 	M.AdjustStunned(-2 SECONDS)
@@ -145,7 +145,7 @@
 			C.reagents.del_reagent(id)
 
 /datum/reagent/medicine/cryoxadone/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(iscarbon(M) && M.bodytemperature < TCRYO)
 		update_flags |= M.adjustCloneLoss(-1, FALSE)
 		update_flags |= M.adjustOxyLoss(-2, FALSE)
@@ -178,7 +178,7 @@
 	taste_description = "reformation"
 
 /datum/reagent/medicine/rezadone/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustCloneLoss(-5, FALSE) //What? We just set cloneloss to 0. Why? Simple; this is so external organs properly unmutate. // why don't you fix the code instead // i fix the code dont worry
 	update_flags |= M.adjustBruteLoss(-1, FALSE)
 	update_flags |= M.adjustFireLoss(-1, FALSE)
@@ -189,7 +189,7 @@
 	return ..() | update_flags
 
 /datum/reagent/medicine/rezadone/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(1, FALSE)
 	M.Dizzy(10 SECONDS)
 	M.Jitter(10 SECONDS)
@@ -237,7 +237,7 @@
 	taste_description = "burn cream"
 
 /datum/reagent/medicine/silver_sulfadiazine/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustFireLoss(-1, FALSE)
 	return ..() | update_flags
 
@@ -264,7 +264,7 @@
 	taste_description = "wound cream"
 
 /datum/reagent/medicine/styptic_powder/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustBruteLoss(-1, FALSE)
 	return ..() | update_flags
 
@@ -295,7 +295,7 @@
 	taste_description = "salt"
 
 /datum/reagent/medicine/salglu_solution/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(33))
 		update_flags |= M.adjustBruteLoss(-1, FALSE)
 		update_flags |= M.adjustFireLoss(-1, FALSE)
@@ -339,7 +339,7 @@
 	taste_description = "bitterness"
 
 /datum/reagent/medicine/ab_stimulant/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	to_chat(M, "<span class='notice'>Вы чуствуете чесотку.</span>")
 	update_flags |= M.adjustFireLoss(-1.5, FALSE)
 	if(volume > 1.9)
@@ -350,7 +350,7 @@
 	return ..() | update_flags
 
 /datum/reagent/medicine/ab_stimulant/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	to_chat(M, "<span class='warning'>Ваша кожа лопается!</span>")
 	M.adjustBruteLoss(4)
 	M.adjustFireLoss(-6)
@@ -368,7 +368,7 @@
 	taste_description = "dust"
 
 /datum/reagent/medicine/charcoal/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(-0.75, FALSE)
 	if(prob(50))
 		for(var/datum/reagent/R in M.reagents.reagent_list)
@@ -390,7 +390,7 @@
 	taste_description = "health"
 
 /datum/reagent/medicine/omnizine/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(-0.5, FALSE)
 	update_flags |= M.adjustOxyLoss(-0.5, FALSE)
 	update_flags |= M.adjustBruteLoss(-1, FALSE)
@@ -445,7 +445,7 @@
 	taste_description = "a painful cleansing"
 
 /datum/reagent/medicine/calomel/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	for(var/datum/reagent/R in M.reagents.reagent_list)
 		if(R != src)
 			M.reagents.remove_reagent(R.id,5)
@@ -478,7 +478,7 @@
 	taste_description = "a purge"
 
 /datum/reagent/medicine/pen_acid/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	for(var/datum/reagent/R in M.reagents.reagent_list)
 		if(R != src)
 			M.reagents.remove_reagent(R.id,4)
@@ -508,7 +508,7 @@
 	taste_description = "relief"
 
 /datum/reagent/medicine/sal_acid/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(55))
 		update_flags |= M.adjustBruteLoss(-1, FALSE)
 	if(M.bodytemperature > BODYTEMP_NORMAL)
@@ -525,7 +525,7 @@
 	taste_description = "soothing"
 
 /datum/reagent/medicine/menthol/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(55))
 		update_flags |= M.adjustFireLoss(-1, FALSE)
 	if(M.bodytemperature > 280)
@@ -541,7 +541,7 @@
 	taste_description = "safety"
 
 /datum/reagent/medicine/salbutamol/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustOxyLoss(-3, FALSE)
 	M.AdjustLoseBreath(-8 SECONDS)
 	return ..() | update_flags
@@ -560,7 +560,7 @@
 	taste_description = "oxygenation"
 
 /datum/reagent/medicine/perfluorodecalin/on_mob_life(mob/living/carbon/human/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustOxyLoss(-12.5, FALSE)
 	if(volume >= 4)
 		M.LoseBreath(12 SECONDS)
@@ -584,7 +584,7 @@
 	taste_description = "stimulation"
 
 /datum/reagent/medicine/ephedrine/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustDrowsy(-10 SECONDS)
 	M.AdjustParalysis(-2 SECONDS)
 	M.AdjustStunned(-2 SECONDS)
@@ -672,7 +672,7 @@
 
 
 /datum/reagent/medicine/morphine/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustJitter(-50 SECONDS)
 	switch(current_cycle)
 		if(1 to 15)
@@ -726,7 +726,7 @@
 	taste_description = "a moment of respite"
 
 /datum/reagent/medicine/atropine/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustDizzy(2 SECONDS)
 	M.Confused(10 SECONDS)
 	if(prob(4))
@@ -755,7 +755,7 @@
 	taste_description = "borrowed time"
 
 /datum/reagent/medicine/epinephrine/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustDrowsy(-10 SECONDS)
 	if(prob(20))
 		M.AdjustParalysis(-2 SECONDS)
@@ -813,7 +813,7 @@
 	var/revive_type = SENTIENCE_ORGANIC //So you can't revive boss monsters or robots with it
 
 /datum/reagent/medicine/strange_reagent/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(10))
 		update_flags |= M.adjustBruteLoss(1, FALSE)
 		update_flags |= M.adjustToxLoss(1, FALSE)
@@ -876,7 +876,7 @@
 	taste_description = "sweetness"
 
 /datum/reagent/medicine/mannitol/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(M.getBrainLoss() <= 100)
 		update_flags |= M.adjustBrainLoss(-3, FALSE)
 	return ..() | update_flags
@@ -924,7 +924,7 @@
 	taste_description = "sobriety"
 
 /datum/reagent/medicine/antihol/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.SetSlur(0)
 	M.AdjustDrunk(-8 SECONDS)
 	M.reagents.remove_all_type(/datum/reagent/consumable/ethanol, 8, 0, 1)
@@ -942,7 +942,7 @@
 	taste_description = "<span class='userdanger'>an unstoppable force</span>"
 
 /datum/reagent/medicine/stimulants/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(volume > 5)
 		update_flags |= M.adjustOxyLoss(-2.5, FALSE)
 		update_flags |= M.adjustToxLoss(-2.5, FALSE)
@@ -980,7 +980,7 @@
 	can_synth = FALSE
 
 /datum/reagent/medicine/stimulative_agent/on_mob_life(mob/living/user)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(user.health < 50 && user.health > 0)
 		update_flags |= user.adjustOxyLoss(-2, FALSE)
 		update_flags |= user.adjustBruteLoss(-2, FALSE)
@@ -1006,7 +1006,7 @@
 
 
 /datum/reagent/medicine/stimulative_agent/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(33))
 		update_flags |= M.adjustStaminaLoss(1.25, FALSE)
 		update_flags |= M.adjustToxLoss(0.5, FALSE)
@@ -1091,7 +1091,7 @@
 	var/list/drug_list = list("crank","methamphetamine","space_drugs","psilocybin","ephedrine","epinephrine","stimulants","bath_salts","lsd","thc")
 
 /datum/reagent/medicine/haloperidol/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	for(var/I in M.reagents.reagent_list)
 		var/datum/reagent/R = I
 		if(drug_list.Find(R.id))
@@ -1118,7 +1118,7 @@
 	taste_description = "sleepiness"
 
 /datum/reagent/medicine/ether/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustJitter(-50 SECONDS)
 	switch(current_cycle)
 		if(1 to 30)
@@ -1141,7 +1141,7 @@
 	taste_description = "bodily perfection"
 
 /datum/reagent/medicine/syndicate_nanites/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustBruteLoss(-2.5, FALSE) //A ton of healing - this is a 50 telecrystal investment.
 	update_flags |= M.adjustFireLoss(-2.5, FALSE)
 	update_flags |= M.adjustOxyLoss(-7.5, FALSE)
@@ -1168,7 +1168,7 @@
 	overdose_threshold = 150
 
 /datum/reagent/medicine/omnizine_diluted/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(-0.25, FALSE)
 	update_flags |= M.adjustOxyLoss(-0.25, FALSE)
 	update_flags |= M.adjustBruteLoss(-0.25, FALSE)
@@ -1176,7 +1176,7 @@
 	return ..() | update_flags
 
 /datum/reagent/medicine/omnizine_diluted/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(0.75, FALSE)
 	update_flags |= M.adjustOxyLoss(0.75, FALSE)
 	update_flags |= M.adjustBruteLoss(0.75, FALSE)
@@ -1198,7 +1198,7 @@
 	taste_description = "overclocking"
 
 /datum/reagent/medicine/degreaser/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(50))		//Same effects as coffee, to help purge ill effects like paralysis
 		M.AdjustParalysis(-2 SECONDS)
 		M.AdjustStunned(-2 SECONDS)
@@ -1228,7 +1228,7 @@
 	taste_description = "heavy metals"
 
 /datum/reagent/medicine/liquid_solder/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustBrainLoss(-3, FALSE)
 	return ..() | update_flags
 
@@ -1243,7 +1243,7 @@
 	taste_description = "error"
 
 /datum/reagent/medicine/coolant/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.SetSlur(0)
 	M.AdjustDrunk(-8 SECONDS)
 	M.reagents.remove_all_type(/datum/reagent/consumable/ethanol/synthanol, 8, 0, 1)
@@ -1262,12 +1262,12 @@
 	taste_description = "knitting wounds"
 
 /datum/reagent/medicine/bicaridine/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustBruteLoss(-1, FALSE)
 	return ..() | update_flags
 
 /datum/reagent/medicine/bicaridine/overdose_process(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustBruteLoss(2, FALSE)
 	return list(0, update_flags)
 
@@ -1282,12 +1282,12 @@
 	taste_description = "soothed burns"
 
 /datum/reagent/medicine/kelotane/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustFireLoss(-1, FALSE)
 	return ..() | update_flags
 
 /datum/reagent/medicine/kelotane/overdose_process(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustFireLoss(2, FALSE)
 	return ..() | update_flags
 
@@ -1302,7 +1302,7 @@
 	taste_description = "a gift from nature"
 
 /datum/reagent/medicine/earthsblood/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustBruteLoss(-1.5, FALSE)
 	update_flags |= M.adjustFireLoss(-1.5, FALSE)
 	update_flags |= M.adjustOxyLoss(-7.5, FALSE)
@@ -1315,7 +1315,7 @@
 	return ..() | update_flags
 
 /datum/reagent/medicine/earthsblood/overdose_process(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustHallucinate(5 SECONDS, 0, 60 SECONDS)
 	M.last_hallucinator_log = "[name] overdose"
 	update_flags |= M.adjustToxLoss(2.5, FALSE)
@@ -1342,7 +1342,7 @@
 	var/list/stimulant_list = list("methamphetamine", "crank", "bath_salts", "stimulative_agent", "stimulants", "adrenaline")
 
 /datum/reagent/medicine/nanocalcium/on_mob_life(mob/living/carbon/human/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	var/has_stimulant = FALSE
 	for(var/I in M.reagents.reagent_list)
 		var/datum/reagent/R = I
@@ -1413,13 +1413,13 @@
 	can_synth = FALSE
 
 /datum/reagent/medicine/lavaland_extract/on_mob_life(mob/living/carbon/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustBruteLoss(-2.5, FALSE)
 	update_flags |= M.adjustFireLoss(-2.5, FALSE)
 	return ..() | update_flags
 
 /datum/reagent/medicine/lavaland_extract/overdose_process(mob/living/M) // This WILL be brutal
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustConfused(10 SECONDS)
 	update_flags |= M.adjustBruteLoss(1.5, FALSE)
 	update_flags |= M.adjustFireLoss(1.5, FALSE)
@@ -1438,7 +1438,7 @@
 	can_synth = FALSE
 
 /datum/reagent/medicine/zessulblood/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustBruteLoss(-1, FALSE)
 	update_flags |= M.adjustFireLoss(-1, FALSE)
 	return ..() | update_flags
@@ -1455,7 +1455,7 @@
 	can_synth = FALSE
 
 /datum/reagent/medicine/pure_plasma/on_mob_life(mob/living/carbon/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(isplasmaman(M))
 		if(M.bodytemperature < 310)
 			M.adjust_bodytemperature(5 * TEMPERATURE_DAMAGE_COEFFICIENT)
@@ -1498,7 +1498,7 @@
 	can_synth = FALSE
 
 /datum/reagent/medicine/adrenaline/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.setStaminaLoss(0, FALSE)
 	var/status = CANSTUN | CANWEAKEN | CANPARALYSE
 	M.status_flags &= ~status
@@ -1510,7 +1510,7 @@
 	..()
 
 /datum/reagent/medicine/adrenaline/overdose_process(mob/living/M, severity)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(10, FALSE)
 
 	return list(0, update_flags)

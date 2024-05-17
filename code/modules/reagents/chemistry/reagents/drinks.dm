@@ -9,7 +9,7 @@
 	taste_description = "orange juice"
 
 /datum/reagent/consumable/drink/orangejuice/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(30))
 		update_flags |= M.adjustOxyLoss(-0.5, FALSE)
 	return ..() | update_flags
@@ -35,7 +35,7 @@
 	taste_description = "pineapple juice"
 
 /datum/reagent/consumable/drink/tomatojuice/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(20))
 		update_flags |= M.adjustFireLoss(-1, FALSE)
 	return ..() | update_flags
@@ -51,7 +51,7 @@
 	taste_description = "lime juice"
 
 /datum/reagent/consumable/drink/limejuice/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(20))
 		update_flags |= M.adjustToxLoss(-1, FALSE)
 	return ..() | update_flags
@@ -67,7 +67,7 @@
 	taste_description = "carrot juice"
 
 /datum/reagent/consumable/drink/carrotjuice/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.AdjustEyeBlurry(-2 SECONDS)
 	M.AdjustEyeBlind(-2 SECONDS)
 	switch(current_cycle)
@@ -90,7 +90,7 @@
 	taste_description = "healthy dietary choices"
 
 /datum/reagent/consumable/drink/doctor_delight/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(20))
 		update_flags |= M.adjustToxLoss(-1, FALSE)
 	return ..() | update_flags
@@ -131,7 +131,7 @@
 	taste_description = "berry juice"
 
 /datum/reagent/consumable/drink/poisonberryjuice/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(1, FALSE)
 	return ..() | update_flags
 
@@ -177,7 +177,7 @@
 	taste_description = "banana juice"
 
 /datum/reagent/consumable/drink/banana/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if((ishuman(M) && (COMIC in M.mutations)) || issmall(M))
 		update_flags |= M.adjustBruteLoss(-1, FALSE)
 		update_flags |= M.adjustFireLoss(-1, FALSE)
@@ -193,7 +193,7 @@
 	taste_description = "nothing... how?"
 
 /datum/reagent/consumable/drink/nothing/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(ishuman(M) && M.mind && M.mind.miming)
 		update_flags |= M.adjustBruteLoss(-1, FALSE)
 		update_flags |= M.adjustFireLoss(-1, FALSE)
@@ -221,7 +221,7 @@
 	taste_description = "milk"
 
 /datum/reagent/consumable/drink/milk/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(20))
 		update_flags |= M.adjustBruteLoss(-1, FALSE)
 	if(holder.has_reagent("capsaicin"))
@@ -290,7 +290,7 @@
 	addict_supertype = /datum/reagent/consumable/drink/coffee
 
 /datum/reagent/consumable/drink/coffee/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustStaminaLoss(-1, FALSE)
 	if(holder.has_reagent("frostoil"))
 		holder.remove_reagent("frostoil", 5)
@@ -299,7 +299,7 @@
 /datum/reagent/consumable/drink/coffee/overdose_process(mob/living/M, severity)
 	if(volume > 45)
 		M.Jitter(10 SECONDS)
-	return list(0, STATUS_UPDATE_NONE)
+	return list(0, UI_UPDATE_NONE)
 
 /datum/reagent/consumable/drink/coffee/icecoffee
 	name = "Iced Coffee"
@@ -326,7 +326,7 @@
 	taste_description = "fake milky coffee"
 
 /datum/reagent/consumable/drink/coffee/soy_latte/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.SetSleeping(0)
 	if(prob(20))
 		update_flags |= M.adjustBruteLoss(-1, FALSE)
@@ -345,7 +345,7 @@
 	taste_description = "milky coffee"
 
 /datum/reagent/consumable/drink/coffee/cafe_latte/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	M.SetSleeping(0)
 	if(prob(20))
 		update_flags |= M.adjustBruteLoss(-1, FALSE)
@@ -384,7 +384,7 @@
 	addict_supertype = /datum/reagent/consumable/drink/tea
 
 /datum/reagent/consumable/drink/tea/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(prob(20))
 		update_flags |= M.adjustToxLoss(-1, FALSE)
 	return ..() | update_flags
@@ -412,7 +412,7 @@
 	taste_description = "HONK"
 
 /datum/reagent/consumable/drink/bananahonk/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if((ishuman(M) && (COMIC in M.mutations)) || issmall(M))
 		update_flags |= M.adjustBruteLoss(-1, FALSE)
 		update_flags |= M.adjustFireLoss(-1, FALSE)
@@ -429,7 +429,7 @@
 	taste_description = "mphhhh"
 
 /datum/reagent/consumable/drink/silencer/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(ishuman(M) && (M.job in list(JOB_TITLE_MIME)))
 		update_flags |= M.adjustBruteLoss(-1, FALSE)
 		update_flags |= M.adjustFireLoss(-1, FALSE)

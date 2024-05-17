@@ -465,7 +465,7 @@
 	set category = "Object"
 	set src in oview(1)
 
-	if(usr.default_can_use_topic(src) != STATUS_INTERACTIVE)
+	if(usr.default_can_use_topic(src) != UI_INTERACTIVE)
 		return
 	if(usr.incapacitated() || HAS_TRAIT(usr, TRAIT_HANDS_BLOCKED)) //are you cuffed, dying, lying, stunned or other
 		return

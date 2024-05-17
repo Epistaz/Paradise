@@ -162,7 +162,7 @@
 		fireflash(T, min(max(0, volume / 10), 8))
 
 /datum/reagent/plasma/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(0.5, FALSE)
 	if(holder.has_reagent("epinephrine"))
 		holder.remove_reagent("epinephrine", 2)
@@ -454,7 +454,7 @@
 		fireflash(T, min(max(0, volume / 10), 8))
 
 /datum/reagent/plasma_dust/on_mob_life(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	update_flags |= M.adjustToxLoss(3, FALSE)
 	if(iscarbon(M))
 		var/mob/living/carbon/C = M

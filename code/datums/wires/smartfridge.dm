@@ -10,7 +10,6 @@
 /datum/wires/smartfridge/secure
 	randomize = TRUE
 	wire_count = 4 // 3 actual, 1 dud.
-	window_y = 97
 
 /datum/wires/smartfridge/interactable(mob/user)
 	var/obj/machinery/smartfridge/S = holder

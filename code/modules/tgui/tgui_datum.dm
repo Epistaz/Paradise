@@ -231,9 +231,10 @@
 			"name" = "[user]",
 			"observer" = isobserver(user),
 		),
-		"map" = SSmapping.map_datum.technical_name,
+		"map" = "Delta",
 		"ref" = "[src.UID()]"
 	)
+	// #TODO EPI change technical_name to current_map name? tgui_datum
 	var/data = custom_data || with_data && src_object.ui_data(user)
 	if(data)
 		json_data["data"] = data

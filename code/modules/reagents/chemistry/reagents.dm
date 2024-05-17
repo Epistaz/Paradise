@@ -77,7 +77,7 @@
 	sate_addiction(M)
 
 	holder.remove_reagent(id, total_depletion_rate) //By default it slowly disappears.
-	return STATUS_UPDATE_NONE
+	return UI_UPDATE_NONE
 
 /datum/reagent/proc/handle_addiction(mob/living/M, consumption_rate)
 	if(addiction_chance && count_by_type(M.reagents.addiction_list, addict_supertype) < 1)
@@ -192,16 +192,16 @@
 // Called if the reagent has passed the overdose threshold and is set to be triggering overdose effects
 /datum/reagent/proc/overdose_process(mob/living/M, severity)
 	var/effect = rand(1, 100) - severity
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(effect <= 8)
-		update_flags |= (M.adjustToxLoss(severity, FALSE) ? STATUS_UPDATE_HEALTH : STATUS_UPDATE_NONE)
+		update_flags |= (M.adjustToxLoss(severity, FALSE) ? UI_UPDATE_HEALTH : UI_UPDATE_NONE)
 	return list(effect, update_flags)
 
 /datum/reagent/proc/overdose_start(mob/living/M)
 	return
 
 /datum/reagent/proc/addiction_act_stage1(mob/living/M)
-	return STATUS_UPDATE_NONE
+	return UI_UPDATE_NONE
 
 /datum/reagent/proc/addiction_act_stage2(mob/living/M)
 	if(minor_addiction)
@@ -215,7 +215,7 @@
 			M.emote("sneeze")
 		if(prob(4))
 			to_chat(M, "<span class='notice'>You feel a dull headache.</span>")
-	return STATUS_UPDATE_NONE
+	return UI_UPDATE_NONE
 
 /datum/reagent/proc/addiction_act_stage3(mob/living/M)
 	if(minor_addiction)
@@ -232,7 +232,7 @@
 			to_chat(M, "<span class='warning'>Your head hurts.</span>")
 		if(prob(4))
 			to_chat(M, "<span class='warning'>You begin craving [name]!</span>")
-	return STATUS_UPDATE_NONE
+	return UI_UPDATE_NONE
 
 /datum/reagent/proc/addiction_act_stage4(mob/living/M)
 	if(minor_addiction)
@@ -251,10 +251,10 @@
 			to_chat(M, "<span class='warning'>You have the strong urge for some [name]!</span>")
 		else if(prob(4))
 			to_chat(M, "<span class='warning'>You REALLY crave some [name]!</span>")
-	return STATUS_UPDATE_NONE
+	return UI_UPDATE_NONE
 
 /datum/reagent/proc/addiction_act_stage5(mob/living/M)
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 	if(minor_addiction)
 		if(prob(8))
 			to_chat(M, "<span class='notice'>You can't stop thinking about [name]...</span>")

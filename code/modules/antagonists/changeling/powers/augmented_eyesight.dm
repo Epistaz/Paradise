@@ -55,7 +55,7 @@
 	if(!QDELETED(owner))
 		return
 
-	var/update_flags = STATUS_UPDATE_NONE
+	var/update_flags = UI_UPDATE_NONE
 
 	var/obj/item/organ/internal/eyes/eyes = owner.get_int_organ(/obj/item/organ/internal/eyes)
 	if(owner.AmountBlinded() || owner.AmountEyeBlurry() || (eyes?.damage > 0))

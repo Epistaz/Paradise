@@ -184,7 +184,8 @@ GLOBAL_PROTECT(log_end)
 		messages.Add("[client.ckey]")
 	messages.Add(": [text]")
 	messages.Add("[GLOB.log_end]")
-	rustg_log_write(GLOB.tgui_log, messages.Join())
+	// #TODO epi
+	// rustg_log_write(GLOB.tgui_log, messages.Join())
 
 /proc/log_sql(text)
 	WRITE_LOG(GLOB.sql_log, "[text][GLOB.log_end]")
