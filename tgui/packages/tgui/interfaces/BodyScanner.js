@@ -1,33 +1,41 @@
-import { round } from 'common/math';
-import { Fragment } from 'inferno';
+import { round } from "common/math";
 import { useBackend } from "../backend";
-import { AnimatedNumber, Box, Button, Flex, Icon, LabeledList, ProgressBar, Section, Table, Tooltip } from "../components";
+import {
+  AnimatedNumber,
+  Box,
+  Button,
+  Icon,
+  LabeledList,
+  ProgressBar,
+  Section,
+  Stack,
+  Table,
+  Tooltip,
+} from "../components";
 import { Window } from "../layouts";
 
 const stats = [
-  ['good', 'Alive'],
-  ['average', 'Critical'],
-  ['bad', 'DEAD'],
+  ["good", "Alive"],
+  ["average", "Critical"],
+  ["bad", "DEAD"],
 ];
 
 const abnormalities = [
-  ['hasBorer', 'bad', 'Large growth detected in frontal lobe,'
-    + ' possibly cancerous. Surgical removal is recommended.'],
-  ['hasVirus', 'bad', 'Viral pathogen detected in blood stream.'],
-  ['blind', 'average', 'Cataracts detected.'],
-  ['colourblind', 'average', 'Photoreceptor abnormalities detected.'],
-  ['nearsighted', 'average', 'Retinal misalignment detected.'],
+  ["hasVirus", "bad", "Viral pathogen detected in blood stream."],
+  ["blind", "average", "Cataracts detected."],
+  ["colourblind", "average", "Photoreceptor abnormalities detected."],
+  ["nearsighted", "average", "Retinal misalignment detected."],
 ];
 
 const damages = [
-  ['Respiratory', 'oxyLoss'],
-  ['Brain', 'brainLoss'],
-  ['Toxin', 'toxLoss'],
-  ['Radioactive', 'radLoss'],
-  ['Brute', 'bruteLoss'],
-  ['Genetic', 'cloneLoss'],
-  ['Burn', 'fireLoss'],
-  ['Paralysis', 'paralysis'],
+  ["Respiratory", "oxyLoss"],
+  ["Brain", "brainLoss"],
+  ["Toxin", "toxLoss"],
+  ["Radiation", "radLoss"],
+  ["Brute", "bruteLoss"],
+  ["Cellular", "cloneLoss"],
+  ["Burn", "fireLoss"],
+  ["Inebriation", "drunkenness"],
 ];
 
 const damageRange = {
@@ -43,30 +51,43 @@ const mapTwoByTwo = (a, c) => {
   return result;
 };
 
-const reduceOrganStatus = A => {
+const reduceOrganStatus = (A) => {
   return A.length > 0
-    ? A
-      .filter(s => !!s)
-      .reduce((a, s) => (
-        <Fragment>
-          {a}
-          <Box key={s}>
-            {s}
-          </Box>
-        </Fragment>
-      ), null)
+    ? A.filter((s) => !!s).reduce(
+        (a, s) => (
+          <>
+            {a}
+            <Box key={s}>{s}</Box>
+          </>
+        ),
+        null,
+      )
     : null;
 };
 
-const germStatus = i => {
+const germStatus = (i) => {
   if (i > 100) {
-    if (i < 300) { return "mild infection"; }
-    if (i < 400) { return "mild infection+"; }
-    if (i < 500) { return "mild infection++"; }
-    if (i < 700) { return "acute infection"; }
-    if (i < 800) { return "acute infection+"; }
-    if (i < 900) { return "acute infection++"; }
-    if (i >= 900) { return "septic"; }
+    if (i < 300) {
+      return "mild infection";
+    }
+    if (i < 400) {
+      return "mild infection+";
+    }
+    if (i < 500) {
+      return "mild infection++";
+    }
+    if (i < 700) {
+      return "acute infection";
+    }
+    if (i < 800) {
+      return "acute infection+";
+    }
+    if (i < 900) {
+      return "acute infection++";
+    }
+    if (i >= 900) {
+      return "septic";
+    }
   }
 
   return "";
@@ -74,28 +95,21 @@ const germStatus = i => {
 
 export const BodyScanner = (props, context) => {
   const { data } = useBackend(context);
-  const {
-    occupied,
-    occupant = {},
-  } = data;
+  const { occupied, occupant = {} } = data;
   const body = occupied ? (
     <BodyScannerMain occupant={occupant} />
   ) : (
     <BodyScannerEmpty />
   );
   return (
-    <Window resizable>
-      <Window.Content scrollable className="Layout__content--flexColumn">
-        {body}
-      </Window.Content>
+    <Window width={690} height={600}>
+      <Window.Content scrollable>{body}</Window.Content>
     </Window>
   );
 };
 
-const BodyScannerMain = props => {
-  const {
-    occupant,
-  } = props;
+const BodyScannerMain = (props) => {
+  const { occupant } = props;
   return (
     <Box>
       <BodyScannerMainOccupant occupant={occupant} />
@@ -109,30 +123,23 @@ const BodyScannerMain = props => {
 
 const BodyScannerMainOccupant = (props, context) => {
   const { act, data } = useBackend(context);
-  const {
-    occupant,
-  } = data;
+  const { occupant } = data;
   return (
     <Section
       title="Occupant"
-      buttons={(
-        <Fragment>
-          <Button
-            icon="print"
-            onClick={() => act('print_p')}>
+      buttons={
+        <>
+          <Button icon="print" onClick={() => act("print_p")}>
             Print Report
           </Button>
-          <Button
-            icon="user-slash"
-            onClick={() => act('ejectify')}>
+          <Button icon="user-slash" onClick={() => act("ejectify")}>
             Eject
           </Button>
-        </Fragment>
-      )}>
+        </>
+      }
+    >
       <LabeledList>
-        <LabeledList.Item label="Name">
-          {occupant.name}
-        </LabeledList.Item>
+        <LabeledList.Item label="Name">{occupant.name}</LabeledList.Item>
         <LabeledList.Item label="Health">
           <ProgressBar
             min="0"
@@ -149,22 +156,16 @@ const BodyScannerMainOccupant = (props, context) => {
           {stats[occupant.stat][1]}
         </LabeledList.Item>
         <LabeledList.Item label="Temperature">
-          <AnimatedNumber
-            value={round(occupant.bodyTempC, 0)}
-          />&deg;C,&nbsp;
-          <AnimatedNumber
-            value={round(occupant.bodyTempF, 0)}
-          />&deg;F
+          <AnimatedNumber value={round(occupant.bodyTempC, 0)} />
+          &deg;C,&nbsp;
+          <AnimatedNumber value={round(occupant.bodyTempF, 0)} />
+          &deg;F
         </LabeledList.Item>
         <LabeledList.Item label="Implants">
           {occupant.implant_len ? (
-            <Box>
-              {occupant.implant.map(im => im.name).join(', ')}
-            </Box>
+            <Box>{occupant.implant.map((im) => im.name).join(", ")}</Box>
           ) : (
-            <Box color="label">
-              None
-            </Box>
+            <Box color="label">None</Box>
           )}
         </LabeledList.Item>
       </LabeledList>
@@ -172,18 +173,20 @@ const BodyScannerMainOccupant = (props, context) => {
   );
 };
 
-const BodyScannerMainAbnormalities = props => {
-  const {
-    occupant,
-  } = props;
-  if (!(occupant.hasBorer || occupant.blind
-        || occupant.colourblind || occupant.nearsighted
-        || occupant.hasVirus)) {
+const BodyScannerMainAbnormalities = (props) => {
+  const { occupant } = props;
+  if (
+    !(
+      occupant.hasBorer ||
+      occupant.blind ||
+      occupant.colourblind ||
+      occupant.nearsighted ||
+      occupant.hasVirus
+    )
+  ) {
     return (
       <Section title="Abnormalities">
-        <Box color="label">
-          No abnormalities found.
-        </Box>
+        <Box color="label">No abnormalities found.</Box>
       </Section>
     );
   }
@@ -193,7 +196,7 @@ const BodyScannerMainAbnormalities = props => {
       {abnormalities.map((a, i) => {
         if (occupant[a[0]]) {
           return (
-            <Box key={i} color={a[1]} bold={a[1] === "bad"}>
+            <Box key={a[2]} color={a[1]} bold={a[1] === "bad"}>
               {a[2]}
             </Box>
           );
@@ -203,44 +206,36 @@ const BodyScannerMainAbnormalities = props => {
   );
 };
 
-const BodyScannerMainDamage = props => {
-  const {
-    occupant,
-  } = props;
+const BodyScannerMainDamage = (props) => {
+  const { occupant } = props;
   return (
     <Section title="Damage">
       <Table>
         {mapTwoByTwo(damages, (d1, d2, i) => (
-          <Fragment>
+          <>
             <Table.Row color="label">
-              <Table.Cell>
-                {d1[0]}:
-              </Table.Cell>
-              <Table.Cell>
-                {!!d2 && d2[0] + ":"}
-              </Table.Cell>
+              <Table.Cell>{d1[0]}:</Table.Cell>
+              <Table.Cell>{!!d2 && d2[0] + ":"}</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>
                 <BodyScannerMainDamageBar
                   value={occupant[d1[1]]}
-                  marginBottom={i < (damages.length - 2)}
+                  marginBottom={i < damages.length - 2}
                 />
               </Table.Cell>
               <Table.Cell>
-                {!!d2 && (
-                  <BodyScannerMainDamageBar value={occupant[d2[1]]} />
-                )}
+                {!!d2 && <BodyScannerMainDamageBar value={occupant[d2[1]]} />}
               </Table.Cell>
             </Table.Row>
-          </Fragment>
+          </>
         ))}
       </Table>
     </Section>
   );
 };
 
-const BodyScannerMainDamageBar = props => {
+const BodyScannerMainDamageBar = (props) => {
   return (
     <ProgressBar
       min="0"
@@ -248,19 +243,18 @@ const BodyScannerMainDamageBar = props => {
       value={props.value / 100}
       mt="0.5rem"
       mb={!!props.marginBottom && "0.5rem"}
-      ranges={damageRange}>
+      ranges={damageRange}
+    >
       {round(props.value, 0)}
     </ProgressBar>
   );
 };
 
-const BodyScannerMainOrgansExternal = props => {
+const BodyScannerMainOrgansExternal = (props) => {
   if (props.organs.length === 0) {
     return (
       <Section title="External Organs">
-        <Box color="label">
-          N/A
-        </Box>
+        <Box color="label">N/A</Box>
       </Section>
     );
   }
@@ -269,25 +263,26 @@ const BodyScannerMainOrgansExternal = props => {
     <Section title="External Organs">
       <Table>
         <Table.Row header>
-          <Table.Cell>
-            Name
-          </Table.Cell>
-          <Table.Cell textAlign="center">
-            Damage
-          </Table.Cell>
-          <Table.Cell textAlign="right">
-            Injuries
-          </Table.Cell>
+          <Table.Cell>Name</Table.Cell>
+          <Table.Cell textAlign="center">Damage</Table.Cell>
+          <Table.Cell textAlign="right">Injuries</Table.Cell>
         </Table.Row>
         {props.organs.map((o, i) => (
           <Table.Row key={i} textTransform="capitalize">
             <Table.Cell
               color={
-                !!o.status.dead && "bad"
-                || ((!!o.internalBleeding || !!o.lungRuptured || !!o.status.broken || !!o.open || o.germ_level > 100) && "average")
-                || (!!o.status.robotic && "label")
+                (!!o.status.dead && "bad") ||
+                ((!!o.internalBleeding ||
+                  !!o.burnWound ||
+                  !!o.lungRuptured ||
+                  !!o.status.broken ||
+                  !!o.open ||
+                  o.germ_level > 100) &&
+                  "average") ||
+                (!!o.status.robotic && "label")
               }
-              width="33%">
+              width="33%"
+            >
               {o.name}
             </Table.Cell>
             <Table.Cell textAlign="center" q>
@@ -296,57 +291,58 @@ const BodyScannerMainOrgansExternal = props => {
                 max={o.maxHealth}
                 mt={i > 0 && "0.5rem"}
                 value={o.totalLoss / o.maxHealth}
-                ranges={damageRange}>
-                <Box float="left" display="inline">
+                ranges={damageRange}
+              >
+                <Box float="left" inline>
                   {!!o.bruteLoss && (
-                    <Box display="inline" position="relative">
-                      <Icon name="bone" />
-                      {round(o.bruteLoss, 0)}&nbsp;
-                      <Tooltip
-                        position="top"
-                        content="Brute damage"
-                      />
-                    </Box>)}
+                    <Tooltip position="top" content="Brute damage">
+                      <Box inline position="relative">
+                        <Icon name="bone" />
+                        {round(o.bruteLoss, 0)}&nbsp;
+                      </Box>
+                    </Tooltip>
+                  )}
                   {!!o.fireLoss && (
-                    <Box display="inline" position="relative">
-                      <Icon name="fire" />
-                      {round(o.fireLoss, 0)}
-                      <Tooltip
-                        position="top"
-                        content="Burn damage"
-                      />
-                    </Box>)}
+                    <Tooltip position="top" content="Burn damage">
+                      <Box inline position="relative">
+                        <Icon name="fire" />
+                        {round(o.fireLoss, 0)}
+                      </Box>
+                    </Tooltip>
+                  )}
                 </Box>
-                <Box display="inline">
-                  {round(o.totalLoss, 0)}
-                </Box>
+                <Box inline>{round(o.totalLoss, 0)}</Box>
               </ProgressBar>
             </Table.Cell>
             <Table.Cell
               textAlign="right"
               verticalAlign="top"
               width="33%"
-              pt={i > 0 && "calc(0.5rem + 2px)"}>
-              <Box color="average" display="inline">
+              pt={i > 0 && "calc(0.5rem + 2px)"}
+            >
+              <Box color="average" inline>
                 {reduceOrganStatus([
                   !!o.internalBleeding && "Internal bleeding",
+                  !!o.burnWound && "Critical tissue burns",
                   !!o.lungRuptured && "Ruptured lung",
                   !!o.status.broken && o.status.broken,
                   germStatus(o.germ_level),
                   !!o.open && "Open incision",
                 ])}
               </Box>
-              <Box display="inline">
+              <Box inline>
                 {reduceOrganStatus([
                   !!o.status.splinted && <Box color="good">Splinted</Box>,
                   !!o.status.robotic && <Box color="label">Robotic</Box>,
-                  !!o.status.dead && <Box color="bad" bold>DEAD</Box>,
+                  !!o.status.dead && (
+                    <Box color="bad" bold>
+                      DEAD
+                    </Box>
+                  ),
                 ])}
-                {reduceOrganStatus(o.shrapnel.map(
-                  s => s.known
-                    ? s.name
-                    : "Unknown object"
-                ))}
+                {reduceOrganStatus(
+                  o.shrapnel.map((s) => (s.known ? s.name : "Unknown object")),
+                )}
               </Box>
             </Table.Cell>
           </Table.Row>
@@ -356,13 +352,11 @@ const BodyScannerMainOrgansExternal = props => {
   );
 };
 
-const BodyScannerMainOrgansInternal = props => {
+const BodyScannerMainOrgansInternal = (props) => {
   if (props.organs.length === 0) {
     return (
       <Section title="Internal Organs">
-        <Box color="label">
-          N/A
-        </Box>
+        <Box color="label">N/A</Box>
       </Section>
     );
   }
@@ -371,25 +365,20 @@ const BodyScannerMainOrgansInternal = props => {
     <Section title="Internal Organs">
       <Table>
         <Table.Row header>
-          <Table.Cell>
-            Name
-          </Table.Cell>
-          <Table.Cell textAlign="center">
-            Damage
-          </Table.Cell>
-          <Table.Cell textAlign="right">
-            Injuries
-          </Table.Cell>
+          <Table.Cell>Name</Table.Cell>
+          <Table.Cell textAlign="center">Damage</Table.Cell>
+          <Table.Cell textAlign="right">Injuries</Table.Cell>
         </Table.Row>
         {props.organs.map((o, i) => (
           <Table.Row key={i} textTransform="capitalize">
             <Table.Cell
               color={
-                !!o.dead && "bad"
-                || (o.germ_level > 100 && "average")
-                || (o.robotic > 0 && "label")
+                (!!o.dead && "bad") ||
+                (o.germ_level > 100 && "average") ||
+                (o.robotic > 0 && "label")
               }
-              width="33%">
+              width="33%"
+            >
               {o.name}
             </Table.Cell>
             <Table.Cell textAlign="center">
@@ -398,7 +387,8 @@ const BodyScannerMainOrgansInternal = props => {
                 max={o.maxHealth}
                 value={o.damage / o.maxHealth}
                 mt={i > 0 && "0.5rem"}
-                ranges={damageRange}>
+                ranges={damageRange}
+              >
                 {round(o.damage, 0)}
               </ProgressBar>
             </Table.Cell>
@@ -406,17 +396,20 @@ const BodyScannerMainOrgansInternal = props => {
               textAlign="right"
               verticalAlign="top"
               width="33%"
-              pt={i > 0 && "calc(0.5rem + 2px)"}>
-              <Box color="average" display="inline">
-                {reduceOrganStatus([
-                  germStatus(o.germ_level),
-                ])}
+              pt={i > 0 && "calc(0.5rem + 2px)"}
+            >
+              <Box color="average" inline>
+                {reduceOrganStatus([germStatus(o.germ_level)])}
               </Box>
-              <Box display="inline">
+              <Box inline>
                 {reduceOrganStatus([
-                  (o.robotic === 1) && <Box color="label">Robotic</Box>,
-                  (o.robotic === 2) && <Box color="label">Assisted</Box>,
-                  !!o.dead && <Box color="bad" bold>DEAD</Box>,
+                  o.robotic === 1 && <Box color="label">Robotic</Box>,
+                  o.robotic === 2 && <Box color="label">Assisted</Box>,
+                  !!o.dead && (
+                    <Box color="bad" bold>
+                      DEAD
+                    </Box>
+                  ),
                 ])}
               </Box>
             </Table.Cell>
@@ -429,17 +422,14 @@ const BodyScannerMainOrgansInternal = props => {
 
 const BodyScannerEmpty = () => {
   return (
-    <Section textAlign="center" flexGrow="1">
-      <Flex height="100%">
-        <Flex.Item grow="1" align="center" color="label">
-          <Icon
-            name="user-slash"
-            mb="0.5rem"
-            size="5"
-          /><br />
+    <Section fill>
+      <Stack fill textAlign="center">
+        <Stack.Item grow align="center" color="label">
+          <Icon name="user-slash" mb="0.5rem" size="5" />
+          <br />
           No occupant detected.
-        </Flex.Item>
-      </Flex>
+        </Stack.Item>
+      </Stack>
     </Section>
   );
 };

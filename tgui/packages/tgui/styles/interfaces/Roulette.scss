@@ -1,4 +1,5 @@
-@use '../colors.scss';
+@use "../base.scss";
+@use "../colors.scss";
 
 .Roulette {
   font-family: Palatino;
@@ -41,7 +42,7 @@
   border: none !important;
   margin: 0 !important;
   padding-top: 4px !important;
-  color: #FFFFFF !important;
+  color: #ffffff !important;
 }
 
 .Roulette__lowertable {

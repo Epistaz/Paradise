@@ -42,8 +42,8 @@ module.exports = (env = {}, argv) => {
     },
     output: {
       path: argv.useTmpFolder
-        ? path.resolve(__dirname, './public/.tmp')
-        : path.resolve(__dirname, './public'),
+      ? path.resolve(__dirname, './public/.tmp')
+      : path.resolve(__dirname, './public'),
       filename: '[name].bundle.js',
       chunkFilename: '[name].bundle.js',
       chunkLoadTimeout: 15000,

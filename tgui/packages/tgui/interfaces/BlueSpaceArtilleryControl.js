@@ -25,9 +25,9 @@ export const BlueSpaceArtilleryControl = (props, context) => {
     );
   }
   return (
-    <Window>
+    <Window width={400} height={125}>
       <Window.Content>
-        <Section>
+        <Section fill>
           <LabeledList>
             {data.notice && (
               <LabeledList.Item label="Alert" color="red">
@@ -39,7 +39,8 @@ export const BlueSpaceArtilleryControl = (props, context) => {
               <Button
                 icon="crosshairs"
                 content={data.target ? data.target : "None"}
-                onClick={() => act("recalibrate")} />
+                onClick={() => act("recalibrate")}
+              />
             </LabeledList.Item>
             {data.ready === 1 && !!data.target && (
               <LabeledList.Item label="Firing">
@@ -47,7 +48,8 @@ export const BlueSpaceArtilleryControl = (props, context) => {
                   icon="skull"
                   content="FIRE!"
                   color="red"
-                  onClick={() => act("fire")} />
+                  onClick={() => act("fire")}
+                />
               </LabeledList.Item>
             )}
             {!data.connected && (
@@ -55,7 +57,8 @@ export const BlueSpaceArtilleryControl = (props, context) => {
                 <Button
                   icon="wrench"
                   content="Complete Deployment"
-                  onClick={() => act("build")} />
+                  onClick={() => act("build")}
+                />
               </LabeledList.Item>
             )}
           </LabeledList>

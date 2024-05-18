@@ -1,16 +1,21 @@
-import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from "../backend";
-import { Button, LabeledList, Box, Section, NoticeBox, Tabs, Icon, Table } from "../components";
+import {
+  Button,
+  LabeledList,
+  Box,
+  Section,
+  NoticeBox,
+  Tabs,
+  Table,
+} from "../components";
 import { Window } from "../layouts";
 
 export const TcommsCore = (props, context) => {
   const { act, data } = useBackend(context);
-  const {
-    ion,
-  } = data;
-  const [tabIndex, setTabIndex] = useLocalState(context, 'tabIndex', 0);
+  const { ion } = data;
+  const [tabIndex, setTabIndex] = useLocalState(context, "tabIndex", 0);
 
-  const PickTab = index => {
+  const PickTab = (index) => {
     switch (index) {
       case 0:
         return <ConfigPage />;
@@ -24,29 +29,33 @@ export const TcommsCore = (props, context) => {
   };
 
   return (
-    <Window resizable>
+    <Window width={900} height={520}>
       <Window.Content scrollable>
-        {ion === 1 && (
-          <IonBanner />
-        )}
+        {ion === 1 && <IonBanner />}
         <Tabs>
           <Tabs.Tab
             key="ConfigPage"
+            icon="wrench"
             selected={tabIndex === 0}
-            onClick={() => setTabIndex(0)}>
-            <Icon name="wrench" />Configuration
+            onClick={() => setTabIndex(0)}
+          >
+            Configuration
           </Tabs.Tab>
           <Tabs.Tab
             key="LinkagePage"
+            icon="link"
             selected={tabIndex === 1}
-            onClick={() => setTabIndex(1)}>
-            <Icon name="link" />Device Linkage
+            onClick={() => setTabIndex(1)}
+          >
+            Device Linkage
           </Tabs.Tab>
           <Tabs.Tab
             key="FilterPage"
+            icon="user-times"
             selected={tabIndex === 2}
-            onClick={() => setTabIndex(2)}>
-            <Icon name="user-times" />User Filtering
+            onClick={() => setTabIndex(2)}
+          >
+            User Filtering
           </Tabs.Tab>
         </Tabs>
         {PickTab(tabIndex)}
@@ -61,9 +70,8 @@ const IonBanner = () => {
   // the 80 char line limit
   return (
     <NoticeBox>
-      ERROR: An Ionospheric overload has occured.
-      Please wait for the machine to reboot.
-      This cannot be manually done.
+      ERROR: An Ionospheric overload has occured. Please wait for the machine to
+      reboot. This cannot be manually done.
     </NoticeBox>
   );
 };
@@ -82,7 +90,7 @@ const ConfigPage = (_properties, context) => {
     network_id,
   } = data;
   return (
-    <Fragment>
+    <>
       <Section title="Status">
         <LabeledList>
           <LabeledList.Item label="Machine Power">
@@ -179,16 +187,13 @@ const ConfigPage = (_properties, context) => {
           onClick={() => act("export")}
         />
       </Section>
-    </Fragment>
+    </>
   );
 };
 
 const LinkagePage = (_properties, context) => {
   const { act, data } = useBackend(context);
-  const {
-    link_password,
-    relay_entries,
-  } = data;
+  const { link_password, relay_entries } = data;
   return (
     <Section title="Device Linkage">
       <LabeledList>
@@ -204,51 +209,33 @@ const LinkagePage = (_properties, context) => {
 
       <Table m="0.5rem">
         <Table.Row header>
-          <Table.Cell>
-            Network Address
-          </Table.Cell>
-          <Table.Cell>
-            Network ID
-          </Table.Cell>
-          <Table.Cell>
-            Sector
-          </Table.Cell>
-          <Table.Cell>
-            Status
-          </Table.Cell>
-          <Table.Cell>
-            Unlink
-          </Table.Cell>
+          <Table.Cell>Network Address</Table.Cell>
+          <Table.Cell>Network ID</Table.Cell>
+          <Table.Cell>Sector</Table.Cell>
+          <Table.Cell>Status</Table.Cell>
+          <Table.Cell>Unlink</Table.Cell>
         </Table.Row>
-        {relay_entries.map(r => (
+        {relay_entries.map((r) => (
           <Table.Row key={r.addr}>
-            <Table.Cell>
-              {r.addr}
-            </Table.Cell>
-            <Table.Cell>
-              {r.net_id}
-            </Table.Cell>
-            <Table.Cell>
-              {r.sector}
-            </Table.Cell>
+            <Table.Cell>{r.addr}</Table.Cell>
+            <Table.Cell>{r.net_id}</Table.Cell>
+            <Table.Cell>{r.sector}</Table.Cell>
             <Table.Cell>
               {r.status === 1 ? (
-                <Box color="green">
-                  Online
-                </Box>
+                <Box color="green">Online</Box>
               ) : (
-                <Box color="red">
-                  Offline
-                </Box>
+                <Box color="red">Offline</Box>
               )}
             </Table.Cell>
             <Table.Cell>
               <Button
                 content="Unlink"
                 icon="unlink"
-                onClick={() => act("unlink", {
-                  addr: r.addr,
-                })}
+                onClick={() =>
+                  act("unlink", {
+                    addr: r.addr,
+                  })
+                }
               />
             </Table.Cell>
           </Table.Row>
@@ -260,9 +247,7 @@ const LinkagePage = (_properties, context) => {
 
 const FilteringPage = (_properties, context) => {
   const { act, data } = useBackend(context);
-  const {
-    filtered_users,
-  } = data;
+  const { filtered_users } = data;
   return (
     <Section
       title="User Filtering"
@@ -272,28 +257,25 @@ const FilteringPage = (_properties, context) => {
           icon="user-plus"
           onClick={() => act("add_filter")}
         />
-      }>
+      }
+    >
       <Table m="0.5rem">
         <Table.Row header>
-          <Table.Cell style={{ width: "90%" }}>
-            User
-          </Table.Cell>
-          <Table.Cell style={{ width: "10%" }}>
-            Actions
-          </Table.Cell>
+          <Table.Cell style={{ width: "90%" }}>User</Table.Cell>
+          <Table.Cell style={{ width: "10%" }}>Actions</Table.Cell>
         </Table.Row>
-        {filtered_users.map(u => (
+        {filtered_users.map((u) => (
           <Table.Row key={u}>
-            <Table.Cell>
-              {u}
-            </Table.Cell>
+            <Table.Cell>{u}</Table.Cell>
             <Table.Cell>
               <Button
                 content="Remove"
                 icon="user-times"
-                onClick={() => act("remove_filter", {
-                  user: u,
-                })}
+                onClick={() =>
+                  act("remove_filter", {
+                    user: u,
+                  })
+                }
               />
             </Table.Cell>
           </Table.Row>

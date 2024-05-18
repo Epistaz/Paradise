@@ -7,11 +7,8 @@ export const pai_camera_bug = (props, context) => {
   return (
     <LabeledList>
       <LabeledList.Item label="Special Syndicate options">
-        <Button
-          content="Select Monitor"
-          onClick={() => act('ui_interact')} />
+        <Button content="Select Monitor" onClick={() => act("ui_interact")} />
       </LabeledList.Item>
     </LabeledList>
   );
-
 };

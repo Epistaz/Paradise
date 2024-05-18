@@ -1,20 +1,24 @@
-import { useBackend, useLocalState } from '../backend';
-import { Button, LabeledList, Section, Table, Dropdown, Flex, Icon, Box } from '../components';
-import { Window } from '../layouts';
+import { useBackend, useLocalState } from "../backend";
+import {
+  Button,
+  LabeledList,
+  Section,
+  Table,
+  Dropdown,
+  Flex,
+  Icon,
+  Box,
+} from "../components";
+import { Window } from "../layouts";
 
 const SelectableTile = (props, context) => {
   const { act, data } = useBackend(context);
-  const {
-    image,
-    isSelected,
-    onSelect,
-  } = props;
+  const { image, isSelected, onSelect } = props;
   return (
     <img
       src={`data:image/jpeg;base64,${image}`}
       style={{
-        "border-style":
-          (isSelected && "solid") || "none",
+        "border-style": (isSelected && "solid") || "none",
         "border-width": "2px",
         "border-color": "orange",
         padding: (isSelected && "2px") || "4px",
@@ -34,10 +38,9 @@ export const FloorPainter = (props, context) => {
     allStylesPreview,
   } = data;
   return (
-    <Window resizable>
+    <Window width={405} height={475}>
       <Window.Content scrollable>
         <Section title="Decal setup">
-
           <Flex>
             <Flex.Item>
               <Button
@@ -53,8 +56,8 @@ export const FloorPainter = (props, context) => {
                 height="20px"
                 ml="2px"
                 mr="2px"
-                nochevron="true"
-                onSelected={val => act("select_style", { style: val })}
+                nochevron
+                onSelected={(val) => act("select_style", { style: val })}
               />
             </Flex.Item>
             <Flex.Item>
@@ -69,12 +72,13 @@ export const FloorPainter = (props, context) => {
             <Flex
               overflowY="auto" // scroll
               maxHeight="220px" // a bit more than half of all tiles fit in this box at once.
-              wrap="wrap">
-              {availableStyles.map(style => (
-                <Flex.Item key="{style}" >
+              wrap="wrap"
+            >
+              {availableStyles.map((style) => (
+                <Flex.Item key="{style}">
                   <SelectableTile
                     image={allStylesPreview[style]}
-                    isSelected={selectedStyle===style}
+                    isSelected={selectedStyle === style}
                     onSelect={() => act("select_style", { style: style })}
                   />
                 </Flex.Item>
@@ -85,29 +89,36 @@ export const FloorPainter = (props, context) => {
           <LabeledList>
             <LabeledList.Item label="Direction">
               <Table style={{ display: "inline" }}>
-                {["north", "", "south"].map(latitude => (
+                {["north", "", "south"].map((latitude) => (
                   <Table.Row key={latitude}>
                     {[latitude + "west", latitude, latitude + "east"].map(
-                      dir => (
-                        <Table.Cell key={dir} style={{ "vertical-align": "middle", "text-align": "center" }}>
+                      (dir) => (
+                        <Table.Cell
+                          key={dir}
+                          style={{
+                            "vertical-align": "middle",
+                            "text-align": "center",
+                          }}
+                        >
                           {dir === "" ? (
                             <Icon name="arrows-alt" size={3} />
                           ) : (
                             <SelectableTile
                               image={directionsPreview[dir]}
-                              isSelected={dir===selectedDir}
-                              onSelect={() => act("select_direction", { direction: dir })}
+                              isSelected={dir === selectedDir}
+                              onSelect={() =>
+                                act("select_direction", { direction: dir })
+                              }
                             />
                           )}
                         </Table.Cell>
-                      )
+                      ),
                     )}
                   </Table.Row>
                 ))}
               </Table>
             </LabeledList.Item>
           </LabeledList>
-
         </Section>
       </Window.Content>
     </Window>

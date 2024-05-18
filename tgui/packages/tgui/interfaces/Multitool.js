@@ -1,7 +1,16 @@
-import { toFixed } from 'common/math';
-import { useBackend } from '../backend';
-import { Box, Button, Flex, NumberInput, Fragment, Section, Icon, Divider } from '../components';
-import { Window } from '../layouts';
+import { toFixed } from "common/math";
+import { useBackend } from "../backend";
+import {
+  Box,
+  Button,
+  Flex,
+  NumberInput,
+  Fragment,
+  Section,
+  Icon,
+  Divider,
+} from "../components";
+import { Window } from "../layouts";
 
 export const Multitool = (props, context) => {
   const { act, data } = useBackend(context);
@@ -17,7 +26,7 @@ export const Multitool = (props, context) => {
 
   const addableToBuffer = !(multitoolMenuId === "default_no_machine");
 
-  const decideTabConfigurationMenu = menuID => {
+  const decideTabConfigurationMenu = (menuID) => {
     switch (menuID) {
       case "default_no_machine":
         return <DefaultMtoolMenu />;
@@ -67,9 +76,7 @@ export const Multitool = (props, context) => {
   return (
     <Window resizable>
       <Window.Content>
-        <Flex
-          direction="column"
-          height="100%">
+        <Flex direction="column" height="100%">
           <Flex.Item
             style={{
               "overflow-x": "hidden",
@@ -77,10 +84,9 @@ export const Multitool = (props, context) => {
             }}
             grow={1}
             shrink={1}
-            basis={0}>
-            <Section 
-              title="Configuration menu"
-              py={0.3}>
+            basis={0}
+          >
+            <Section title="Configuration menu" py={0.3}>
               <MachineName
                 iconName="tools"
                 machineName={attachedName}
@@ -90,14 +96,10 @@ export const Multitool = (props, context) => {
               {decideTabConfigurationMenu(multitoolMenuId)}
             </Section>
           </Flex.Item>
-          <Flex.Item
-            grow={0}
-            shrink={0}>
+          <Flex.Item grow={0} shrink={0}>
             <Divider />
           </Flex.Item>
-          <Flex.Item
-            grow={0}
-            shrink={0}>
+          <Flex.Item grow={0} shrink={0}>
             <Section
               title="Multitool buffer"
               mb={0.9}
@@ -105,10 +107,12 @@ export const Multitool = (props, context) => {
               buttons={
                 <Fragment>
                   <Button
-                    content={isAttachedAlreadyInBuffer ? "Added" : "Add machine"}
+                    content={
+                      isAttachedAlreadyInBuffer ? "Added" : "Add machine"
+                    }
                     icon="save"
                     disabled={!addableToBuffer || isAttachedAlreadyInBuffer}
-                    onClick={() => act('buffer_add')}
+                    onClick={() => act("buffer_add")}
                   />
                   <Button
                     mr={1}
@@ -116,24 +120,23 @@ export const Multitool = (props, context) => {
                     icon="times-circle"
                     color="red"
                     disabled={!buffer}
-                    onClick={() => act('buffer_flush')}
+                    onClick={() => act("buffer_flush")}
                   />
                 </Fragment>
-              }>
+              }
+            >
               <MachineName
                 iconName="tools"
                 machineName={bufferName}
                 noMachine={!buffer}
-                noMachineElem={
-                  <BoxNoData text={"<empty>"} />
-                }
+                noMachineElem={<BoxNoData text={"<empty>"} />}
               />
               {!!buffer && (
                 <LabeledListOneItem
                   mt={1.1}
                   label="ID tag"
                   compactLabel
-                  wrapContent={(
+                  wrapContent={
                     canBufferHaveTag ? (
                       <TextOrDefault
                         text={bufferTag}
@@ -146,11 +149,12 @@ export const Multitool = (props, context) => {
                         fontSize="0.9rem"
                         color="red"
                         italic
-                        nowrap>
+                        nowrap
+                      >
                         Not supported
                       </Box>
                     )
-                  )}
+                  }
                 />
               )}
             </Section>
@@ -162,117 +166,69 @@ export const Multitool = (props, context) => {
 };
 
 const MachineName = (props, context) => {
-  const {
-    iconName,
-    machineName,
-    noMachine,
-    noMachineText,
-    noMachineElem,
-  } = props;
+  const { iconName, machineName, noMachine, noMachineText, noMachineElem } =
+    props;
 
   const defaultName = "Unknown machine";
 
-  const nameDisplayed = (
-    noMachine
-      ? noMachineText
-      : machineName
-        ? machineName
-        : "Unknown machine"
-  );
+  const nameDisplayed = noMachine
+    ? noMachineText
+    : machineName
+      ? machineName
+      : "Unknown machine";
 
-  const nameColorDifference = (
-    nameDisplayed === noMachineText
-  );
-  const nameFontDifference = (
-    nameDisplayed === noMachineText
-    || nameDisplayed === defaultName
-  );
-  
-  return (
-    (noMachine && noMachineElem) ? (
-      noMachineElem
-    ) : (
-      <Flex 
-        mt={0.1}
-        mb={1.9}>
-        {!noMachine && (
-          <Flex.Item
-            grow={0}
-            shrink={0}
-            align="center">
-            <Icon
-              mr={1}
-              size={1.1}
-              name={iconName}
-            />
-          </Flex.Item>
-        )}
-        <Flex.Item
-          grow={1}
-          shrink={1}
-          basis={0}
-          wordWrap="break-word">
-          <Box
-            as="span"
-            wordWrap="break-word"
-            color={nameColorDifference ? "label" : "silver"}
-            fontSize="1.1rem"
-            bold
-            italic={nameFontDifference}>
-            {nameDisplayed}
-          </Box>
+  const nameColorDifference = nameDisplayed === noMachineText;
+  const nameFontDifference =
+    nameDisplayed === noMachineText || nameDisplayed === defaultName;
+
+  return noMachine && noMachineElem ? (
+    noMachineElem
+  ) : (
+    <Flex mt={0.1} mb={1.9}>
+      {!noMachine && (
+        <Flex.Item grow={0} shrink={0} align="center">
+          <Icon mr={1} size={1.1} name={iconName} />
         </Flex.Item>
-      </Flex>
-    )
+      )}
+      <Flex.Item grow={1} shrink={1} basis={0} wordWrap="break-word">
+        <Box
+          as="span"
+          wordWrap="break-word"
+          color={nameColorDifference ? "label" : "silver"}
+          fontSize="1.1rem"
+          bold
+          italic={nameFontDifference}
+        >
+          {nameDisplayed}
+        </Box>
+      </Flex.Item>
+    </Flex>
   );
 };
 
 const BoxNoData = (props, context) => {
-  const {
-    text,
-  } = props;
+  const { text } = props;
   return (
-    <Box
-      as="span"
-      fontSize="0.9rem"
-      color="yellow"
-      italic
-      nowrap>
+    <Box as="span" fontSize="0.9rem" color="yellow" italic nowrap>
       {text}
     </Box>
   );
 };
 
 const TextOrDefault = (props, context) => {
-  const {
-    text,
-    defaultText,
-    ...rest
-  } = props;
-  return (
-    text ? (
-      <Box
-        as="span"
-        wordWrap="break-word"
-        {...rest}>
-        {text}
-      </Box>
-    ) : (
-      <BoxNoData text={defaultText} />
-    )
+  const { text, defaultText, ...rest } = props;
+  return text ? (
+    <Box as="span" wordWrap="break-word" {...rest}>
+      {text}
+    </Box>
+  ) : (
+    <BoxNoData text={defaultText} />
   );
 };
 
 const ConfirmOrNormalButton = (props, context) => {
-  const {
-    noConfirm = false,
-    ...rest
-  } = props;
-  return (
-    noConfirm
-      ? <Button {...rest} />
-      : <Button.Confirm {...rest} />
-  );
+  const { noConfirm = false, ...rest } = props;
+  return noConfirm ? <Button {...rest} /> : <Button.Confirm {...rest} />;
 };
 
 const LabeledListOneItem = (props, context) => {
@@ -284,12 +240,7 @@ const LabeledListOneItem = (props, context) => {
     ...rest
   } = props;
   return (
-    <Flex
-      my={0.5}
-      mr="0.5%"
-      spacing={1}
-      align="center"
-      {...rest}>
+    <Flex my={0.5} mr="0.5%" spacing={1} align="center" {...rest}>
       <Flex.Item
         grow={compactLabel ? 0 : 1}
         shrink={0}
@@ -298,7 +249,8 @@ const LabeledListOneItem = (props, context) => {
         basis={compactLabel ? "auto" : 0}
         maxWidth={compactLabel ? "none" : 20}
         color="label"
-        nowrap>
+        nowrap
+      >
         {label}
       </Flex.Item>
       <Flex.Item
@@ -306,14 +258,12 @@ const LabeledListOneItem = (props, context) => {
         shrink={1}
         basis={0}
         textAlign="center"
-        wordWrap="break-word">
+        wordWrap="break-word"
+      >
         {wrapContent}
       </Flex.Item>
       <Flex.Item grow={0.1} />
-      <Flex.Item
-        grow={0}
-        shrink={0}
-        nowrap>
+      <Flex.Item grow={0} shrink={0} nowrap>
         {noWrapContent}
       </Flex.Item>
     </Flex>
@@ -323,11 +273,7 @@ const LabeledListOneItem = (props, context) => {
 const DefaultMtoolMenu = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Box
-      mt={1.5}
-      fontSize="0.9rem"
-      color="silver"
-      italic>
+    <Box mt={1.5} fontSize="0.9rem" color="silver" italic>
       No options
     </Box>
   );
@@ -336,11 +282,7 @@ const DefaultMtoolMenu = (props, context) => {
 const AccessDeniedMtoolMenu = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Box
-      fontSize="1.1rem"
-      color="red"
-      bold
-      italic>
+    <Box fontSize="1.1rem" color="red" bold italic>
       ACCESS DENIED
     </Box>
   );
@@ -348,9 +290,7 @@ const AccessDeniedMtoolMenu = (props, context) => {
 
 const TagMtoolMenu = (props, context) => {
   const { act, data } = useBackend(context);
-  const {
-    attachedTag,
-  } = data;
+  const { attachedTag } = data;
   return (
     <LabeledListOneItem
       label="ID tag"
@@ -363,17 +303,13 @@ const TagMtoolMenu = (props, context) => {
       }
       noWrapContent={
         <Fragment>
-          <Button
-            content="Set"
-            icon="wrench"
-            onClick={() => act('set_tag')}
-          />
+          <Button content="Set" icon="wrench" onClick={() => act("set_tag")} />
           <Button
             content="Clear"
             icon="times-circle"
             color="red"
             disabled={!attachedTag}
-            onClick={() => act('clear_tag')}
+            onClick={() => act("clear_tag")}
           />
         </Fragment>
       }
@@ -383,12 +319,7 @@ const TagMtoolMenu = (props, context) => {
 
 const FrequencyMtoolMenu = (props, context) => {
   const { act, data } = useBackend(context);
-  const {
-    frequency,
-    minFrequency,
-    maxFrequency,
-    canReset,
-  } = data;
+  const { frequency, minFrequency, maxFrequency, canReset } = data;
   return (
     <LabeledListOneItem
       label="Frequency"
@@ -402,17 +333,19 @@ const FrequencyMtoolMenu = (props, context) => {
             minValue={minFrequency / 10}
             maxValue={maxFrequency / 10}
             value={frequency / 10}
-            format={value => toFixed(value, 1)}
-            onChange={(e, value) => act('set_frequency', {
-              frequency: value * 10,
-            })}
+            format={(value) => toFixed(value, 1)}
+            onChange={(e, value) =>
+              act("set_frequency", {
+                frequency: value * 10,
+              })
+            }
           />
           <Button
             icon="undo"
             content=""
             disabled={!canReset}
             tooltip="Reset"
-            onClick={() => act('reset_frequency')}
+            onClick={() => act("reset_frequency")}
           />
         </Fragment>
       }
@@ -422,9 +355,7 @@ const FrequencyMtoolMenu = (props, context) => {
 
 const MultipleTagsMtoolMenu = (props, context) => {
   const { act, data } = useBackend(context);
-  const {
-    attachedTags,
-  } = data;
+  const { attachedTags } = data;
   return (
     <Section
       mt={1.7}
@@ -439,42 +370,40 @@ const MultipleTagsMtoolMenu = (props, context) => {
           content="Add tag"
           icon="plus"
           iconRight
-          onClick={() => act('add_tag')}
+          onClick={() => act("add_tag")}
         />
-      }>
+      }
+    >
       {attachedTags.map((tag, index) => (
         <LabeledListOneItem
           mr={0}
           key={index}
-          label={
-            <Icon name="wave-square" />
-          }
+          label={<Icon name="wave-square" />}
           compactLabel
           wrapContent={
-            <Flex
-              align="center"
-              spacing={1}>
+            <Flex align="center" spacing={1}>
               <Flex.Item
-                grow={1} 
+                grow={1}
                 shrink={1}
                 basis={0}
                 color="silver"
-                wordWrap="break-word">
+                wordWrap="break-word"
+              >
                 {tag}
               </Flex.Item>
             </Flex>
           }
           noWrapContent={
             <Flex>
-              <Flex.Item
-                grow={0}
-                shrink={0}>
+              <Flex.Item grow={0} shrink={0}>
                 <Button
                   icon="minus"
                   color="red"
-                  onClick={() => act('remove_tag', {
-                    tag_index: index,
-                  })}
+                  onClick={() =>
+                    act("remove_tag", {
+                      tag_index: index,
+                    })
+                  }
                 />
               </Flex.Item>
             </Flex>
@@ -502,33 +431,43 @@ const AirSensorMtoolMenu = (props, context) => {
     { bitflag: 2, checked: temperatureCheck, label: "Monitor temperature" },
     { bitflag: 4, checked: oxygenCheck, label: "Monitor oxygen concentration" },
     { bitflag: 8, checked: toxinsCheck, label: "Monitor plasma concentration" },
-    { bitflag: 16, checked: nitrogenCheck, label: "Monitor nitrogen concentration" },
-    { bitflag: 32, checked: carbonDioxideCheck, label: "Monitor carbon dioxide concentration" },
+    {
+      bitflag: 16,
+      checked: nitrogenCheck,
+      label: "Monitor nitrogen concentration",
+    },
+    {
+      bitflag: 32,
+      checked: carbonDioxideCheck,
+      label: "Monitor carbon dioxide concentration",
+    },
   ];
 
   return (
     <Fragment>
-      <LabeledListOneItem 
+      <LabeledListOneItem
         label="Floor bolts"
         noWrapContent={
-          <Button 
+          <Button
             icon={bolts ? "check" : "times"}
             selected={bolts}
             content={bolts ? "YES" : "NO"}
-            onClick={() => act('toggle_bolts')}
+            onClick={() => act("toggle_bolts")}
           />
         }
       />
-      {checkButtons.map(currentButton => (
+      {checkButtons.map((currentButton) => (
         <LabeledListOneItem
           key={currentButton.bitflag}
           label={currentButton.label}
           noWrapContent={
             <Button.Checkbox
               checked={currentButton.checked}
-              onClick={() => act('toggle_flag', {
-                bitflag: currentButton.bitflag,
-              })}
+              onClick={() =>
+                act("toggle_flag", {
+                  bitflag: currentButton.bitflag,
+                })
+              }
             />
           }
         />
@@ -539,9 +478,7 @@ const AirSensorMtoolMenu = (props, context) => {
 
 const AirControlMtoolMenu = (props, context) => {
   const { act, data } = useBackend(context);
-  const {
-    sensors,
-  } = data;
+  const { sensors } = data;
 
   return (
     <Section
@@ -557,55 +494,41 @@ const AirControlMtoolMenu = (props, context) => {
           content="Add sensor"
           icon="plus"
           iconRight
-          onClick={() => act('add_sensor')}
+          onClick={() => act("add_sensor")}
         />
-      }>
+      }
+    >
       <LabeledListOneItem
         mr={0}
         compactLabel
         wrapContent={
           <Flex>
             <Flex.Item width={1} />
-            <Flex.Item
-              grow={1}
-              shrink={1}
-              basis={0}
-              color="label"
-              nowrap
-              bold>
+            <Flex.Item grow={1} shrink={1} basis={0} color="label" nowrap bold>
               ID tag
             </Flex.Item>
-            <Flex.Item
-              grow={1}
-              shrink={1}
-              basis={0}
-              color="label"
-              nowrap
-              bold>
+            <Flex.Item grow={1} shrink={1} basis={0} color="label" nowrap bold>
               Label
             </Flex.Item>
             <Flex.Item width={11.3} />
           </Flex>
         }
       />
-      {Object.keys(sensors).map(sensorTag => (
+      {Object.keys(sensors).map((sensorTag) => (
         <LabeledListOneItem
           mr={0}
           key={sensorTag}
-          label={
-            <Icon name="wave-square" />
-          }
+          label={<Icon name="wave-square" />}
           compactLabel
           wrapContent={
-            <Flex
-              align="center"
-              spacing={1}>
+            <Flex align="center" spacing={1}>
               <Flex.Item
-                grow={1} 
+                grow={1}
                 shrink={1}
                 basis={0}
                 color="silver"
-                wordWrap="break-word">
+                wordWrap="break-word"
+              >
                 {sensorTag}
               </Flex.Item>
               {sensors[sensorTag] ? (
@@ -614,7 +537,8 @@ const AirControlMtoolMenu = (props, context) => {
                   shrink={1}
                   basis={0}
                   color="silver"
-                  wordWrap="break-word">
+                  wordWrap="break-word"
+                >
                   {sensors[sensorTag]}
                 </Flex.Item>
               ) : (
@@ -625,7 +549,8 @@ const AirControlMtoolMenu = (props, context) => {
                   fontSize="0.9rem"
                   color="yellow"
                   italic
-                  nowrap>
+                  nowrap
+                >
                   {"<no label>"}
                 </Flex.Item>
               )}
@@ -633,37 +558,39 @@ const AirControlMtoolMenu = (props, context) => {
           }
           noWrapContent={
             <Flex>
-              <Flex.Item
-                grow={0}
-                shrink={0}>
+              <Flex.Item grow={0} shrink={0}>
                 <Button
                   content="Label"
                   icon="edit"
-                  onClick={() => act('change_label', {
-                    sensor_tag: sensorTag,
-                  })}
+                  onClick={() =>
+                    act("change_label", {
+                      sensor_tag: sensorTag,
+                    })
+                  }
                 />
                 <Button
                   content="Label"
                   icon="times-circle"
                   color="orange"
                   disabled={!sensors[sensorTag]}
-                  onClick={() => act('clear_label', {
-                    sensor_tag: sensorTag,
-                  })}
+                  onClick={() =>
+                    act("clear_label", {
+                      sensor_tag: sensorTag,
+                    })
+                  }
                 />
               </Flex.Item>
               <Flex.Item width={0.5} />
-              <Flex.Item
-                grow={0}
-                shrink={0}>
+              <Flex.Item grow={0} shrink={0}>
                 <Button
                   px={1.2}
                   icon="minus"
                   color="red"
-                  onClick={() => act('del_sensor', {
-                    sensor_tag: sensorTag,
-                  })}
+                  onClick={() =>
+                    act("del_sensor", {
+                      sensor_tag: sensorTag,
+                    })
+                  }
                 />
               </Flex.Item>
             </Flex>
@@ -706,7 +633,7 @@ const TankControlMtoolMenu = (props, context) => {
               icon="link"
               selected={inputTag && bufferTag === inputTag}
               disabled={!bufferFitsInput}
-              onClick={() => act('link_input')}
+              onClick={() => act("link_input")}
             />
             <Button.Confirm
               confirmContent="This will unlink the intput device. Confirm?"
@@ -715,7 +642,7 @@ const TankControlMtoolMenu = (props, context) => {
               icon="unlink"
               color="red"
               disabled={!inputTag}
-              onClick={() => act('unlink_input')}
+              onClick={() => act("unlink_input")}
             />
           </Fragment>
         }
@@ -740,7 +667,7 @@ const TankControlMtoolMenu = (props, context) => {
               icon="link"
               selected={outputTag && bufferTag === outputTag}
               disabled={!bufferFitsOutput}
-              onClick={() => act('link_output')}
+              onClick={() => act("link_output")}
             />
             <Button.Confirm
               confirmContent="This will unlink the output device. Confirm?"
@@ -749,7 +676,7 @@ const TankControlMtoolMenu = (props, context) => {
               icon="unlink"
               color="red"
               disabled={!outputTag}
-              onClick={() => act('unlink_output')}
+              onClick={() => act("unlink_output")}
             />
           </Fragment>
         }

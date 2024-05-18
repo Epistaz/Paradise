@@ -1,13 +1,11 @@
 import { useBackend, useLocalState } from "../../backend";
-import { createSearch } from 'common/string';
-import { flow } from 'common/fp';
-import { filter, sortBy } from 'common/collections';
+import { createSearch } from "common/string";
+import { flow } from "common/fp";
+import { filter, sortBy } from "common/collections";
 import { Box, Input, Button, Section, LabeledList } from "../../components";
 
 export const SimpleRecords = (props, context) => {
-  const {
-    records,
-  } = props.data;
+  const { records } = props.data;
 
   return (
     <Box>
@@ -22,25 +20,20 @@ export const SimpleRecords = (props, context) => {
 
 const SelectionView = (props, context) => {
   const { act } = useBackend(context);
-  const {
-    recordsList,
-  } = props.data;
+  const { recordsList } = props.data;
 
-  const [
-    searchText,
-    setSearchText,
-  ] = useLocalState(context, 'searchText', '');
+  const [searchText, setSearchText] = useLocalState(context, "searchText", "");
 
   // Search for peeps
-  const SelectMembers = (people, searchText = '') => {
-    const MemberSearch = createSearch(searchText, member => member.Name);
+  const SelectMembers = (people, searchText = "") => {
+    const MemberSearch = createSearch(searchText, (member) => member.Name);
     return flow([
       // Null member filter
-      filter(member => member?.Name),
+      filter((member) => member?.Name),
       // Optional search term
       searchText && filter(MemberSearch),
       // Slightly expensive, but way better than sorting in BYOND
-      sortBy(member => member.Name),
+      sortBy((member) => member.Name),
     ])(recordsList);
   };
 
@@ -52,13 +45,15 @@ const SelectionView = (props, context) => {
         fluid
         mb={1}
         placeholder="Search records..."
-        onInput={(e, value) => setSearchText(value)} />
-      {formattedRecords.map(r => (
+        onInput={(e, value) => setSearchText(value)}
+      />
+      {formattedRecords.map((r) => (
         <Box key={r}>
           <Button
+            mb={0.5}
             content={r.Name}
             icon="user"
-            onClick={() => act('Records', { target: r.uid })}
+            onClick={() => act("Records", { target: r.uid })}
           />
         </Box>
       ))}
@@ -68,15 +63,9 @@ const SelectionView = (props, context) => {
 
 const RecordView = (props, context) => {
   const { act } = useBackend(context);
-  const {
-    records,
-  } = props.data;
+  const { records } = props.data;
 
-  const {
-    general,
-    medical,
-    security,
-  } = records;
+  const { general, medical, security } = records;
 
   let secondaryRecord;
   switch (props.recordType) {
@@ -160,28 +149,16 @@ const RecordView = (props, context) => {
 
   return (
     <Box>
-      <Button
-        content="Back"
-        icon="arrow-left"
-        onClick={() => act("Back")} />
-      <Section level={2} title="General Data">
+      <Section title="General Data">
         {general ? (
           <LabeledList>
-            <LabeledList.Item label="Name">
-              {general.name}
-            </LabeledList.Item>
-            <LabeledList.Item label="Sex">
-              {general.sex}
-            </LabeledList.Item>
+            <LabeledList.Item label="Name">{general.name}</LabeledList.Item>
+            <LabeledList.Item label="Sex">{general.sex}</LabeledList.Item>
             <LabeledList.Item label="Species">
               {general.species}
             </LabeledList.Item>
-            <LabeledList.Item label="Age">
-              {general.age}
-            </LabeledList.Item>
-            <LabeledList.Item label="Rank">
-              {general.rank}
-            </LabeledList.Item>
+            <LabeledList.Item label="Age">{general.age}</LabeledList.Item>
+            <LabeledList.Item label="Rank">{general.rank}</LabeledList.Item>
             <LabeledList.Item label="Fingerprint">
               {general.fingerprint}
             </LabeledList.Item>
@@ -201,5 +178,4 @@ const RecordView = (props, context) => {
       {secondaryRecord}
     </Box>
   );
-
 };

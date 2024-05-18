@@ -22,9 +22,11 @@ export const RndNavButton = (properties, context) => {
     <Button
       content={content}
       icon={icon}
-      disabled={disabled} onClick={() => {
-        act('nav', { menu: nextMenu, submenu: nextSubmenu });
-      }}>
+      disabled={disabled}
+      onClick={() => {
+        act("nav", { menu: nextMenu, submenu: nextSubmenu });
+      }}
+    >
       {children}
     </Button>
   );

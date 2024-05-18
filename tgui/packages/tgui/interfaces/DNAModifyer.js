@@ -1,6 +1,13 @@
-import { useBackend } from '../backend';
-import { Box, Button, Grid, LabeledList, ProgressBar, Section } from '../components';
-import { Window } from '../layouts';
+import { useBackend } from "../backend";
+import {
+  Box,
+  Button,
+  Grid,
+  LabeledList,
+  ProgressBar,
+  Section,
+} from "../components";
+import { Window } from "../layouts";
 
 export const DNAModifyer = (props, context) => {
   const { act } = useBackend(context);
@@ -9,31 +16,38 @@ export const DNAModifyer = (props, context) => {
       <Window.Content>
         <Section title="Personal Gene Therapy">
           <Button
-            onClick={() => act("gene", { modification: "Toxin Adaptation" })}>
+            onClick={() => act("gene", { modification: "Toxin Adaptation" })}
+          >
             Toxin Adaptation
           </Button>
           <Button
-            onClick={() => act("gene", { modification: "Lung Enhancement" })}>
+            onClick={() => act("gene", { modification: "Lung Enhancement" })}
+          >
             Lung Enhancement
           </Button>
           <Button
-            onClick={() => act("gene", { modification: "Thermal Regulation" })}>
+            onClick={() => act("gene", { modification: "Thermal Regulation" })}
+          >
             Thermal Regulation
           </Button>
           <Button
-            onClick={() => act("gene", { modification: "Neural Repathing" })}>
+            onClick={() => act("gene", { modification: "Neural Repathing" })}
+          >
             Neural Repathing
           </Button>
           <Button
-            onClick={() => act("gene", { modification: "Hardened Skin" })}>
+            onClick={() => act("gene", { modification: "Hardened Skin" })}
+          >
             Hardened Skin
           </Button>
           <Button
-            onClick={() => act("gene", { modification: "Leg Muscle Stimulus" })}>
+            onClick={() => act("gene", { modification: "Leg Muscle Stimulus" })}
+          >
             Leg Muscle Stimulus
           </Button>
           <Button
-            onClick={() => act("gene", { modification: "Arm Muscle Stimulus" })}>
+            onClick={() => act("gene", { modification: "Arm Muscle Stimulus" })}
+          >
             Arm Muscle Stimulus
           </Button>
         </Section>

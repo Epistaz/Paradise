@@ -1,7 +1,7 @@
-import { useBackend, useLocalState } from '../backend';
-import { Button, Section, Box, Input, Icon } from '../components';
-import { LabeledList, LabeledListItem } from '../components/LabeledList';
-import { Window } from '../layouts';
+import { useBackend, useLocalState } from "../backend";
+import { Button, Section, Box, Input, Icon } from "../components";
+import { LabeledList, LabeledListItem } from "../components/LabeledList";
+import { Window } from "../layouts";
 
 export const ImplantPad = (props, context) => {
   const { act, data } = useBackend(context);
@@ -20,8 +20,8 @@ export const ImplantPad = (props, context) => {
                   ml={0}
                   mr={2}
                   style={{
-                    'vertical-align': 'middle',
-                    width: '32px',
+                    "vertical-align": "middle",
+                    width: "32px",
                   }}
                 />
                 {implant.name}
@@ -29,7 +29,9 @@ export const ImplantPad = (props, context) => {
               <LabeledList>
                 <LabeledListItem label="Life">{implant.life}</LabeledListItem>
                 <LabeledListItem label="Notes">{implant.notes}</LabeledListItem>
-                <LabeledListItem label="Function">{implant.function}</LabeledListItem>
+                <LabeledListItem label="Function">
+                  {implant.function}
+                </LabeledListItem>
               </LabeledList>
             </>
           ) : contains_case ? (
@@ -45,7 +47,7 @@ export const ImplantPad = (props, context) => {
                 ml={1}
                 width="8rem"
                 value={tag}
-                onEnter={() => act('tag', { newtag: newTag })}
+                onEnter={() => act("tag", { newtag: newTag })}
                 onInput={(e, value) => setNewTag(value)}
               />
               <Button
@@ -53,7 +55,8 @@ export const ImplantPad = (props, context) => {
                 width="20px"
                 mb="0"
                 ml="0.25rem"
-                onClick={() => act('tag', { newtag: newTag })}>
+                onClick={() => act("tag", { newtag: newTag })}
+              >
                 <Icon name="pen" />
               </Button>
             </LabeledList>
@@ -64,7 +67,7 @@ export const ImplantPad = (props, context) => {
               content="Eject Case"
               icon="eject"
               disabled={!contains_case}
-              onClick={() => act('eject_case')}
+              onClick={() => act("eject_case")}
             />
           ) : null}
         </Section>
@@ -72,5 +75,3 @@ export const ImplantPad = (props, context) => {
     </Window>
   );
 };
-
-

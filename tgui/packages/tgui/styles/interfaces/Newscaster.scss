@@ -1,5 +1,5 @@
-@use 'sass:color';
-@use '../colors.scss';
+@use "sass:color";
+@use "../colors.scss";
 
 .Newscaster__menu {
   width: 40px;
@@ -91,12 +91,12 @@
 }
 
 $_gen_map: (
-  'security': #a14c49,
-  'engineering': #a17849,
-  'medical': #499ea1,
-  'science': #a14972,
-  'service': #a1499e,
-  'supply': #9ea149,
+  "security": #a14c49,
+  "engineering": #a17849,
+  "medical": #499ea1,
+  "science": #a14972,
+  "service": #a1499e,
+  "supply": #9ea149,
 );
 
 .Newscaster__jobCategory {
@@ -139,13 +139,13 @@ $_gen_map: (
 
 .Newscaster__photo {
   cursor: pointer;
-  width: 96px;
+  width: 100px;
   border: 1px solid colors.$black;
-  transition: border-color 0.1s;
+  transition: border-color 0.3s;
   -ms-interpolation-mode: nearest-neighbor;
 
   &:hover {
-    border-color: color.scale(colors.$black, $lightness: 50%);;
+    border-color: color.scale(colors.$black, $lightness: 50%);
   }
 }
 

@@ -1,6 +1,6 @@
-import { useBackend } from '../backend';
-import { Button, LabeledList, Section, ProgressBar } from '../components';
-import { Window } from '../layouts';
+import { useBackend } from "../backend";
+import { Button, LabeledList, Section, ProgressBar } from "../components";
+import { Window } from "../layouts";
 
 export const SatelliteControl = (props, context) => {
   const { act, data } = useBackend(context);
@@ -13,14 +13,17 @@ export const SatelliteControl = (props, context) => {
     meteor_shield_coverage_percentage,
   } = data;
   return (
-    <Window resizable>
+    <Window width={475} height={400}>
       <Window.Content scrollable>
         {meteor_shield && (
           <Section title="Station Shield Coverage">
             <ProgressBar
-              color={meteor_shield_coverage_percentage >= 100 ? 'good': 'average'}
+              color={
+                meteor_shield_coverage_percentage >= 100 ? "good" : "average"
+              }
               value={meteor_shield_coverage}
-              maxValue={meteor_shield_coverage_max}>
+              maxValue={meteor_shield_coverage_max}
+            >
               {meteor_shield_coverage_percentage} %
             </ProgressBar>
           </Section>
@@ -32,14 +35,14 @@ export const SatelliteControl = (props, context) => {
                 {data.notice}
               </LabeledList.Item>
             )}
-            {satellites.map(sat => (
+            {satellites.map((sat) => (
               <LabeledList.Item key={sat.id} label={"#" + sat.id}>
-                {sat.mode}
-                {" "}
+                {sat.mode}{" "}
                 <Button
-                  content={sat.active ? "Deactivate": "Activate"}
+                  content={sat.active ? "Deactivate" : "Activate"}
                   icon={"arrow-circle-right"}
-                  onClick={() => act("toggle", { id: sat.id })} />
+                  onClick={() => act("toggle", { id: sat.id })}
+                />
               </LabeledList.Item>
             ))}
           </LabeledList>

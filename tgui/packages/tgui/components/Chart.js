@@ -4,11 +4,10 @@
  * @license MIT
  */
 
-import { map, zipWith } from 'common/collections';
-import { pureComponentHooks } from 'common/react';
-import { Component, createRef } from 'inferno';
-import { IS_IE8 } from '../byond';
-import { Box } from './Box';
+import { map, zipWith } from "common/collections";
+import { pureComponentHooks } from "common/react";
+import { Component, createRef } from "inferno";
+import { Box } from "./Box";
 
 const normalizeData = (data, scale, rangeX, rangeY) => {
   if (data.length === 0) {
@@ -24,19 +23,19 @@ const normalizeData = (data, scale, rangeX, rangeY) => {
     min[1] = rangeY[0];
     max[1] = rangeY[1];
   }
-  const normalized = map(point => {
+  const normalized = map((point) => {
     return zipWith((value, min, max, scale) => {
-      return (value - min) / (max - min) * scale;
+      return ((value - min) / (max - min)) * scale;
     })(point, min, max, scale);
   })(data);
   return normalized;
 };
 
-const dataToPolylinePoints = data => {
-  let points = '';
+const dataToPolylinePoints = (data) => {
+  let points = "";
   for (let i = 0; i < data.length; i++) {
     const point = data[i];
-    points += point[0] + ',' + point[1] + ' ';
+    points += point[0] + "," + point[1] + " ";
   }
   return points;
 };
@@ -58,12 +57,12 @@ class LineChart extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.handleResize);
+    window.addEventListener("resize", this.handleResize);
     this.handleResize();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener("resize", this.handleResize);
   }
 
   render() {
@@ -71,8 +70,8 @@ class LineChart extends Component {
       data = [],
       rangeX,
       rangeY,
-      fillColor = 'none',
-      strokeColor = '#ffffff',
+      fillColor = "none",
+      strokeColor = "#ffffff",
       strokeWidth = 2,
       ...rest
     } = this.props;
@@ -90,25 +89,27 @@ class LineChart extends Component {
     const points = dataToPolylinePoints(normalized);
     return (
       <Box position="relative" {...rest}>
-        {props => (
+        {(props) => (
           <div ref={this.ref} {...props}>
             <svg
               viewBox={`0 0 ${viewBox[0]} ${viewBox[1]}`}
               preserveAspectRatio="none"
               style={{
-                position: 'absolute',
+                position: "absolute",
                 top: 0,
                 left: 0,
                 right: 0,
                 bottom: 0,
-                overflow: 'hidden',
-              }}>
+                overflow: "hidden",
+              }}
+            >
               <polyline
                 transform={`scale(1, -1) translate(0, -${viewBox[1]})`}
                 fill={fillColor}
                 stroke={strokeColor}
                 strokeWidth={strokeWidth}
-                points={points} />
+                points={points}
+              />
             </svg>
           </div>
         )}
@@ -119,9 +120,9 @@ class LineChart extends Component {
 
 LineChart.defaultHooks = pureComponentHooks;
 
-const Stub = props => null;
+const Stub = (props) => null;
 
 // IE8: No inline svg support
 export const Chart = {
-  Line: IS_IE8 ? Stub : LineChart,
+  Line: Byond.IS_LTE_IE8 ? Stub : LineChart,
 };

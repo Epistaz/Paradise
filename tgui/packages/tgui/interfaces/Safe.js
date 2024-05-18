@@ -1,18 +1,13 @@
-import { Fragment } from 'inferno';
-import { useBackend } from '../backend';
-import { Box, Button, Icon, Section } from '../components';
+import { Fragment } from "inferno";
+import { useBackend } from "../backend";
+import { Box, Button, Icon, Section } from "../components";
 import { Window } from "../layouts";
 
 export const Safe = (properties, context) => {
   const { act, data } = useBackend(context);
-  const {
-    dial,
-    open,
-    locked,
-    contents,
-  } = data;
+  const { dial, open, locked, contents } = data;
   return (
-    <Window theme="safe">
+    <Window theme="safe" width={600} height={800}>
       <Window.Content>
         <Box className="Safe--engraving">
           <Dialer />
@@ -24,7 +19,8 @@ export const Safe = (properties, context) => {
             className="Safe--engraving--arrow"
             name="long-arrow-alt-down"
             size="3"
-          /><br />
+          />
+          <br />
           {open ? (
             <Contents />
           ) : (
@@ -33,15 +29,13 @@ export const Safe = (properties, context) => {
               className="Safe--dial"
               src="safe_dial.png"
               style={{
-                "transform": "rotate(-" + (3.6 * dial) + "deg)",
+                transform: "rotate(-" + 3.6 * dial + "deg)",
                 "z-index": 0,
               }}
             />
           )}
         </Box>
-        {!open && (
-          <Help />
-        )}
+        {!open && <Help />}
       </Window.Content>
     </Window>
   );
@@ -49,11 +43,7 @@ export const Safe = (properties, context) => {
 
 const Dialer = (properties, context) => {
   const { act, data } = useBackend(context);
-  const {
-    dial,
-    open,
-    locked,
-  } = data;
+  const { dial, open, locked } = data;
   const dialButton = (amount, right) => {
     return (
       <Button
@@ -61,9 +51,11 @@ const Dialer = (properties, context) => {
         icon={"arrow-" + (right ? "right" : "left")}
         content={(right ? "Right" : "Left") + " " + amount}
         iconRight={right}
-        onClick={() => act(!right ? "turnright" : "turnleft", {
-          num: amount,
-        })}
+        onClick={() =>
+          act(!right ? "turnright" : "turnleft", {
+            num: amount,
+          })
+        }
         style={{
           "z-index": 10,
         }}
@@ -77,8 +69,9 @@ const Dialer = (properties, context) => {
         icon={open ? "lock" : "lock-open"}
         content={open ? "Close" : "Open"}
         mb="0.5rem"
-        onClick={() => act('open')}
-      /><br />
+        onClick={() => act("open")}
+      />
+      <br />
       <Box position="absolute">
         {[dialButton(50), dialButton(10), dialButton(1)]}
       </Box>
@@ -92,18 +85,19 @@ const Dialer = (properties, context) => {
 
 const Contents = (properties, context) => {
   const { act, data } = useBackend(context);
-  const {
-    contents,
-  } = data;
+  const { contents } = data;
   return (
     <Box className="Safe--contents" overflow="auto">
       {contents.map((item, index) => (
         <Fragment key={item}>
           <Button
             mb="0.5rem"
-            onClick={() => act("retrieve", {
-              index: index + 1,
-            })}>
+            onClick={() =>
+              act("retrieve", {
+                index: index + 1,
+              })
+            }
+          >
             <Box
               as="img"
               src={item.sprite + ".png"}
@@ -122,14 +116,23 @@ const Contents = (properties, context) => {
 
 const Help = (properties, context) => {
   return (
-    <Section className="Safe--help" title="Safe opening instructions (because you all keep forgetting)">
+    <Section
+      className="Safe--help"
+      title="Safe opening instructions (because you all keep forgetting)"
+    >
       <Box>
-        1. Turn the dial left to the first number.<br />
-        2. Turn the dial right to the second number.<br />
-        3. Continue repeating this process for each number, switching between left and right each time.<br />
+        1. Turn the dial left to the first number.
+        <br />
+        2. Turn the dial right to the second number.
+        <br />
+        3. Continue repeating this process for each number, switching between
+        left and right each time.
+        <br />
         4. Open the safe.
       </Box>
-      <Box bold>To lock fully, turn the dial to the left after closing the safe.</Box>
+      <Box bold>
+        To lock fully, turn the dial to the left after closing the safe.
+      </Box>
     </Section>
   );
 };

@@ -1,206 +1,160 @@
 import { useBackend } from "../backend";
-import { Button, LabeledList, Section, Box, Flex, NoticeBox } from "../components";
+import { Button, Stack, Section } from "../components";
 import { Window } from "../layouts";
-import { sortBy } from "common/collections";
-
-String.prototype.trimLongStr = function (length) {
-  return this.length > length ? this.substring(0, length) + "..." : this;
-};
 
 export const Photocopier = (props, context) => {
   const { act, data } = useBackend(context);
-  if (data.mode === "mode_aipic" && !data.isAI) {
-    act("mode_copy");
-  }
-
-  const forms = sortBy(
-    form => form.category,
-  )(data.forms || []);
-
-  const categories = [];
-  for (let form of forms) {
-    if (!categories.includes(form.category)) {
-      categories.push(form.category);
-    }
-  }
-
-  let category;
-  if (data.category === "") {
-    category = forms;
-  } else {
-    category = forms.filter(form => form.category === data.category);
-  }
-
   return (
-    <Window theme={data.ui_theme}>
+    <Window width={400} height={440}>
       <Window.Content scrollable>
-        <Flex
-          direction="row"
-          spacing={1}>
-          <Flex.Item
-            width={24}
-            shrink={0}>
-            <Section>
-              <Box bold m={1}>
-                Статус
-              </Box>
-              <LabeledList>
-                <LabeledList.Item label="Заряд тонера"
-                  color={data.toner > 0 ? "good" : "bad"}>
-                  {data.toner}
-                </LabeledList.Item>
-                <LabeledList.Item label="Слот сканера">
-                  <Button
-                    icon="sign-out-alt"
-                    disabled={data.isAI || data.copyitem === null}
-                    content="Извлечь"
-                    onClick={() => act("remove")}
-                  />
-                </LabeledList.Item>
-              </LabeledList>
-              <Box bold m={1}>
-                Управление
-              </Box>
-              <LabeledList>
-                <LabeledList.Item label="Количество">
-                  {data.copies}
-                  <Button
-                    icon="minus"
-                    ml={2}
-                    disabled={data.copies > 1 ? false : true}
-                    onClick={() => act("min")}
-                  />
-                  <Button
-                    icon="plus"
-                    disabled={data.copies <= data.toner ? false : true}
-                    onClick={() => act("add")}
-                  />
-                </LabeledList.Item>
-                <LabeledList.Item label="Режим">
-                  <Button
-                    icon="clone"
-                    disabled={data.toner === 0}
-                    content="Копирование"
-                    selected={data.mode === "mode_copy" ? "selected" : null}
-                    onClick={() => act("mode_copy")}
-                  />
-                  <Button
-                    icon="file"
-                    disabled={data.toner === 0}
-                    content="Печать"
-                    selected={data.mode === "mode_print" ? "selected" : null}
-                    onClick={() => act("mode_print")}
-                  />
-                  {!!data.isAI && (
-                    <Button
-                      icon="terminal"
-                      disabled={data.toner === 0}
-                      content="Фото из ДБ"
-                      selected={data.mode === "mode_aipic" ? "selected" : null}
-                      onClick={() => act("mode_aipic")}
-                    />
-                  )}
-                </LabeledList.Item>
-                <LabeledList.Item label="Выполнить">
-                  {data.mode === "mode_copy" && (
-                    <Button
-                      icon="print"
-                      disabled={data.toner === 0
-                        || (data.copyitem === null
-                        && !data.ass)}
-                      content="Копировать"
-                      onClick={() => act("copy")}
-                    />
-                  )}
-                  {data.mode === "mode_print" && (
-                    <Button
-                      icon="print"
-                      disabled={data.toner === 0 || data.form === null}
-                      content="Печать"
-                      onClick={() => act("print_form")}
-                    />
-                  )}
-                  {data.mode === "mode_aipic" && (
-                    <Button
-                      icon="print"
-                      disabled={data.toner === 0}
-                      content="Печать фото"
-                      onClick={() => act("aipic")}
-                    />
-                  )}
-                </LabeledList.Item>
-              </LabeledList>
-            </Section>
-            <Section>
-              <Box bold m={1}>
-                Бюрократия
-              </Box>
-              <LabeledList>
-                <LabeledList.Item label="Форма">
-                  {data.form_id === "" ? "Не выбрана" : data.form_id}
-                </LabeledList.Item>
-              </LabeledList>
-              <Flex
-                direction="column"
-                mt={2}>
-                <Flex.Item>
-                  <Button fluid
-                    icon="chevron-right"
-                    content="Все формы"
-                    selected={data.category === "" ? "selected" : null}
-                    onClick={() => act("choose_category", {
-                      category: null,
-                    })}
-                    mb={1}
-                  />
-                </Flex.Item>
-                {categories.map(category => (
-                  <Flex.Item key={category}>
-                    <Button fluid key={category}
-                      icon="chevron-right"
-                      content={category}
-                      selected={data.category === category ? "selected" : null}
-                      onClick={() => act("choose_category", {
-                        category: category,
-                      })}
-                      mb={1}
-                    />
-                  </Flex.Item>
-                ))}
-              </Flex>
-            </Section>
-            <NoticeBox color={data.info_box_color}>
-              {data.info_box}
-            </NoticeBox>
-          </Flex.Item>
-          <Flex.Item
-            width={27}>
-            <Section>
-              <Box bold m={1}>
-                {data.category === "" ? "Все формы" : data.category}
-              </Box>
-              <Flex
-                direction="column"
-                mt={2}>
-                {category.map(form => (
-                  <Flex.Item key={form.path}>
-                    <Button fluid key={form.path}
-                      content={form.id + ": " + form.altername.trimLongStr(30)}
-                      tooltip={form.id + ": " + form.altername}
-                      selected={data.form === form.path ? "selected" : null}
-                      onClick={() => act("choose_form", {
-                        path: form.path,
-                        id: form.id,
-                      })}
-                      mb={1}
-                    />
-                  </Flex.Item>
-                ))}
-              </Flex>
-            </Section>
-          </Flex.Item>
-        </Flex>
+        <Stack fill vertical>
+          <Section title="Photocopier" color="silver">
+            <Stack mb={1}>
+              <Stack.Item width={12}>Copies:</Stack.Item>
+              <Stack.Item width="2em" bold>
+                {data.copynumber}
+              </Stack.Item>
+              <Stack.Item float="right">
+                <Button
+                  icon="minus"
+                  textAlign="center"
+                  content=""
+                  onClick={() => act("minus")}
+                />
+                <Button
+                  icon="plus"
+                  textAlign="center"
+                  content=""
+                  onClick={() => act("add")}
+                />
+              </Stack.Item>
+            </Stack>
+            <Stack mb={2}>
+              <Stack.Item width={12}>Toner:</Stack.Item>
+              <Stack.Item bold>{data.toner}</Stack.Item>
+            </Stack>
+            <Stack mb={1}>
+              <Stack.Item width={12}>Inserted Document:</Stack.Item>
+              <Stack.Item grow>
+                <Button
+                  fluid
+                  textAlign="center"
+                  disabled={!data.copyitem && !data.mob}
+                  content={
+                    data.copyitem
+                      ? data.copyitem
+                      : data.mob
+                        ? data.mob + "'s ass!"
+                        : "document"
+                  }
+                  onClick={() => act("removedocument")}
+                />
+              </Stack.Item>
+            </Stack>
+            <Stack>
+              <Stack.Item width={12}>Inserted Folder:</Stack.Item>
+              <Stack.Item grow>
+                <Button
+                  fluid
+                  textAlign="center"
+                  disabled={!data.folder}
+                  content={data.folder ? data.folder : "folder"}
+                  onClick={() => act("removefolder")}
+                />
+              </Stack.Item>
+            </Stack>
+          </Section>
+          <Section>
+            <Actions />
+          </Section>
+          <Files />
+        </Stack>
       </Window.Content>
     </Window>
+  );
+};
+
+const Actions = (props, context) => {
+  const { act, data } = useBackend(context);
+  const { issilicon } = data;
+  return (
+    <>
+      <Button
+        fluid
+        icon="copy"
+        float="center"
+        textAlign="center"
+        content="Copy"
+        onClick={() => act("copy")}
+      />
+      <Button
+        fluid
+        icon="file-import"
+        float="center"
+        textAlign="center"
+        content="Scan"
+        onClick={() => act("scandocument")}
+      />
+      {!!issilicon && (
+        <>
+          <Button
+            fluid
+            icon="file"
+            color="green"
+            float="center"
+            textAlign="center"
+            content="Print Text"
+            onClick={() => act("ai_text")}
+          />
+          <Button
+            fluid
+            icon="image"
+            color="green"
+            float="center"
+            textAlign="center"
+            content="Print Image"
+            onClick={() => act("ai_pic")}
+          />
+        </>
+      )}
+    </>
+  );
+};
+
+const Files = (props, context) => {
+  const { act, data } = useBackend(context);
+  return (
+    <Section fill scrollable title="Scanned Files">
+      {data.files.map((file) => (
+        <Section
+          key={file.name}
+          title={file.name}
+          buttons={
+            <Stack>
+              <Button
+                icon="print"
+                content="Print"
+                disabled={data.toner <= 0}
+                onClick={() =>
+                  act("filecopy", {
+                    uid: file.uid,
+                  })
+                }
+              />
+              <Button.Confirm
+                icon="trash-alt"
+                content="Delete"
+                color="bad"
+                onClick={() =>
+                  act("deletefile", {
+                    uid: file.uid,
+                  })
+                }
+              />
+            </Stack>
+          }
+        />
+      ))}
+    </Section>
   );
 };

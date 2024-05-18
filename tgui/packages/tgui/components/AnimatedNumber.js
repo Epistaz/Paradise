@@ -4,16 +4,16 @@
  * @license MIT
  */
 
-import { clamp, toFixed } from 'common/math';
-import { Component } from 'inferno';
+import { clamp, toFixed } from "common/math";
+import { Component } from "inferno";
 
 const FPS = 20;
 const Q = 0.5;
 
-const isSafeNumber = value => {
-  return typeof value === 'number'
-    && Number.isFinite(value)
-    && !Number.isNaN(value);
+const isSafeNumber = (value) => {
+  return (
+    typeof value === "number" && Number.isFinite(value) && !Number.isNaN(value)
+  );
 };
 
 export class AnimatedNumber extends Component {
@@ -70,12 +70,12 @@ export class AnimatedNumber extends Component {
     }
     // Fix our animated precision at target value's precision.
     else {
-      const fraction = String(targetValue).split('.')[1];
+      const fraction = String(targetValue).split(".")[1];
       const precision = fraction ? fraction.length : 0;
       formattedValue = toFixed(currentValue, clamp(precision, 0, 8));
     }
     // Use a custom render function
-    if (typeof children === 'function') {
+    if (typeof children === "function") {
       return children(formattedValue, currentValue);
     }
     return formattedValue;

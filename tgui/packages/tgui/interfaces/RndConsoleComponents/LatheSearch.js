@@ -5,8 +5,10 @@ export const LatheSearch = (properties, context) => {
   const { act } = useBackend(context);
   return (
     <Box>
-      <Input placeholder="Search..."
-        onChange={(e, value) => act('search', { to_search: value })} />
+      <Input
+        placeholder="Search..."
+        onChange={(e, value) => act("search", { to_search: value })}
+      />
     </Box>
   );
 };

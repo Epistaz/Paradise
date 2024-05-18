@@ -1,6 +1,7 @@
 /datum/config_entry/flag/asset_simple_preload
 
 /datum/config_entry/string/asset_transport
+	default = "simple"
 /datum/config_entry/string/asset_transport/ValidateAndSet(str_val)
 	return (lowertext(str_val) in list("simple", "webroot")) && ..(lowertext(str_val))
 

@@ -17,7 +17,7 @@ export const toArray = (collection) => {
   if (Array.isArray(collection)) {
     return collection;
   }
-  if (typeof collection === 'object') {
+  if (typeof collection === "object") {
     const hasOwnProperty = Object.prototype.hasOwnProperty;
     const result = [];
     for (let i in collection) {
@@ -55,7 +55,7 @@ export const toArray = (collection) => {
  * @param {string} keyProp Property, to which key will be assigned
  * @returns {T[]} Array of keyed objects
  */
-export const toKeyedArray = (obj, keyProp = 'key') => {
+export const toKeyedArray = (obj, keyProp = "key") => {
   return map((item, key) => ({
     [keyProp]: key,
     ...item,
@@ -110,7 +110,7 @@ export const map = (iterateeFn) => (collection) => {
     }
     return result;
   }
-  if (typeof collection === 'object') {
+  if (typeof collection === "object") {
     const hasOwnProperty = Object.prototype.hasOwnProperty;
     const result = [];
     for (let i in collection) {
@@ -129,7 +129,7 @@ export const map = (iterateeFn) => (collection) => {
  */
 export const filterMap = <T, U>(
   collection: T[],
-  iterateeFn: (value: T) => U | undefined
+  iterateeFn: (value: T) => U | undefined,
 ): U[] => {
   const finalCollection: U[] = [];
 

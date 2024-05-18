@@ -7,11 +7,8 @@ export const pai_advsecrecords = (props, context) => {
   return (
     <LabeledList>
       <LabeledList.Item label="Special Syndicate options:">
-        <Button
-          content="Select Records"
-          onClick={() => act('ui_interact')} />
+        <Button content="Select Records" onClick={() => act("ui_interact")} />
       </LabeledList.Item>
     </LabeledList>
   );
-
 };

@@ -14,7 +14,7 @@ export const clamp = (value, min, max) => {
 /**
  * Limits a number between 0 and 1.
  */
-export const clamp01 = value => {
+export const clamp01 = (value) => {
   return value < 0 ? 0 : value > 1 ? 1 : value;
 };
 
@@ -69,9 +69,7 @@ export const toFixed = (value, fractionDigits = 0) => {
  * Range is an array of two numbers, for example: [0, 15].
  */
 export const inRange = (value, range) => {
-  return range
-    && value >= range[0]
-    && value <= range[1];
+  return range && value >= range[0] && value <= range[1];
 };
 
 /**
@@ -89,9 +87,9 @@ export const keyOfMatchingRange = (value, ranges) => {
   }
 };
 
-/** Paradise/pull/16497
- * Переводит радианы в градусы.
+/**
+ * Converts a value in radians to degrees.
  */
-export const rad2deg = rad => {
+export const rad2deg = (rad) => {
   return rad * (180 / Math.PI);
 };

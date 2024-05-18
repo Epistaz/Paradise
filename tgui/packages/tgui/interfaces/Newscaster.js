@@ -1,15 +1,38 @@
-import { classes } from 'common/react';
-import { Fragment } from 'inferno';
-import { deleteLocalState, useBackend, useLocalState } from "../backend";
-import { Box, Button, Divider, Dropdown, Flex, Icon, Input, LabeledList, Modal, Section } from '../components';
-import { timeAgo } from '../constants';
-import { Window } from '../layouts';
-import { ComplexModal, modalAnswer, modalClose, modalOpen, modalRegisterBodyOverride } from './common/ComplexModal';
-import { TemporaryNotice } from './common/TemporaryNotice';
+import { classes } from "common/react";
+import { useBackend, useLocalState } from "../backend";
+import {
+  Box,
+  Button,
+  Divider,
+  Dropdown,
+  Icon,
+  Input,
+  LabeledList,
+  Modal,
+  Section,
+  Stack,
+} from "../components";
+import { timeAgo } from "../constants";
+import { Window } from "../layouts";
+import {
+  ComplexModal,
+  modalAnswer,
+  modalClose,
+  modalOpen,
+  modalRegisterBodyOverride,
+} from "./common/ComplexModal";
+import { TemporaryNotice } from "./common/TemporaryNotice";
 
 const HEADLINE_MAX_LENGTH = 128;
 
-const jobOpeningCategoriesOrder = ["security", "engineering", "medical", "science", "service", "supply"];
+const jobOpeningCategoriesOrder = [
+  "security",
+  "engineering",
+  "medical",
+  "science",
+  "service",
+  "supply",
+];
 const jobOpeningCategories = {
   security: {
     title: "Security",
@@ -49,8 +72,16 @@ export const Newscaster = (properties, context) => {
     channel_idx = -1,
   } = data;
   const [menuOpen, setMenuOpen] = useLocalState(context, "menuOpen", false);
-  const [viewingPhoto, _setViewingPhoto] = useLocalState(context, "viewingPhoto", "");
-  const [censorMode, setCensorMode] = useLocalState(context, "censorMode", false);
+  const [viewingPhoto, _setViewingPhoto] = useLocalState(
+    context,
+    "viewingPhoto",
+    "",
+  );
+  const [censorMode, setCensorMode] = useLocalState(
+    context,
+    "censorMode",
+    false,
+  );
   let body;
   if (screen === 0 || screen === 2) {
     body = <NewscasterFeed />;
@@ -59,7 +90,7 @@ export const Newscaster = (properties, context) => {
   }
   const totalUnread = channels.reduce((a, c) => a + c.unread, 0);
   return (
-    <Window theme={is_security && "security"}>
+    <Window theme={is_security && "security"} width={800} height={600}>
       {viewingPhoto ? (
         <PhotoZoom />
       ) : (
@@ -69,15 +100,16 @@ export const Newscaster = (properties, context) => {
         />
       )}
       <Window.Content>
-        <Flex width="100%" height="100%">
+        <Stack fill>
           <Section
-            stretchContents
+            fill
             className={classes([
               "Newscaster__menu",
               menuOpen && "Newscaster__menu--open",
-            ])}>
-            <Flex direction="column" height="100%">
-              <Box flex="0 1 content">
+            ])}
+          >
+            <Stack fill vertical>
+              <Stack.Item>
                 <MenuButton
                   icon="bars"
                   title="Toggle Menu"
@@ -87,7 +119,8 @@ export const Newscaster = (properties, context) => {
                   icon="newspaper"
                   title="Headlines"
                   selected={screen === 0}
-                  onClick={() => act('headlines')}>
+                  onClick={() => act("headlines")}
+                >
                   {totalUnread > 0 && (
                     <Box className="Newscaster__menuButton--unread">
                       {totalUnread >= 10 ? "9+" : totalUnread}
@@ -98,18 +131,21 @@ export const Newscaster = (properties, context) => {
                   icon="briefcase"
                   title="Job Openings"
                   selected={screen === 1}
-                  onClick={() => act('jobs')}
+                  onClick={() => act("jobs")}
                 />
                 <Divider />
-              </Box>
-              <Box flex="2" overflowY="auto" overflowX="hidden">
-                {channels.map(channel => (
+              </Stack.Item>
+              <Stack.Item grow>
+                {channels.map((channel) => (
                   <MenuButton
                     key={channel}
                     icon={channel.icon}
                     title={channel.name}
-                    selected={screen === 2 && channels[channel_idx - 1] === channel}
-                    onClick={() => act('channel', { uid: channel.uid })}>
+                    selected={
+                      screen === 2 && channels[channel_idx - 1] === channel
+                    }
+                    onClick={() => act("channel", { uid: channel.uid })}
+                  >
                     {channel.unread > 0 && (
                       <Box className="Newscaster__menuButton--unread">
                         {channel.unread >= 10 ? "9+" : channel.unread}
@@ -117,11 +153,11 @@ export const Newscaster = (properties, context) => {
                     )}
                   </MenuButton>
                 ))}
-              </Box>
-              <Box width="100%" flex="0 0 content">
+              </Stack.Item>
+              <Stack.Item>
                 <Divider />
                 {(!!is_security || !!is_admin) && (
-                  <Fragment>
+                  <>
                     <MenuButton
                       security
                       icon="exclamation-circle"
@@ -137,7 +173,7 @@ export const Newscaster = (properties, context) => {
                       onClick={() => setCensorMode(!censorMode)}
                     />
                     <Divider />
-                  </Fragment>
+                  </>
                 )}
                 <MenuButton
                   icon="pen-alt"
@@ -162,14 +198,14 @@ export const Newscaster = (properties, context) => {
                   title={"Mute: " + (is_silent ? "On" : "Off")}
                   onClick={() => act("toggle_mute")}
                 />
-              </Box>
-            </Flex>
+              </Stack.Item>
+            </Stack>
           </Section>
-          <Flex direction="column" height="100%" flex="1">
+          <Stack fill vertical width="100%">
             <TemporaryNotice />
             {body}
-          </Flex>
-        </Flex>
+          </Stack>
+        </Stack>
       </Window.Content>
     </Window>
   );
@@ -195,16 +231,11 @@ const MenuButton = (properties, context) => {
         security && "Newscaster__menuButton--security",
       ])}
       onClick={onClick}
-      {...rest}>
+      {...rest}
+    >
       {selected && <Box className="Newscaster__menuButton--selectedBar" />}
-      <Icon
-        name={icon}
-        spin={iconSpin}
-        size="2"
-      />
-      <Box className="Newscaster__menuButton--title">
-        {title}
-      </Box>
+      <Icon name={icon} spin={iconSpin} size="2" />
+      <Box className="Newscaster__menuButton--title">{title}</Box>
       {children}
     </Box>
   );
@@ -221,53 +252,75 @@ const NewscasterFeed = (properties, context) => {
     stories,
     wanted,
   } = data;
-  const [fullStories, _setFullStories] = useLocalState(context, "fullStories", []);
-  const [censorMode, _setCensorMode] = useLocalState(context, "censorMode", false);
-  const channel = (screen === 2 && channel_idx > -1) ? channels[channel_idx - 1] : null;
+  const [fullStories, _setFullStories] = useLocalState(
+    context,
+    "fullStories",
+    [],
+  );
+  const [censorMode, _setCensorMode] = useLocalState(
+    context,
+    "censorMode",
+    false,
+  );
+  const channel =
+    screen === 2 && channel_idx > -1 ? channels[channel_idx - 1] : null;
   return (
-    <Flex direction="column" height="100%" flex="1">
+    <Stack fill vertical>
       {!!wanted && <Story story={wanted} wanted />}
       <Section
-        title={(
-          <Fragment >
+        fill
+        scrollable
+        title={
+          <>
             <Icon name={channel ? channel.icon : "newspaper"} mr="0.5rem" />
             {channel ? channel.name : "Headlines"}
-          </Fragment>
-        )}
-        flexGrow="1">
-        {stories.length > 0
-          ? stories.slice()
+          </>
+        }
+      >
+        {stories.length > 0 ? (
+          stories
+            .slice()
             .reverse()
-            .map(story =>
-              (!fullStories.includes(story.uid) && story.body.length + 3 > HEADLINE_MAX_LENGTH)
-                ? { ...story, body_short: story.body.substr(0, HEADLINE_MAX_LENGTH - 4) + "..." }
-                : story
+            .map((story) =>
+              !fullStories.includes(story.uid) &&
+              story.body.length + 3 > HEADLINE_MAX_LENGTH
+                ? {
+                    ...story,
+                    body_short:
+                      story.body.substr(0, HEADLINE_MAX_LENGTH - 4) + "...",
+                  }
+                : story,
             )
-            .map(story => <Story key={story} story={story} />)
-          : (
-            <Box className="Newscaster__emptyNotice">
-              <Icon name="times" size="3" /><br />
-              There are no stories at this time.
-            </Box>
-          )}
+            .map((story) => <Story key={story} story={story} />)
+        ) : (
+          <Box className="Newscaster__emptyNotice">
+            <Icon name="times" size="3" />
+            <br />
+            There are no stories at this time.
+          </Box>
+        )}
       </Section>
       {!!channel && (
         <Section
-          flexShrink="1"
-          title={(
-            <Fragment>
+          fill
+          scrollable
+          height="40%"
+          title={
+            <>
               <Icon name="info-circle" mr="0.5rem" />
               About
-            </Fragment>
-          )}
-          buttons={(
-            <Fragment>
+            </>
+          }
+          buttons={
+            <>
               {censorMode && (
                 <Button
                   disabled={!!channel.admin && !is_admin}
                   selected={channel.censored}
                   icon={channel.censored ? "comment-slash" : "comment"}
-                  content={channel.censored ? "Uncensor Channel" : "Censor Channel"}
+                  content={
+                    channel.censored ? "Uncensor Channel" : "Censor Channel"
+                  }
                   mr="0.5rem"
                   onClick={() => act("censor_channel", { uid: channel.uid })}
                 />
@@ -276,12 +329,15 @@ const NewscasterFeed = (properties, context) => {
                 disabled={!channel_can_manage}
                 icon="cog"
                 content="Manage"
-                onClick={() => modalOpen(context, "manage_channel", {
-                  uid: channel.uid,
-                })}
+                onClick={() =>
+                  modalOpen(context, "manage_channel", {
+                    uid: channel.uid,
+                  })
+                }
               />
-            </Fragment>
-          )}>
+            </>
+          }
+        >
           <LabeledList>
             <LabeledList.Item label="Description">
               {channel.description || "N/A"}
@@ -289,6 +345,11 @@ const NewscasterFeed = (properties, context) => {
             <LabeledList.Item label="Owner">
               {channel.author || "N/A"}
             </LabeledList.Item>
+            {!!is_admin && (
+              <LabeledList.Item label="Ckey">
+                {channel.author_ckey}
+              </LabeledList.Item>
+            )}
             <LabeledList.Item label="Public">
               {channel.public ? "Yes" : "No"}
             </LabeledList.Item>
@@ -299,42 +360,45 @@ const NewscasterFeed = (properties, context) => {
           </LabeledList>
         </Section>
       )}
-    </Flex>
+    </Stack>
   );
 };
 
 const NewscasterJobs = (properties, context) => {
   const { act, data } = useBackend(context);
-  const {
-    jobs,
-    wanted,
-  } = data;
-  const numOpenings = Object.entries(jobs)
-    .reduce((a, [k, v]) => a + v.length, 0);
+  const { jobs, wanted } = data;
+  const numOpenings = Object.entries(jobs).reduce(
+    (a, [k, v]) => a + v.length,
+    0,
+  );
   return (
-    <Flex direction="column" height="100%" flex="1">
+    <Stack fill vertical>
       {!!wanted && <Story story={wanted} wanted />}
       <Section
-        flexGrow="1"
-        title={(
-          <Fragment>
+        fill
+        scrollable
+        title={
+          <>
             <Icon name="briefcase" mr="0.5rem" />
             Job Openings
-          </Fragment>
-        )}
-        buttons={(
+          </>
+        }
+        buttons={
           <Box mt="0.25rem" color="label">
             Work for a better future at Nanotrasen
           </Box>
-        )}>
-        {numOpenings > 0
-          ? jobOpeningCategoriesOrder
-            .map(catId => Object.assign({}, jobOpeningCategories[catId], {
-              id: catId,
-              jobs: jobs[catId],
-            }))
-            .filter(cat => !!cat && cat.jobs.length > 0)
-            .map(cat => (
+        }
+      >
+        {numOpenings > 0 ? (
+          jobOpeningCategoriesOrder
+            .map((catId) =>
+              Object.assign({}, jobOpeningCategories[catId], {
+                id: catId,
+                jobs: jobs[catId],
+              }),
+            )
+            .filter((cat) => !!cat && cat.jobs.length > 0)
+            .map((cat) => (
               <Section
                 key={cat.id}
                 className={classes([
@@ -342,49 +406,63 @@ const NewscasterJobs = (properties, context) => {
                   "Newscaster__jobCategory--" + cat.id,
                 ])}
                 title={cat.title}
-                buttons={(
+                buttons={
                   <Box mt="0.25rem" color="label">
                     {cat.fluff_text}
                   </Box>
-                )}>
-                {cat.jobs.map(job => (
+                }
+              >
+                {cat.jobs.map((job) => (
                   <Box
                     key={job.title}
                     class={classes([
                       "Newscaster__jobOpening",
                       !!job.is_command && "Newscaster__jobOpening--command",
-                    ])}>
+                    ])}
+                  >
                     • {job.title}
                   </Box>
                 ))}
               </Section>
             ))
-          : (
-            <Box className="Newscaster__emptyNotice">
-              <Icon name="times" size="3" /><br />
-              There are no openings at this time.
-            </Box>
-          )}
+        ) : (
+          <Box className="Newscaster__emptyNotice">
+            <Icon name="times" size="3" />
+            <br />
+            There are no openings at this time.
+          </Box>
+        )}
       </Section>
-      <Section flexShrink="1">
-        Interested in serving Nanotrasen?<br />
-        Sign up for any of the above position now at the <b>Head of Personnel&apos;s Office!</b><br />
+      <Section height="17%">
+        Interested in serving Nanotrasen?
+        <br />
+        Sign up for any of the above position now at the{" "}
+        <b>Head of Personnel&apos;s Office!</b>
+        <br />
         <Box as="small" color="label">
-          By signing up for a job at Nanotrasen, you agree to transfer your soul to the loyalty department of the omnipresent and helpful watcher of humanity.
+          By signing up for a job at Nanotrasen, you agree to transfer your soul
+          to the loyalty department of the omnipresent and helpful watcher of
+          humanity.
         </Box>
       </Section>
-    </Flex>
+    </Stack>
   );
 };
 
 const Story = (properties, context) => {
   const { act, data } = useBackend(context);
-  const {
-    story,
-    wanted = false,
-  } = properties;
-  const [fullStories, setFullStories] = useLocalState(context, "fullStories", []);
-  const [censorMode, _setCensorMode] = useLocalState(context, "censorMode", false);
+  const { story, wanted = false } = properties;
+  const { is_admin } = data;
+  const [fullStories, setFullStories] = useLocalState(
+    context,
+    "fullStories",
+    [],
+  );
+  const [censorMode, _setCensorMode] = useLocalState(
+    context,
+    "censorMode",
+    false,
+  );
   return (
     <Section
       className={classes([
@@ -392,43 +470,49 @@ const Story = (properties, context) => {
         wanted && "Newscaster__story--wanted",
       ])}
       title={
-        <Fragment>
+        <>
           {wanted && <Icon name="exclamation-circle" mr="0.5rem" />}
-          {((story.censor_flags & 2) && "[REDACTED]") || story.title || "News from " + story.author}
-        </Fragment>
+          {(story.censor_flags & 2 && "[REDACTED]") ||
+            story.title ||
+            "News from " + story.author}
+        </>
       }
-      buttons={(
+      buttons={
         <Box mt="0.25rem">
           <Box color="label">
-            {(!wanted && censorMode) && (
-              <Box display="inline">
+            {!wanted && censorMode && (
+              <Box inline>
                 <Button
                   enabled={story.censor_flags & 2}
-                  icon={(story.censor_flags & 2) ? "comment-slash" : "comment"}
-                  content={(story.censor_flags & 2) ? "Uncensor" : "Censor"}
+                  icon={story.censor_flags & 2 ? "comment-slash" : "comment"}
+                  content={story.censor_flags & 2 ? "Uncensor" : "Censor"}
                   mr="0.5rem"
                   mt="-0.25rem"
                   onClick={() => act("censor_story", { uid: story.uid })}
                 />
               </Box>
             )}
-            <Box display="inline">
+            <Box inline>
               <Icon name="user" /> {story.author} |&nbsp;
+              {!!is_admin && <>ckey: {story.author_ckey} |&nbsp;</>}
               {!wanted && (
-                <Fragment>
-                  <Icon name="eye" /> {story.view_count.toLocaleString()} |&nbsp;
-                </Fragment>
+                <>
+                  <Icon name="eye" /> {story.view_count.toLocaleString()}{" "}
+                  |&nbsp;
+                </>
               )}
-              <Icon name="clock" /> {timeAgo(story.publish_time, data.world_time)}
+              <Icon name="clock" />{" "}
+              {timeAgo(story.publish_time, data.world_time)}
             </Box>
           </Box>
         </Box>
-      )}>
+      }
+    >
       <Box>
-        {(story.censor_flags & 2) ? (
+        {story.censor_flags & 2 ? (
           "[REDACTED]"
         ) : (
-          <Fragment>
+          <>
             {!!story.has_photo && (
               <PhotoThumbnail
                 name={"story_photo_" + story.uid + ".png"}
@@ -436,10 +520,8 @@ const Story = (properties, context) => {
                 ml="0.5rem"
               />
             )}
-            {(story.body_short || story.body).split("\n").map(p => (
-              <Box key={p}>
-                {p || <br />}
-              </Box>
+            {(story.body_short || story.body).split("\n").map((p) => (
+              <Box key={p}>{p || <br />}</Box>
             ))}
             {story.body_short && (
               <Button
@@ -449,7 +531,7 @@ const Story = (properties, context) => {
               />
             )}
             <Box clear="right" />
-          </Fragment>
+          </>
         )}
       </Box>
     </Section>
@@ -457,11 +539,12 @@ const Story = (properties, context) => {
 };
 
 const PhotoThumbnail = (properties, context) => {
-  const {
-    name,
-    ...rest
-  } = properties;
-  const [viewingPhoto, setViewingPhoto] = useLocalState(context, "viewingPhoto", "");
+  const { name, ...rest } = properties;
+  const [viewingPhoto, setViewingPhoto] = useLocalState(
+    context,
+    "viewingPhoto",
+    "",
+  );
   return (
     <Box
       as="img"
@@ -474,14 +557,14 @@ const PhotoThumbnail = (properties, context) => {
 };
 
 const PhotoZoom = (properties, context) => {
-  const [viewingPhoto, setViewingPhoto] = useLocalState(context, "viewingPhoto", "");
+  const [viewingPhoto, setViewingPhoto] = useLocalState(
+    context,
+    "viewingPhoto",
+    "",
+  );
   return (
-    <Modal
-      className="Newscaster__photoZoom">
-      <Box
-        as="img"
-        src={viewingPhoto}
-      />
+    <Modal className="Newscaster__photoZoom">
+      <Box as="img" src={viewingPhoto} />
       <Button
         icon="times"
         content="Close"
@@ -497,7 +580,9 @@ const PhotoZoom = (properties, context) => {
 const manageChannelModalBodyOverride = (modal, context) => {
   const { act, data } = useBackend(context);
   // Additional data
-  const channel = !!modal.args.uid && data.channels.filter(c => c.uid === modal.args.uid).pop();
+  const channel =
+    !!modal.args.uid &&
+    data.channels.filter((c) => c.uid === modal.args.uid).pop();
   if (modal.id === "manage_channel" && !channel) {
     modalClose(context); // ?
     return;
@@ -506,18 +591,38 @@ const manageChannelModalBodyOverride = (modal, context) => {
   const isAdmin = !!modal.args.is_admin;
   const scannedUser = modal.args.scanned_user;
   // Temp data
-  const [author, setAuthor] = useLocalState(context, "author", channel?.author || scannedUser || "Unknown");
+  const [author, setAuthor] = useLocalState(
+    context,
+    "author",
+    channel?.author || scannedUser || "Unknown",
+  );
   const [name, setName] = useLocalState(context, "name", channel?.name || "");
-  const [description, setDescription] = useLocalState(context, "description", channel?.description || "");
-  const [icon, setIcon] = useLocalState(context, "icon", channel?.icon || "newspaper");
-  const [isPublic, setIsPublic] = useLocalState(context, "isPublic", isEditing ? !!(channel?.public) : false);
-  const [adminLocked, setAdminLocked] = useLocalState(context, "adminLocked", (channel?.admin === 1) || false);
+  const [description, setDescription] = useLocalState(
+    context,
+    "description",
+    channel?.description || "",
+  );
+  const [icon, setIcon] = useLocalState(
+    context,
+    "icon",
+    channel?.icon || "newspaper",
+  );
+  const [isPublic, setIsPublic] = useLocalState(
+    context,
+    "isPublic",
+    isEditing ? !!channel?.public : false,
+  );
+  const [adminLocked, setAdminLocked] = useLocalState(
+    context,
+    "adminLocked",
+    channel?.admin === 1 || false,
+  );
   return (
     <Section
-      level="2"
       m="-1rem"
-      pb="1rem"
-      title={isEditing ? ("Manage " + channel.name) : "Create New Channel"}>
+      pb="1.5rem"
+      title={isEditing ? "Manage " + channel.name : "Create New Channel"}
+    >
       <Box mx="0.5rem">
         <LabeledList>
           <LabeledList.Item label="Owner">
@@ -596,8 +701,6 @@ const manageChannelModalBodyOverride = (modal, context) => {
             public: isPublic ? 1 : 0,
             admin_locked: adminLocked ? 1 : 0,
           });
-          // Clean up
-          deleteLocalState(context, "author", "name", "description", "icon", "public");
         }}
       />
     </Section>
@@ -606,15 +709,12 @@ const manageChannelModalBodyOverride = (modal, context) => {
 
 const createStoryModalBodyOverride = (modal, context) => {
   const { act, data } = useBackend(context);
-  const {
-    photo,
-    channels,
-    channel_idx = -1,
-  } = data;
+  const { photo, channels, channel_idx = -1 } = data;
   // Additional data
   const isAdmin = !!modal.args.is_admin;
   const scannedUser = modal.args.scanned_user;
-  let availableChannels = channels.slice()
+  let availableChannels = channels
+    .slice()
     .sort((a, b) => {
       if (channel_idx < 0) {
         return 0;
@@ -626,19 +726,29 @@ const createStoryModalBodyOverride = (modal, context) => {
         return 1;
       }
     })
-    .filter(c => isAdmin || (!c.frozen && (c.author === scannedUser || !!c.public)));
+    .filter(
+      (c) => isAdmin || (!c.frozen && (c.author === scannedUser || !!c.public)),
+    );
   // Temp data
-  const [author, setAuthor] = useLocalState(context, "author", scannedUser || "Unknown");
-  const [channel, setChannel] = useLocalState(context, "channel", availableChannels.length > 0 ? availableChannels[0].name : "");
+  const [author, setAuthor] = useLocalState(
+    context,
+    "author",
+    scannedUser || "Unknown",
+  );
+  const [channel, setChannel] = useLocalState(
+    context,
+    "channel",
+    availableChannels.length > 0 ? availableChannels[0].name : "",
+  );
   const [title, setTitle] = useLocalState(context, "title", "");
   const [body, setBody] = useLocalState(context, "body", "");
-  const [adminLocked, setAdminLocked] = useLocalState(context, "adminLocked", false);
+  const [adminLocked, setAdminLocked] = useLocalState(
+    context,
+    "adminLocked",
+    false,
+  );
   return (
-    <Section
-      level={2}
-      m="-1rem"
-      pb="1rem"
-      title="Create New Story">
+    <Section m="-1rem" pb="1.5rem" title="Create New Story">
       <Box mx="0.5rem">
         <LabeledList>
           <LabeledList.Item label="Author">
@@ -652,10 +762,10 @@ const createStoryModalBodyOverride = (modal, context) => {
           <LabeledList.Item label="Channel" verticalAlign="top">
             <Dropdown
               selected={channel}
-              options={availableChannels.map(c => c.name)}
+              options={availableChannels.map((c) => c.name)}
               mb="0"
               width="100%"
-              onSelected={c => setChannel(c)}
+              onSelected={(c) => setChannel(c)}
             />
           </LabeledList.Item>
           <LabeledList.Divider />
@@ -684,9 +794,12 @@ const createStoryModalBodyOverride = (modal, context) => {
             <Button
               icon="image"
               selected={photo}
-              content={photo ? ("Eject: " + photo.name) : "Insert Photo"}
-              tooltip={!photo && "Attach a photo to this story by holding the photograph in your hand."}
-              onClick={() => act(photo ? 'eject_photo' : 'attach_photo')}
+              content={photo ? "Eject: " + photo.name : "Insert Photo"}
+              tooltip={
+                !photo &&
+                "Attach a photo to this story by holding the photograph in your hand."
+              }
+              onClick={() => act(photo ? "eject_photo" : "attach_photo")}
             />
           </LabeledList.Item>
           <LabeledList.Item label="Preview" verticalAlign="top">
@@ -694,7 +807,8 @@ const createStoryModalBodyOverride = (modal, context) => {
               noTopPadding
               title={title}
               maxHeight="13.5rem"
-              overflow="auto">
+              overflow="auto"
+            >
               <Box mt="0.5rem">
                 {!!photo && (
                   <PhotoThumbnail
@@ -702,10 +816,8 @@ const createStoryModalBodyOverride = (modal, context) => {
                     float="right"
                   />
                 )}
-                {body.split("\n").map(p => (
-                  <Box key={p}>
-                    {p || <br />}
-                  </Box>
+                {body.split("\n").map((p) => (
+                  <Box key={p}>{p || <br />}</Box>
                 ))}
                 <Box clear="right" />
               </Box>
@@ -726,10 +838,12 @@ const createStoryModalBodyOverride = (modal, context) => {
         </LabeledList>
       </Box>
       <Button.Confirm
-        disabled={author.trim().length === 0
-          || channel.trim().length === 0
-          || title.trim().length === 0
-          || body.trim().length === 0}
+        disabled={
+          author.trim().length === 0 ||
+          channel.trim().length === 0 ||
+          title.trim().length === 0 ||
+          body.trim().length === 0
+        }
         icon="check"
         color="good"
         content="Submit"
@@ -744,8 +858,6 @@ const createStoryModalBodyOverride = (modal, context) => {
             body: body.substr(0, 1023),
             admin_locked: adminLocked ? 1 : 0,
           });
-          // Clean up
-          deleteLocalState(context, "author", "channel", "title", "body");
         }}
       />
     </Section>
@@ -754,24 +866,33 @@ const createStoryModalBodyOverride = (modal, context) => {
 
 const wantedNoticeModalBodyOverride = (modal, context) => {
   const { act, data } = useBackend(context);
-  const {
-    photo,
-    wanted,
-  } = data;
+  const { photo, wanted } = data;
   // Additional data
   const isAdmin = !!modal.args.is_admin;
   const scannedUser = modal.args.scanned_user;
   // Temp data
-  const [author, setAuthor] = useLocalState(context, "author", wanted?.author || scannedUser || "Unknown");
-  const [name, setName] = useLocalState(context, "name", wanted?.title.substr(8) || "");
-  const [description, setDescription] = useLocalState(context, "description", wanted?.body || "");
-  const [adminLocked, setAdminLocked] = useLocalState(context, "adminLocked", (wanted?.admin_locked === 1) || false);
+  const [author, setAuthor] = useLocalState(
+    context,
+    "author",
+    wanted?.author || scannedUser || "Unknown",
+  );
+  const [name, setName] = useLocalState(
+    context,
+    "name",
+    wanted?.title.substr(8) || "",
+  );
+  const [description, setDescription] = useLocalState(
+    context,
+    "description",
+    wanted?.body || "",
+  );
+  const [adminLocked, setAdminLocked] = useLocalState(
+    context,
+    "adminLocked",
+    wanted?.admin_locked === 1 || false,
+  );
   return (
-    <Section
-      level="2"
-      m="-1rem"
-      pb="1rem"
-      title="Manage Wanted Notice">
+    <Section m="-1rem" pb="1.5rem" title="Manage Wanted Notice">
       <Box mx="0.5rem">
         <LabeledList>
           <LabeledList.Item label="Authority">
@@ -804,10 +925,13 @@ const wantedNoticeModalBodyOverride = (modal, context) => {
             <Button
               icon="image"
               selected={photo}
-              content={photo ? ("Eject: " + photo.name) : "Insert Photo"}
-              tooltip={!photo && "Attach a photo to this wanted notice by holding the photograph in your hand."}
+              content={photo ? "Eject: " + photo.name : "Insert Photo"}
+              tooltip={
+                !photo &&
+                "Attach a photo to this wanted notice by holding the photograph in your hand."
+              }
               tooltipPosition="top"
-              onClick={() => act(photo ? 'eject_photo' : 'attach_photo')}
+              onClick={() => act(photo ? "eject_photo" : "attach_photo")}
             />
             {!!photo && (
               <PhotoThumbnail
@@ -841,12 +965,14 @@ const wantedNoticeModalBodyOverride = (modal, context) => {
         onClick={() => {
           act("clear_wanted_notice");
           modalClose(context);
-          // Clean up
-          deleteLocalState(context, "author", "name", "description", "admin_locked");
         }}
       />
       <Button.Confirm
-        disabled={author.trim().length === 0 || name.trim().length === 0 || description.trim().length === 0}
+        disabled={
+          author.trim().length === 0 ||
+          name.trim().length === 0 ||
+          description.trim().length === 0
+        }
         icon="check"
         color="good"
         content="Submit"
@@ -860,8 +986,6 @@ const wantedNoticeModalBodyOverride = (modal, context) => {
             description: description.substr(0, 511),
             admin_locked: adminLocked ? 1 : 0,
           });
-          // Clean up
-          deleteLocalState(context, "author", "name", "description", "admin_locked");
         }}
       />
     </Section>

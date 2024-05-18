@@ -4,36 +4,24 @@ import { Box, Button, LabeledList, Section } from "../../components";
 export const pda_mule = (props, context) => {
   const { act, data } = useBackend(context);
   const { mulebot } = data;
-  const {
-    active,
-  } = mulebot;
+  const { active } = mulebot;
 
-  return (
-    <Box>
-      {active ? (
-        <BotStatus />
-      ) : (
-        <BotList />
-      )}
-    </Box>
-  );
+  return <Box>{active ? <BotStatus /> : <BotList />}</Box>;
 };
 
 const BotList = (props, context) => {
   const { act, data } = useBackend(context);
   const { mulebot } = data;
-  const {
-    bots,
-  } = mulebot;
+  const { bots } = mulebot;
 
   return (
     <Box>
-      {bots.map(b => (
+      {bots.map((b) => (
         <Box key={b.Name}>
           <Button
             content={b.Name}
             icon="cog"
-            onClick={() => act('AccessBot', { uid: b.uid })}
+            onClick={() => act("AccessBot", { uid: b.uid })}
           />
         </Box>
       ))}
@@ -42,7 +30,7 @@ const BotList = (props, context) => {
           fluid
           icon="rss"
           content="Re-scan for bots"
-          onClick={() => act('Rescan')}
+          onClick={() => act("Rescan")}
         />
       </Box>
     </Box>
@@ -53,21 +41,9 @@ const BotStatus = (props, context) => {
   const { act, data } = useBackend(context);
   // Why are these things like 3 layers deep
   const { mulebot } = data;
-  const {
-    botstatus,
-    active,
-  } = mulebot;
+  const { botstatus, active } = mulebot;
 
-  const {
-    mode,
-    loca,
-    load,
-    powr,
-    dest,
-    home,
-    retn,
-    pick,
-  } = botstatus;
+  const { mode, loca, load, powr, dest, home, retn, pick } = botstatus;
 
   let statusText;
   switch (mode) {
@@ -107,64 +83,52 @@ const BotStatus = (props, context) => {
         </Box>
       )}
       <LabeledList>
-        <LabeledList.Item label="Location">
-          {loca}
-        </LabeledList.Item>
-        <LabeledList.Item label="Status">
-          {statusText}
-        </LabeledList.Item>
-        <LabeledList.Item label="Power">
-          {powr}%
-        </LabeledList.Item>
-        <LabeledList.Item label="Home">
-          {home}
-        </LabeledList.Item>
+        <LabeledList.Item label="Location">{loca}</LabeledList.Item>
+        <LabeledList.Item label="Status">{statusText}</LabeledList.Item>
+        <LabeledList.Item label="Power">{powr}%</LabeledList.Item>
+        <LabeledList.Item label="Home">{home}</LabeledList.Item>
         <LabeledList.Item label="Destination">
           <Button
             content={dest ? dest + " (Set)" : "None (Set)"}
-            onClick={() => act('SetDest')}
+            onClick={() => act("SetDest")}
           />
         </LabeledList.Item>
         <LabeledList.Item label="Current Load">
           <Button
             content={load ? load + " (Unload)" : "None"}
             disabled={!load}
-            onClick={() => act('Unload')}
+            onClick={() => act("Unload")}
           />
         </LabeledList.Item>
         <LabeledList.Item label="Auto Pickup">
           <Button
             content={pick ? "Yes" : "No"}
             selected={pick}
-            onClick={() => act('SetAutoPickup', {
-              autoPickupType: pick ? "pickoff" : "pickon",
-            })}
+            onClick={() =>
+              act("SetAutoPickup", {
+                autoPickupType: pick ? "pickoff" : "pickon",
+              })
+            }
           />
         </LabeledList.Item>
         <LabeledList.Item label="Auto Return">
           <Button
             content={retn ? "Yes" : "No"}
             selected={retn}
-            onClick={() => act('SetAutoReturn', {
-              autoReturnType: retn ? "retoff" : "reton",
-            })}
+            onClick={() =>
+              act("SetAutoReturn", {
+                autoReturnType: retn ? "retoff" : "reton",
+              })
+            }
           />
         </LabeledList.Item>
         <LabeledList.Item label="Controls">
-          <Button
-            content="Stop"
-            icon="stop"
-            onClick={() => act('Stop')}
-          />
-          <Button
-            content="Proceed"
-            icon="play"
-            onClick={() => act('Start')}
-          />
+          <Button content="Stop" icon="stop" onClick={() => act("Stop")} />
+          <Button content="Proceed" icon="play" onClick={() => act("Start")} />
           <Button
             content="Return Home"
             icon="home"
-            onClick={() => act('ReturnHome')}
+            onClick={() => act("ReturnHome")}
           />
         </LabeledList.Item>
       </LabeledList>

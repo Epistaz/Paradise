@@ -4,36 +4,24 @@ import { Box, Button, LabeledList, Section } from "../../components";
 export const pda_secbot = (props, context) => {
   const { act, data } = useBackend(context);
   const { beepsky } = data;
-  const {
-    active,
-  } = beepsky;
+  const { active } = beepsky;
 
-  return (
-    <Box>
-      {active ? (
-        <BotStatus />
-      ) : (
-        <BotList />
-      )}
-    </Box>
-  );
+  return <Box>{active ? <BotStatus /> : <BotList />}</Box>;
 };
 
 const BotList = (props, context) => {
   const { act, data } = useBackend(context);
   const { beepsky } = data;
-  const {
-    bots,
-  } = beepsky;
+  const { bots } = beepsky;
 
   return (
     <Box>
-      {bots.map(b => (
+      {bots.map((b) => (
         <Box key={b.Name}>
           <Button
             content={b.Name}
             icon="cog"
-            onClick={() => act('AccessBot', { uid: b.uid })}
+            onClick={() => act("AccessBot", { uid: b.uid })}
           />
         </Box>
       ))}
@@ -42,27 +30,20 @@ const BotList = (props, context) => {
           fluid
           icon="rss"
           content="Re-scan for bots"
-          onClick={() => act('Rescan')}
+          onClick={() => act("Rescan")}
         />
       </Box>
     </Box>
   );
 };
 
-
 const BotStatus = (props, context) => {
   const { act, data } = useBackend(context);
   // Why are these things like 3 layers deep
   const { beepsky } = data;
-  const {
-    botstatus,
-    active,
-  } = beepsky;
+  const { botstatus, active } = beepsky;
 
-  const {
-    mode,
-    loca,
-  } = botstatus;
+  const { mode, loca } = botstatus;
 
   let statusText;
   switch (mode) {
@@ -95,27 +76,15 @@ const BotStatus = (props, context) => {
         </Box>
       )}
       <LabeledList>
-        <LabeledList.Item label="Location">
-          {loca}
-        </LabeledList.Item>
-        <LabeledList.Item label="Status">
-          {statusText}
-        </LabeledList.Item>
+        <LabeledList.Item label="Location">{loca}</LabeledList.Item>
+        <LabeledList.Item label="Status">{statusText}</LabeledList.Item>
         <LabeledList.Item label="Controls">
-          <Button
-            content="Go"
-            icon="play"
-            onClick={() => act('Go')}
-          />
-          <Button
-            content="Stop"
-            icon="stop"
-            onClick={() => act('Stop')}
-          />
+          <Button content="Go" icon="play" onClick={() => act("Go")} />
+          <Button content="Stop" icon="stop" onClick={() => act("Stop")} />
           <Button
             content="Summon"
             icon="arrow-down"
-            onClick={() => act('Summon')}
+            onClick={() => act("Summon")}
           />
         </LabeledList.Item>
       </LabeledList>

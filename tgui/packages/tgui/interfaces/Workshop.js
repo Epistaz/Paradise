@@ -1,7 +1,17 @@
-import { createSearch, toTitleCase } from 'common/string';
+import { createSearch, toTitleCase } from "common/string";
 import { useBackend, useLocalState } from "../backend";
-import { Box, Button, Collapsible, Dropdown, Flex, Input, LabeledList, ProgressBar, Section } from '../components';
-import { Countdown } from '../components/Countdown';
+import {
+  Box,
+  Button,
+  Collapsible,
+  Dropdown,
+  Flex,
+  Input,
+  LabeledList,
+  ProgressBar,
+  Section,
+} from "../components";
+import { Countdown } from "../components/Countdown";
 import { Window } from "../layouts";
 
 const canBeMade = (design, brsail, pwrail) => {
@@ -28,16 +38,20 @@ export const Workshop = (_properties, context) => {
     worldTime,
   } = data;
 
-  const brassReadable = brass_amount.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'); // add thousands seperator
-  const powerReadable = power_amount.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  const brassReadable = brass_amount
+    .toString()
+    .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"); // add thousands seperator
+  const powerReadable = power_amount
+    .toString()
+    .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 
   const styleLeftDiv = {
-    float: 'left',
-    width: '60%',
+    float: "left",
+    width: "60%",
   };
   const styleRightDiv = {
-    float: 'right',
-    width: '39%',
+    float: "right",
+    width: "39%",
   };
 
   return (
@@ -58,9 +72,7 @@ export const Workshop = (_properties, context) => {
                   onClick={() => act("dispense")}
                 />
               </LabeledList.Item>
-              <LabeledList.Item label="Power">
-                {powerReadable}
-              </LabeledList.Item>
+              <LabeledList.Item label="Power">{powerReadable}</LabeledList.Item>
             </LabeledList>
           </Section>
         </Box>
@@ -73,14 +85,16 @@ export const Workshop = (_properties, context) => {
               start={buildStart}
               current={worldTime}
               end={buildEnd}
-              bold>
+              bold
+            >
               Building {building}
-            &nbsp;(
+              &nbsp;(
               <Countdown
                 current={worldTime}
                 timeLeft={buildEnd - worldTime}
                 format={(v, f) => f.substr(3)}
-              />)
+              />
+              )
             </ProgressBar.Countdown>
           )}
         </Flex>
@@ -90,18 +104,13 @@ export const Workshop = (_properties, context) => {
 };
 
 const WorkshopSearch = (_properties, context) => {
-  const [
-    _searchText,
-    setSearchText,
-  ] = useLocalState(context, 'search', '');
-  const [
-    _sortOrder,
-    setSortOrder,
-  ] = useLocalState(context, 'sort', '');
-  const [
-    descending,
-    setDescending,
-  ] = useLocalState(context, 'descending', false);
+  const [_searchText, setSearchText] = useLocalState(context, "search", "");
+  const [_sortOrder, setSortOrder] = useLocalState(context, "sort", "");
+  const [descending, setDescending] = useLocalState(
+    context,
+    "descending",
+    false,
+  );
   return (
     <Box mb="0.5rem">
       <Flex width="100%">
@@ -129,24 +138,21 @@ const WorkshopSearch = (_properties, context) => {
 
 const WorkshopItems = (_properties, context) => {
   const { act, data } = useBackend(context);
-  const {
-    items,
-  } = data;
+  const { items } = data;
 
   // Search thingies
-  const [
-    searchText,
-    _setSearchText,
-  ] = useLocalState(context, 'search', '');
-  const [
-    sortOrder,
-    _setSortOrder,
-  ] = useLocalState(context, 'sort', 'Alphabetical');
-  const [
-    descending,
-    _setDescending,
-  ] = useLocalState(context, 'descending', false);
-  const searcher = createSearch(searchText, item => {
+  const [searchText, _setSearchText] = useLocalState(context, "search", "");
+  const [sortOrder, _setSortOrder] = useLocalState(
+    context,
+    "sort",
+    "Alphabetical",
+  );
+  const [descending, _setDescending] = useLocalState(
+    context,
+    "descending",
+    false,
+  );
+  const searcher = createSearch(searchText, (item) => {
     return item[0];
   });
 
@@ -154,8 +160,12 @@ const WorkshopItems = (_properties, context) => {
   const contents = Object.entries(items).map((kv, _i) => {
     let items_in_cat = Object.entries(kv[1])
       .filter(searcher)
-      .map(kv2 => {
-        kv2[1].affordable = canBeMade(kv2[1], data.brass_amount, data.power_amount);
+      .map((kv2) => {
+        kv2[1].affordable = canBeMade(
+          kv2[1],
+          data.brass_amount,
+          data.power_amount,
+        );
         return kv2[1];
       });
     if (items_in_cat.length === 0) {
@@ -167,22 +177,17 @@ const WorkshopItems = (_properties, context) => {
 
     has_contents = true;
     return (
-      <WorkshopItemsCategory
-        key={kv[0]}
-        title={kv[0]}
-        items={items_in_cat}
-      />
+      <WorkshopItemsCategory key={kv[0]} title={kv[0]} items={items_in_cat} />
     );
   });
   return (
     <Flex.Item grow="1" overflow="auto">
       <Section>
-        {has_contents
-          ? contents : (
-            <Box color="label">
-              No items matching your criteria was found!
-            </Box>
-          )}
+        {has_contents ? (
+          contents
+        ) : (
+          <Box color="label">No items matching your criteria was found!</Box>
+        )}
       </Section>
     </Flex.Item>
   );
@@ -190,30 +195,30 @@ const WorkshopItems = (_properties, context) => {
 
 const WorkshopItemsCategory = (properties, context) => {
   const { act, data } = useBackend(context);
-  const {
-    title,
-    items,
-    ...rest
-  } = properties;
+  const { title, items, ...rest } = properties;
   return (
     <Collapsible open title={title} {...rest}>
-      {items.map(item => (
+      {items.map((item) => (
         <Box key={item.name}>
           <img
             src={`data:image/jpeg;base64,${item.image}`}
             style={{
-              'vertical-align': 'middle',
-              width: '32px',
-              margin: '0px',
-              'margin-left': '0px',
-            }} />
+              "vertical-align": "middle",
+              width: "32px",
+              margin: "0px",
+              "margin-left": "0px",
+            }}
+          />
           <Button
             icon="hammer"
             disabled={!canBeMade(item, data.brass_amount, data.power_amount)}
-            onClick={() => act("make", {
-              cat: title,
-              name: item.name,
-            })}>
+            onClick={() =>
+              act("make", {
+                cat: title,
+                name: item.name,
+              })
+            }
+          >
             {toTitleCase(toTitleCase(item.name))}
           </Button>
           <Box
@@ -221,19 +226,13 @@ const WorkshopItemsCategory = (properties, context) => {
             verticalAlign="middle"
             lineHeight="20px"
             style={{
-              float: 'right',
-            }}>
-            {item.requirements && (
-              Object
-                .keys(item.requirements)
-                .map(mat => toTitleCase(mat)
-                  + ": " + item.requirements[mat])
-                .join(", ")
-            ) || (
-              <Box>
-                No resources required.
-              </Box>
-            )}
+              float: "right",
+            }}
+          >
+            {(item.requirements &&
+              Object.keys(item.requirements)
+                .map((mat) => toTitleCase(mat) + ": " + item.requirements[mat])
+                .join(", ")) || <Box>No resources required.</Box>}
           </Box>
           <Box
             style={{

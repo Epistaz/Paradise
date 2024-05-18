@@ -4,9 +4,7 @@ import { Box, Divider } from "../../components";
 export const CurrentLevels = (properties, context) => {
   const { data } = useBackend(context);
 
-  const {
-    tech_levels,
-  } = data;
+  const { tech_levels } = data;
 
   return (
     <Box>

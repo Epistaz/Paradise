@@ -1,17 +1,23 @@
 import { useBackend, useLocalState } from "../backend";
-import { Button, LabeledList, Box, AnimatedNumber, Section, NoticeBox, Tabs, Icon, Table } from "../components";
+import {
+  Button,
+  LabeledList,
+  Box,
+  AnimatedNumber,
+  Section,
+  NoticeBox,
+  Tabs,
+  Icon,
+  Table,
+} from "../components";
 import { Window } from "../layouts";
 
 export const TcommsRelay = (props, context) => {
   const { act, data } = useBackend(context);
-  const {
-    linked,
-    active,
-    network_id,
-  } = data;
+  const { linked, active, network_id } = data;
 
   return (
-    <Window resizable>
+    <Window width={600} height={292}>
       <Window.Content scrollable>
         <Section title="Relay Configuration">
           <LabeledList>
@@ -33,22 +39,14 @@ export const TcommsRelay = (props, context) => {
             </LabeledList.Item>
             <LabeledList.Item label="Link Status">
               {linked === 1 ? (
-                <Box color="green">
-                  Linked
-                </Box>
+                <Box color="green">Linked</Box>
               ) : (
-                <Box color="red">
-                  Unlinked
-                </Box>
+                <Box color="red">Unlinked</Box>
               )}
             </LabeledList.Item>
           </LabeledList>
         </Section>
-        {linked === 1 ? (
-          <LinkedView />
-        ) : (
-          <UnlinkedView />
-        )}
+        {linked === 1 ? <LinkedView /> : <UnlinkedView />}
       </Window.Content>
     </Window>
   );
@@ -56,11 +54,7 @@ export const TcommsRelay = (props, context) => {
 
 const LinkedView = (_properties, context) => {
   const { act, data } = useBackend(context);
-  const {
-    linked_core_id,
-    linked_core_addr,
-    hidden_link,
-  } = data;
+  const { linked_core_id, linked_core_addr, hidden_link } = data;
   return (
     <Section title="Link Status">
       <LabeledList>
@@ -93,44 +87,30 @@ const LinkedView = (_properties, context) => {
 
 const UnlinkedView = (_properties, context) => {
   const { act, data } = useBackend(context);
-  const {
-    cores,
-  } = data;
+  const { cores } = data;
   return (
     <Section title="Detected Cores">
       <Table m="0.5rem">
         <Table.Row header>
-          <Table.Cell>
-            Network Address
-          </Table.Cell>
-          <Table.Cell>
-            Network ID
-          </Table.Cell>
-          <Table.Cell>
-            Sector
-          </Table.Cell>
-          <Table.Cell>
-            Link
-          </Table.Cell>
+          <Table.Cell>Network Address</Table.Cell>
+          <Table.Cell>Network ID</Table.Cell>
+          <Table.Cell>Sector</Table.Cell>
+          <Table.Cell>Link</Table.Cell>
         </Table.Row>
-        {cores.map(c => (
+        {cores.map((c) => (
           <Table.Row key={c.addr}>
-            <Table.Cell>
-              {c.addr}
-            </Table.Cell>
-            <Table.Cell>
-              {c.net_id}
-            </Table.Cell>
-            <Table.Cell>
-              {c.sector}
-            </Table.Cell>
+            <Table.Cell>{c.addr}</Table.Cell>
+            <Table.Cell>{c.net_id}</Table.Cell>
+            <Table.Cell>{c.sector}</Table.Cell>
             <Table.Cell>
               <Button
                 content="Link"
                 icon="link"
-                onClick={() => act("link", {
-                  addr: c.addr,
-                })}
+                onClick={() =>
+                  act("link", {
+                    addr: c.addr,
+                  })
+                }
               />
             </Table.Cell>
           </Table.Row>

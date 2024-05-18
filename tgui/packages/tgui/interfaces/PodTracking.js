@@ -4,21 +4,17 @@ import { Window } from "../layouts";
 
 export const PodTracking = (props, context) => {
   const { act, data } = useBackend(context);
-  const {
-    pods,
-  } = data;
+  const { pods } = data;
   return (
     <Window>
       <Window.Content scrollable>
-        {pods.map(p => (
+        {pods.map((p) => (
           <Section title={p.name} key={p.name}>
             <LabeledList>
               <LabeledList.Item label="Position">
                 {p.podx}, {p.pody}, {p.podz}
               </LabeledList.Item>
-              <LabeledList.Item label="Pilot">
-                {p.pilot}
-              </LabeledList.Item>
+              <LabeledList.Item label="Pilot">{p.pilot}</LabeledList.Item>
               <LabeledList.Item label="Passengers">
                 {p.passengers}
               </LabeledList.Item>
