@@ -131,3 +131,4 @@
 	if(ismecha(loc))
 		if(get_dist(loc, src_object) <= 1)
 			return UI_INTERACTIVE
+	return ..()
