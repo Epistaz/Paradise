@@ -150,13 +150,14 @@
 	ui_interact(user)
 
 
-/obj/effect/proc_holder/spell/vampire/self/specialize/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.always_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
-	if(!ui)
-		ui = new(user, src, ui_key, "VampireSpecMenu", "Specialisation Menu", 1500, 820, master_ui, state)
-		ui.set_autoupdate(FALSE)
-		ui.open()
+/obj/effect/proc_holder/spell/vampire/self/specialize/ui_state()
+	return GLOB.always_state
 
+/obj/effect/proc_holder/spell/vampire/self/specialize/ui_interact(mob/user, datum/tgui/ui = null)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "VampireSpecMenu", "Specialisation Menu")
+		ui.open()
 
 /obj/effect/proc_holder/spell/vampire/self/specialize/ui_data(mob/user)
 	var/datum/antagonist/vampire/vamp = user.mind.has_antag_datum(/datum/antagonist/vampire)

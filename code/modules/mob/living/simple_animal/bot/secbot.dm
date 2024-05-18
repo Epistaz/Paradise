@@ -155,12 +155,14 @@
 	ui_interact(M)
 
 
-/mob/living/simple_animal/bot/secbot/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = TRUE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
-	if(!ui)
-		ui = new(user, src, ui_key, "BotSecurity", name, 500, 500)
-		ui.open()
+/mob/living/simple_animal/bot/secbot/ui_state()
+	return GLOB.default_state
 
+/mob/living/simple_animal/bot/secbot/ui_interact(mob/user, datum/tgui/ui = null)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "BotSecurity", name)
+		ui.open()
 
 /mob/living/simple_animal/bot/secbot/ui_data(mob/user)
 	var/list/data = list(

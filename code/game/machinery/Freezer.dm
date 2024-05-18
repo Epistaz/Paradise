@@ -123,7 +123,7 @@
 /obj/machinery/atmospherics/unary/cold_sink/freezer/ui_interact(mob/user, datum/tgui/ui = null)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "NuclearBomb", "Газоохладительная система")
+		ui = new(user, src, "GasFreezer", "Газоохладительная система")
 		ui.open()
 
 /obj/machinery/atmospherics/unary/cold_sink/freezer/ui_data(mob/user)

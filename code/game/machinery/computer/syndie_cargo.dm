@@ -538,10 +538,13 @@ GLOBAL_LIST_INIT(data_storages, list()) //list of all cargo console data storage
 		return 1
 	return ..()
 
-/obj/machinery/computer/syndie_supplycomp/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/syndie_supplycomp/ui_state()
+	return GLOB.default_state
+// #TODO Paradise\code\game\machinery\computer\syndie_cargo.dm
+/obj/machinery/computer/syndie_supplycomp/ui_interact(mob/user, datum/tgui/ui = null)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "SyndieCargoConsole", name, 900, 800, master_ui, state)
+		ui = new(user, src, "SyndieCargoConsole", name)
 		ui.open()
 
 /obj/machinery/computer/syndie_supplycomp/ui_data(mob/user)

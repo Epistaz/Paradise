@@ -20,7 +20,7 @@
 	add_fingerprint(user)
 	ui_interact(user)
 
-/obj/machinery/computer/mecha/ui_state
+/obj/machinery/computer/mecha/ui_state(mob/user)
 	return GLOB.default_state
 
 /obj/machinery/computer/mecha/ui_interact(mob/user, datum/tgui/ui = null)

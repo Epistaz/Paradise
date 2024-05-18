@@ -361,7 +361,7 @@
 /obj/machinery/power/smes/ui_state()
 	return GLOB.default_state
 
-/obj/machinery/power/smes/(mob/user, datum/tgui/ui = null)
+/obj/machinery/power/smes/ui_interact(mob/user, datum/tgui/ui = null)
 	if(stat & BROKEN)
 		return
 	ui = SStgui.try_update_ui(user, src, ui)
