@@ -61,10 +61,13 @@
 	ui_interact(user)
 
 
-/obj/item/aicard/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = TRUE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.inventory_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/item/aicard/ui_state()
+	return GLOB.inventory_state
+
+/obj/item/aicard/ui_interact(mob/user, datum/tgui/ui = null)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "AICard", "[name]", 600, 394,  master_ui, state)
+		ui = new(user, src, "AICard", [name])
 		ui.open()
 
 

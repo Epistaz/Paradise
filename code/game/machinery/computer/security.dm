@@ -78,12 +78,15 @@
 /obj/machinery/computer/secure_data/ui_host()
 	return parent ? parent : src
 
-/obj/machinery/computer/secure_data/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = TRUE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/secure_data/ui_state()
+	return GLOB.default_state
+
+/obj/machinery/computer/secure_data/ui_interact(mob/user, datum/tgui/ui = null)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "SecurityRecords", name, 800, 800)
-		ui.open()
+		ui = new(user, src, "SecurityRecords", name)
 		ui.set_autoupdate(FALSE)
+		ui.open()
 
 /obj/machinery/computer/secure_data/ui_data(mob/user)
 	var/list/data = list()

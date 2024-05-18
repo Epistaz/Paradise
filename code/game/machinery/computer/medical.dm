@@ -76,12 +76,15 @@
 	add_fingerprint(user)
 	ui_interact(user)
 
-/obj/machinery/computer/med_data/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/machinery/computer/med_data/ui_state()
+	return GLOB.default_state
+
+/obj/machinery/computer/med_data/ui_interact(mob/user, datum/tgui/ui = null)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "MedicalRecords", "Medical Records", 800, 380, master_ui, state)
-		ui.open()
+		ui = new(user, src, "MedicalRecords", "Medical Records")
 		ui.set_autoupdate(FALSE)
+		ui.open()
 
 /obj/machinery/computer/med_data/ui_data(mob/user)
 	var/list/data = list()

@@ -44,12 +44,15 @@
 
 	return data
 
-/datum/song/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
-	ui = SStgui.try_update_ui(user, parent, ui_key, ui, force_open)
+/datum/song/ui_state()
+	return GLOB.default_state
+
+/datum/song/ui_interact(mob/user, datum/tgui/ui = null)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, parent, ui_key, "Instrument", parent?.name || "Instrument", 700, 500)
+		ui = new(user, src, "Instrument", parent?.name || "Instrument")
+		ui.set_autoupdate(FALSE)
 		ui.open()
-		ui.set_autoupdate(FALSE) // NO!!! Don't auto-update this!!
 
 /datum/song/ui_act(action, params)
 	. = TRUE
