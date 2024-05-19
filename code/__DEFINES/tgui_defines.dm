@@ -1,4 +1,4 @@
-// TGUI defines
+// TGUI Modal defines
 #define UI_MODAL_INPUT_MAX_LENGTH 1024
 #define UI_MODAL_INPUT_MAX_LENGTH_NAME 64 // Names for generally anything don't go past 32, let alone 64.
 

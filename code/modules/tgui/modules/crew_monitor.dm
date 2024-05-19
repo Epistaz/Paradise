@@ -21,7 +21,7 @@
 			return TRUE
 
 
-// # TODO EPI add fucking Monitor shows strange symbols C:\Games\SS\Paradise\code\modules\tgui\modules\crew_monitor.dm ??
+// #TODO EPI add fucking Monitor shows strange symbols C:\Games\SS\Paradise\code\modules\tgui\modules\crew_monitor.dm ??
 /datum/ui_module/crew_monitor/ui_state(mob/user)
 	return GLOB.default_state
 

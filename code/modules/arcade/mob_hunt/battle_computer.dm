@@ -121,6 +121,10 @@
 
 /obj/machinery/computer/mob_battle_terminal/interact(mob/user)
 	check_connection()
+
+	var/datum/asset/mob_hunt_asset = get_asset_datum(/datum/asset/simple/mob_hunt)
+	mob_hunt_asset.send(user)
+
 	var/dat = {"<meta charset="UTF-8">"}
 	dat += "<table border='1' style='width:75%'>"
 	dat += "<tr>"
@@ -148,9 +152,9 @@
 			dat += "<td rowspan='2'>"
 		else
 			dat += "<td>"
-		var/img_src = "[mob_info.icon_state_normal].png"
+		var/img_src = SSassets.transport.get_asset_url("[mob_info.icon_state_normal].png")
 		if(mob_info.is_shiny)
-			dat += "[mob_info.icon_state_shiny].png"
+			dat += SSassets.transport.get_asset_url("[mob_info.icon_state_shiny].png")
 		dat += "<img src='[img_src]'>"
 		dat += "</td>"
 		dat += "</tr>"

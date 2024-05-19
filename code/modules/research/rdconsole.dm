@@ -99,6 +99,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 		if(initial(tt.id) == ID)
 			return initial(tt.name)
 
+// #TODO EPI
 /proc/CallMaterialName(ID)
 	if(copytext(ID, 1, 2) == "$")
 		var/return_name = copytext(ID, 2)

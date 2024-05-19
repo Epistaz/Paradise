@@ -19,6 +19,7 @@
 	set waitfor = FALSE
 	var/static/list/default_macro_sets
 
+// #TODO EPI
 	if(!default_macro_sets) //If you ever remove legacy input mode, you can simplify this a lot
 		default_macro_sets = list(
 			"default" = list(

@@ -920,7 +920,7 @@ GLOBAL_LIST_INIT(special_role_times, list( //minimum age (in days) for accounts 
 	popup.set_window_options("can_close=0")
 	var/html_string = html.Join()
 	popup.set_content(html_string)
-	popup.add_stylesheet("bootstrap.min.css", 'html/browser/bootstrap.min.css')
+	popup.add_stylesheet("bootstrap.min", 'html/browser/bootstrap.min.css')
 	popup.open(0)
 	return
 
@@ -973,6 +973,7 @@ GLOBAL_LIST_INIT(special_role_times, list( //minimum age (in days) for accounts 
 	var/datum/browser/popup = new(user, "capturekeypress", "<div align='center'>Keybindings</div>", 350, 300)
 	popup.set_content(HTML)
 	popup.open(FALSE)
+	// #TODO EPI check if src needed
 	onclose(user, "capturekeypress", src)
 
 /datum/preferences/proc/SetJobPreferenceLevel(var/datum/job/job, var/level)

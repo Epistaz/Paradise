@@ -234,6 +234,7 @@
 		"map" = "Delta",
 		"ref" = "[src.UID()]"
 	)
+	// "map" =#SSmapping.map_datum.technical_name,
 	// #TODO EPI change technical_name to current_map name? tgui_datum
 	var/data = custom_data || with_data && src_object.ui_data(user)
 	if(data)

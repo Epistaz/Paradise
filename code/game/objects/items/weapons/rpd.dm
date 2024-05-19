@@ -217,17 +217,15 @@
 
 	switch(action)
 		if("iconrotation")
-			iconrotation = text2num(sanitize(params["iconrotation"]))
+			iconrotation = isnum(params[action]) ? params[action] : text2num(params[action])
 		if("whatpipe")
-			whatpipe = text2num(sanitize(params["whatpipe"]))
+			whatpipe = isnum(params[action]) ? params[action] : text2num(params[action])
 		if("whatdpipe")
-			whatdpipe = text2num(sanitize(params["whatdpipe"]))
+			whatdpipe = isnum(params[action]) ? params[action] : text2num(params[action])
 		if("pipe_category")
-			pipe_category = text2num(sanitize(params["pipe_category"]))
+			pipe_category = isnum(params[action]) ? params[action] : text2num(params[action])
 		if("mode")
-			mode = text2num(sanitize(params["mode"]))
-		if("auto_wrench")
-			auto_wrench = !auto_wrench
+			mode = isnum(params[action]) ? params[action] : text2num(params[action])
 
 //RPD radial menu
 /obj/item/rpd/proc/check_menu(mob/living/user)

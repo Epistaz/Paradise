@@ -170,7 +170,7 @@
 
 		add_fingerprint(user)
 		processing = FALSE
-		update_ui_product_list()
+		update_ui_product_list(user)
 		return TRUE
 	else
 		add_fingerprint(user)
@@ -179,7 +179,7 @@
 /**
  * Builds/Updates the `product_list` used by the UI.
  */
-/obj/machinery/biogenerator/proc/update_ui_product_list()
+/obj/machinery/biogenerator/proc/update_ui_product_list(mob/user)
 	product_list = list()
 	for(var/category in categories)
 		product_list[category] = list()
@@ -196,7 +196,8 @@
 				"needs_container" = length(D.make_reagents)
 			)
 
-	SStgui.update_uis(src)
+		update_static_data(user)
+    	SStgui.update_uis(src)
 
 /obj/machinery/biogenerator/attack_hand(mob/user)
 	if(..())

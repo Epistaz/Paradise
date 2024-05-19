@@ -14,7 +14,7 @@
 
 	var/datum/borgpanel/borgpanel = new(usr, borgo)
 
-	borgpanel.ui_interact(usr, state = GLOB.admin_state)
+	borgpanel.ui_interact(usr)
 	log_and_message_admins("has opened [borgo]'s Borg Panel.")
 
 /datum/borgpanel
@@ -127,7 +127,7 @@
 				log_and_message_admins("un-emagged [key_name(borg)].")
 		if("lawmanager")
 			var/datum/ui_module/law_manager/L = new(borg)
-			L.ui_interact(usr, state = GLOB.admin_state)
+			L.ui_interact(usr)
 			log_and_message_admins("has opened [borg]'s law manager.")
 		if("toggle_lawupdate")
 			borg.lawupdate = !borg.lawupdate

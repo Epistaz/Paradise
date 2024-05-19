@@ -367,7 +367,7 @@ REAGENT SCANNER
 /obj/item/healthanalyzer/proc/show_results(mob/user)
 	var/datum/browser/popup = new(user, "scanner", scan_title, window_width, window_height)
 	popup.set_content("[get_header(user)]<hr>[scan_data]")
-	popup.open(no_focus = 1)
+	popup.open()
 	popup.resize(window_width,window_height)
 
 /obj/item/healthanalyzer/proc/get_header(mob/user)
