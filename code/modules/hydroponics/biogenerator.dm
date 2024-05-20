@@ -196,8 +196,8 @@
 				"needs_container" = length(D.make_reagents)
 			)
 
-		update_static_data(user)
-    	SStgui.update_uis(src)
+	update_static_data(user)
+	SStgui.update_uis(src)
 
 /obj/machinery/biogenerator/attack_hand(mob/user)
 	if(..())
@@ -214,7 +214,6 @@
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "Biogenerator", "Biogenerator")
-		// #TODO why set_autoupdate(false) tho? Paradise\code\modules\hydroponics\biogenerator.dm
 		ui.set_autoupdate(FALSE)
 		ui.open()
 

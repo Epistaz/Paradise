@@ -29,11 +29,12 @@
 	else
 		to_chat(user, span_notice("Looks like it is already used."))
 
-/obj/item/dna_upgrader/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/item/dna_upgrader/ui_state(mob/user)
+	return GLOB.default_state
 
+/obj/item/dna_upgrader/ui_interact(mob/user, datum/tgui/ui  = null)
 	if(!ui)
-		ui = new(user, src, ui_key, "DNAModifyer", name, 400, 150, master_ui, state)
+		ui = new(user, src, "DNAModifyer")
 		ui.open()
 
 /obj/item/dna_upgrader/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)

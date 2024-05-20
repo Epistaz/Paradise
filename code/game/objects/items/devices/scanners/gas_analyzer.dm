@@ -98,10 +98,13 @@
 			amount += inaccurate
 	return DisplayTimeText(max(1, amount))
 
-/obj/item/analyzer/ui_interact(mob/user, ui_key, datum/tgui/ui, force_open, datum/tgui/master_ui, datum/ui_state/state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+/obj/item/analyzer/ui_state(mob/user)
+	return GLOB.inventory_state
+
+/obj/item/analyzer/ui_interact(mob/user, datum/tgui/ui = null)
+	ui = SStgui.try_update_ui(user, ui)
 	if(!ui)
-		ui = new(user, src, ui_key, "GasAnalyzer",  name, 500, 500, master_ui, state)
+		ui = new(user, "GasAnalyzer",  name)
 		ui.open()
 
 /obj/item/analyzer/ui_data(mob/user)
